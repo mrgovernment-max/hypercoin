@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HyperCoin - Mining Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container header-container">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-coins"></i></div>
+          <div class="logo-text">
+            <a class="logo-text" href="index.html">HyperCoin</a>
+          </div>
+        </div>
+        <div class="header-controls">
+          <button id="themeToggle">🌙</button>
+          <div class="user-menu">
+            <div id="user-avatar" class="user-avatar"></div>
+            <div id="username"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container dashboard">
+      <aside class="sidebar">
+        <h3>Dashboard</h3>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" class="active"><i class="fas fa-home"></i> Overview</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-hard-hat"></i> Mining</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-wallet"></i> Wallet</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-exchange-alt"></i> Transactions</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">BALANCE</div>
+              <div class="stat-icon bg-primary">
+                <i class="fas fa-wallet"></i>
+              </div>
+            </div>
+            <div class="stat-value">4.75 HPC</div>
+            <div class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 12.5% since last week
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">HASH RATE</div>
+              <div class="stat-icon bg-success">
+                <i class="fas fa-tachometer-alt"></i>
+              </div>
+            </div>
+            <div class="stat-value">245 MH/s</div>
+            <div class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 8.2% since last week
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">ACTIVE MINERS</div>
+              <div class="stat-icon bg-warning">
+                <i class="fas fa-server"></i>
+              </div>
+            </div>
+            <div class="stat-value">3/5</div>
+            <div class="stat-change negative">
+              <i class="fas fa-arrow-down"></i> 2 miners offline
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-title">EST. REWARDS</div>
+              <div class="stat-icon bg-secondary">
+                <i class="fas fa-gem"></i>
+              </div>
+            </div>
+            <div class="stat-value">0.85 HPC/day</div>
+            <div class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> 5.3% since last week
+            </div>
+          </div>
+        </div>
+
+        <div class="mining-control">
+          <div class="control-header">
+            <div class="control-title">Mining Control</div>
+            <div class="mining-status status-active">
+              <i class="fas fa-circle"></i> Mining Active
+            </div>
+          </div>
+          <p>
+            Your mining rig is currently running and generating HyperCoin.
+            Current efficiency is at 92%.
+          </p>
+          <div class="mining-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-play"></i> Start Mining
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-stop"></i> Stop Mining
+            </button>
+            <button class="btn btn-outline">
+              <i class="fas fa-cog"></i> Configure
+            </button>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Earnings Overview</div>
+              <div class="chart-options">
+                <select>
+                  <option>Last 7 Days</option>
+                  <option>Last 30 Days</option>
+                  <option>Last 90 Days</option>
+                </select>
+              </div>
+            </div>
+            <div class="chart-placeholder">Earnings Chart Visualization</div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">Hash Rate Distribution</div>
+            </div>
+            <div class="chart-placeholder">Hash Rate Chart Visualization</div>
+          </div>
+        </div>
+
+        <div class="transactions">
+          <div class="chart-header">
+            <div class="chart-title">Recent Transactions</div>
+            <a href="#">View All</a>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jun 12, 2023</td>
+                  <td>Mining Reward</td>
+                  <td class="transaction-positive">+0.25 HPC</td>
+                  <td>Completed</td>
+                </tr>
+                <tr>
+                  <td>Jun 11, 2023</td>
+                  <td>Mining Reward</td>
+                  <td class="transaction-positive">+0.24 HPC</td>
+                  <td>Completed</td>
+                </tr>
+                <tr>
+                  <td>Jun 10, 2023</td>
+                  <td>Mining Reward</td>
+                  <td class="transaction-positive">+0.26 HPC</td>
+                  <td>Completed</td>
+                </tr>
+                <tr>
+                  <td>Jun 9, 2023</td>
+                  <td>Transfer</td>
+                  <td class="transaction-negative">-1.50 HPC</td>
+                  <td>Completed</td>
+                </tr>
+                <tr>
+                  <td>Jun 8, 2023</td>
+                  <td>Mining Reward</td>
+                  <td class="transaction-positive">+0.23 HPC</td>
+                  <td>Completed</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>© 2025 HyperCoin. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>
