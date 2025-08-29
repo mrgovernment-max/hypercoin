@@ -21,6 +21,16 @@ async function dashboardAuth() {
   console.log("Dashboard data:", data);
   const usernameDisplay = document.getElementById("username");
   const userAvatar = document.getElementById("user-avatar");
+  const usernameDisplayy = document.getElementById("usernamee");
+  const userAvatarr = document.getElementById("user-avatarr");
+
+  //display name
+  usernameDisplayy
+    ? (usernameDisplayy.textContent = data.username)
+    : (usernameDisplayy.textContent = "Guest");
+
+  //display avatar
+  userAvatarr.textContent = data.username.slice(0, 2);
 
   //display name
   usernameDisplay
