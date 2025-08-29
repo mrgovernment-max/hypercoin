@@ -1,6 +1,4 @@
 // Get elements for dashboard
-const usernameDisplay = document.getElementById("username");
-const userAvatar = document.getElementById("user-avatar");
 
 async function dashboardAuth() {
   let token = sessionStorage.getItem("accessToken");
@@ -21,6 +19,8 @@ async function dashboardAuth() {
 
   const data = await res.json();
   console.log("Dashboard data:", data);
+  const usernameDisplay = document.getElementById("username");
+  const userAvatar = document.getElementById("user-avatar");
 
   //display name
   usernameDisplay

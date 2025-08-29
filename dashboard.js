@@ -33,10 +33,3 @@ setInterval(() => {
 }, 10000);
 
 // dashboard.js
-
-const hamburger = document.getElementById("hamburger");
-const sidebar = document.querySelector(".sidebar");
-
-hamburger.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-});
