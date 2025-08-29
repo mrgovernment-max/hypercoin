@@ -82,5 +82,88 @@ function redirectToLogin() {
   window.location.href = "login.html";
 }
 
+/////addd to investments
+
+let numberofinv = 0;
+let prev = 0;
+
+// Retrieve highest from localStorage or start at 0
+let highest = localStorage.getItem("highest");
+highest = highest ? Number(highest) : 0;
+
+function addtoinv() {
+  const balancesig = document.getElementById("balancesig");
+  const dailyhigh = document.getElementById("dailyhigh");
+
+  prev = numberofinv; // store old value
+
+  // random decimal
+  let numberofinvestment = Math.random() * 32 - 10;
+  numberofinv += numberofinvestment - 2; // accumulate value
+
+  // update highest if current value is bigger
+  if (numberofinv > highest) highest = numberofinv;
+
+  // update DOM
+  balancesig.textContent = numberofinv.toFixed(2) + "% ";
+  dailyhigh.textContent = highest.toFixed(2) + "% ";
+
+  // color based on up/down
+  if (numberofinv > prev) {
+    balancesig.style.color = "green"; // higher
+  } else if (numberofinv < prev) {
+    balancesig.style.color = "red"; // lower
+  } else {
+    balancesig.style.color = "gray"; // no change
+  }
+
+  // store highest in localStorage
+  localStorage.setItem("highest", highest);
+}
+
+// run every 2 seconds
+setInterval(addtoinv, 2000);
+
+/////addd to hash rates
+
+let numberofhash = 0;
+let prevhash = 0;
+
+// Retrieve highest from localStorage or start at 0
+let highesthash = localStorage.getItem("highesthash");
+highesthash = highesthash ? Number(highesthash) : 0;
+
+function addtohash() {
+  const hashsig = document.getElementById("hashsig");
+  const dailyhighhash = document.getElementById("dailyhighhash");
+
+  prevhash = numberofhash; // store old value
+
+  // random decimal
+  let numberofinvhash = Math.random() * 29 - 6;
+  numberofhash += numberofinvhash - 2; // accumulate value
+
+  // update highesthash if current value is bigger
+  if (numberofhash > highesthash) highesthash = numberofhash;
+
+  // update DOM
+  hashsig.textContent = numberofinvhash.toFixed(2) + "% ";
+  dailyhighhash.textContent = highesthash.toFixed(2) + "% ";
+
+  // color based on up/down
+  if (numberofinv > prev) {
+    hashsig.style.color = "green"; // higher
+  } else if (numberofinv < prev) {
+    hashsig.style.color = "red"; // lower
+  } else {
+    hashsig.style.color = "green"; // no change
+  }
+
+  // store highesthash in localStorage
+  localStorage.setItem("highesthash", highesthash);
+}
+
+setInterval(addtohash, 1500);
+
 // Run authentication once DOM is loaded
 document.addEventListener("DOMContentLoaded", dashboardAuth);
