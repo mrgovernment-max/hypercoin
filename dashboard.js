@@ -31,3 +31,12 @@ setInterval(() => {
   const newHashRate = currentHashRate * (1 + randomChange);
   hashRateElement.textContent = newHashRate.toFixed(1) + " MH/s";
 }, 10000);
+
+// dashboard.js
+
+const hamburger = document.getElementById("hamburger");
+const sidebar = document.querySelector(".sidebar");
+
+hamburger.addEventListener("click", () => {
+  sidebar.classList.toggle("active");
+});
