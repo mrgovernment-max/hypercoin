@@ -190,10 +190,10 @@
             </div>
             <p class="mining-info">
               Your mining rig is currently running and generating HyperCoin.
-              Current efficiency is at 92%.
+              Current efficiency is at <em id="mining-info"> </em>
             </p>
             <div class="mining-progress">
-              <div class="progress-bar"></div>
+              <div id="progress-bar" class="progress-bar"></div>
             </div>
             <div class="mining-actions">
               <button class="btn btn-primary">
@@ -282,31 +282,6 @@
     </div>
 
     <script>
-      // Theme Toggle Functionality
-      const themeToggle = document.getElementById("themeToggle");
-
-      // Check for saved theme preference
-      const currentTheme = localStorage.getItem("theme");
-
-      // Apply the theme if previously set
-      if (currentTheme === "dark") {
-        document.documentElement.setAttribute("data-theme", "dark");
-        themeToggle.textContent = "☀️";
-      }
-
-      // Toggle theme on button click
-      themeToggle.addEventListener("click", () => {
-        if (!document.documentElement.getAttribute("data-theme")) {
-          document.documentElement.setAttribute("data-theme", "dark");
-          themeToggle.textContent = "☀️";
-          localStorage.setItem("theme", "dark");
-        } else {
-          document.documentElement.removeAttribute("data-theme");
-          themeToggle.textContent = "🌙";
-          localStorage.setItem("theme", "light");
-        }
-      });
-
       // Hamburger menu functionality
       const menuToggle = document.getElementById("menuToggle");
       const sidebar = document.getElementById("sidebar");
@@ -320,6 +295,30 @@
       overlay.addEventListener("click", () => {
         sidebar.classList.remove("active");
         overlay.classList.remove("active");
+      });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const hyper_efficiency = document.getElementById("mining-info");
+        const bar = document.getElementById("progress-bar");
+
+        function updateHyperEfficiency() {
+          let randomNumber = (Math.random() * 99 + 1).toFixed(2);
+
+          bar.style.width = randomNumber + "%";
+          hyper_efficiency.innerHTML = randomNumber + "%";
+
+          if (!updateHyperEfficiency.prev)
+            updateHyperEfficiency.prev = randomNumber;
+          if (randomNumber > updateHyperEfficiency.prev) {
+            hyper_efficiency.style.color = "green";
+          } else if (randomNumber < updateHyperEfficiency.prev) {
+            hyper_efficiency.style.color = "red";
+          }
+          updateHyperEfficiency.prev = randomNumber;
+        }
+
+        updateHyperEfficiency();
+        setInterval(updateHyperEfficiency, 1000);
       });
     </script>
     <script src="auth.js"></script>

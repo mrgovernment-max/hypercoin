@@ -23,13 +23,21 @@ themeToggle.addEventListener("click", () => {
   }
 });
 
-// Simulate mining status updates
-setInterval(() => {
-  const hashRateElement = document.querySelector(".stat-value:nth-child(2)");
-  const currentHashRate = parseFloat(hashRateElement.textContent);
-  const randomChange = (Math.random() * 10 - 5) / 100; // -5% to +5%
-  const newHashRate = currentHashRate * (1 + randomChange);
-  hashRateElement.textContent = newHashRate.toFixed(1) + " MH/s";
-}, 10000);
+document.addEventListener("DOMContentLoaded", () => {
+  function hyperEfficiency() {
+    const hyper_efficiency = document.getElementById("mining-info");
+    let randomNumber = (Math.random() * 99 + 1).toFixed(2);
 
-// dashboard.js
+    hyper_efficiency.innerHTML = randomNumber + "%";
+
+    if (!hyperEfficiency.prev) hyperEfficiency.prev = randomNumber;
+    if (randomNumber > hyperEfficiency.prev) {
+      hyper_efficiency.style.color = "green";
+    } else if (randomNumber < hyperEfficiency.prev) {
+      hyper_efficiency.style.color = "red";
+    }
+    hyperEfficiency.prev = randomNumber;
+  }
+
+  setInterval(hyperEfficiency, 2000);
+});
