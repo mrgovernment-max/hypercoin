@@ -1055,17 +1055,8 @@
         sidebar.classList.remove("active");
         overlay.classList.remove("active");
       });
-
-      // Simulate mining status updates
-      setInterval(() => {
-        const hashRateElement = document.querySelector(
-          ".stat-card:nth-child(2) .stat-value"
-        );
-        const currentHashRate = parseFloat(hashRateElement.textContent);
-        const randomChange = (Math.random() * 10 - 5) / 100; // -5% to +5%
-        const newHashRate = currentHashRate * (1 + randomChange);
-        hashRateElement.textContent = newHashRate.toFixed(1) + " MH/s";
-      }, 10000);
     </script>
+    <script src="auth.js"></script>
+    <script src="dashboard.js"></script>
   </body>
 </html>
