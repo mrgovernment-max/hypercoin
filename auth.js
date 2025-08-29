@@ -99,7 +99,7 @@ function addtoinv() {
 
   // random decimal
   let numberofinvestment = Math.random() * 32 - 10;
-  numberofinv += numberofinvestment - 2; // accumulate value
+  numberofinv = numberofinvestment - 2; // accumulate value
 
   // update highest if current value is bigger
   if (numberofinv > highest) highest = numberofinv;
@@ -140,8 +140,8 @@ function addtohash() {
   prevhash = numberofhash; // store old value
 
   // random decimal
-  let numberofinvhash = Math.random() * 29 - 6;
-  numberofhash += numberofinvhash - 2; // accumulate value
+  let numberofinvhash = Math.random() * 20 - 6;
+  numberofhash = numberofinvhash - 2; // accumulate value
 
   // update highesthash if current value is bigger
   if (numberofhash > highesthash) highesthash = numberofhash;
