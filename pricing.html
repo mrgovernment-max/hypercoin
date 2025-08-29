@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing - HyperCoin Crypto Mining</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7e22ce;
+        --text: #1f2937;
+        --text-light: #6b7280;
+        --bg: #f9fafb;
+        --bg-card: #ffffff;
+        --border: #e5e7eb;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --radius: 8px;
+      }
+
+      [data-theme="dark"] {
+        --primary: #3b82f6;
+        --primary-dark: #2563eb;
+        --secondary: #a855f7;
+        --text: #f3f4f6;
+        --text-light: #d1d5db;
+        --bg: #111827;
+        --bg-card: #1f2937;
+        --border: #374151;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+          0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: var(--bg-card);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo-icon {
+        font-size: 1.8rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      nav {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+
+      nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      nav a:hover {
+        color: var(--primary);
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 0.5rem 1.5rem;
+        border-radius: var(--radius);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+
+      .btn-outline:hover {
+        background-color: var(--border);
+      }
+
+      .btn-primary {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+
+      #themeToggle {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--text);
+        transition: transform 0.3s;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg);
+      }
+
+      #themeToggle:hover {
+        transform: rotate(30deg);
+        background-color: var(--border);
+      }
+
+      /* Page Header */
+      .page-header {
+        padding: 4rem 0 2rem;
+        text-align: center;
+      }
+
+      .page-header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .page-header p {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* Pricing Section */
+      .pricing {
+        padding: 4rem 0;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .section-title p {
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .pricing-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 3rem;
+      }
+
+      .toggle-text {
+        color: var(--text-light);
+        font-weight: 500;
+      }
+
+      .toggle-active {
+        color: var(--primary);
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 32px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--border);
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .pricing-card {
+        background-color: var(--bg-card);
+        border-radius: var(--radius);
+        padding: 2.5rem 2rem;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .pricing-card.popular {
+        border: 2px solid var(--primary);
+        transform: scale(1.05);
+      }
+
+      .popular-badge {
+        position: absolute;
+        top: 1rem;
+        right: -2rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 0.25rem 2rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transform: rotate(45deg);
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .pricing-card.popular:hover {
+        transform: scale(1.05) translateY(-10px);
+      }
+
+      .pricing-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .pricing-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .pricing-description {
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+      }
+
+      .pricing-price {
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .price-amount {
+        font-size: 3rem;
+        font-weight: 800;
+      }
+
+      .price-currency {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-light);
+      }
+
+      .price-interval {
+        color: var(--text-light);
+      }
+
+      .pricing-features {
+        margin-bottom: 2rem;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-icon {
+        color: var(--success);
+      }
+
+      .feature-text {
+        color: var(--text);
+      }
+
+      .feature-disabled {
+        color: var(--text-light);
+      }
+
+      .feature-disabled .feature-icon {
+        color: var(--text-light);
+      }
+
+      .pricing-actions {
+        text-align: center;
+      }
+
+      /* FAQ Section */
+      .faq {
+        padding: 5rem 0;
+        background: linear-gradient(
+          135deg,
+          rgba(37, 99, 235, 0.05) 0%,
+          rgba(126, 34, 206, 0.05) 100%
+        );
+      }
+
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 2rem;
+      }
+
+      .faq-item {
+        background-color: var(--bg-card);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+      }
+
+      .faq-question {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .faq-answer {
+        color: var(--text-light);
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+      }
+
+      /* CTA Section */
+      .cta {
+        padding: 5rem 0;
+        text-align: center;
+      }
+
+      .cta-content {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .cta-content p {
+        color: var(--text-light);
+        margin-bottom: 2rem;
+        font-size: 1.2rem;
+      }
+
+      /* Footer */
+      footer {
+        background-color: var(--bg-card);
+        border-top: 1px solid var(--border);
+        padding: 3rem 0 1.5rem;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-col h4 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-col ul {
+        list-style: none;
+      }
+
+      .footer-col ul li {
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-col a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-col a:hover {
+        color: var(--primary);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .social-links a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg);
+        color: var(--text);
+        transition: all 0.3s;
+      }
+
+      .social-links a:hover {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+        color: var(--text-light);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 968px) {
+        .pricing-card.popular {
+          transform: scale(1);
+        }
+
+        .pricing-card.popular:hover {
+          transform: translateY(-10px);
+        }
+
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-container {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        nav {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .auth-buttons {
+          justify-content: center;
+        }
+
+        .page-header h1 {
+          font-size: 2.5rem;
+        }
+
+        .section-title h2 {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .pricing-toggle {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container header-container">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-coins"></i></div>
+          <div class="logo-text">HyperCoin</div>
+        </div>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="pricing.html" class="active">Pricing</a>
+          <a href="#">Contact</a>
+        </nav>
+        <div class="auth-buttons">
+          <button id="themeToggle">🌙</button>
+          <a href="login.html" class="btn btn-outline">Login</a>
+          <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="page-header">
+        <h1>Simple, Transparent Pricing</h1>
+        <p>
+          Choose the mining plan that works best for you. All plans include our
+          advanced mining technology and 24/7 support.
+        </p>
+      </div>
+    </div>
+
+    <section class="pricing">
+      <div class="container">
+        <div class="section-title">
+          <h2>Mining Plans</h2>
+          <p>
+            Select from our flexible mining plans based on your needs and budget
+          </p>
+        </div>
+
+        <div class="pricing-toggle">
+          <span class="toggle-text toggle-active">Monthly</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="pricingToggle" />
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-text">Yearly (Save 20%)</span>
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 class="pricing-name">Starter</h3>
+              <p class="pricing-description">
+                Perfect for beginners exploring crypto mining
+              </p>
+              <div class="pricing-price">
+                <span class="price-amount">$19</span>
+                <span class="price-currency">USD</span>
+              </div>
+              <div class="price-interval">per month</div>
+            </div>
+            <div class="pricing-features">
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">10 MH/s Mining Power</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Basic Dashboard</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Email Support</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">0.5% Pool Fee</span>
+              </div>
+              <div class="feature-item feature-disabled">
+                <span class="feature-icon"><i class="fas fa-times"></i></span>
+                <span class="feature-text">Advanced Analytics</span>
+              </div>
+              <div class="feature-item feature-disabled">
+                <span class="feature-icon"><i class="fas fa-times"></i></span>
+                <span class="feature-text">Priority Support</span>
+              </div>
+            </div>
+            <div class="pricing-actions">
+              <a href="signup.html" class="btn btn-outline">Get Started</a>
+            </div>
+          </div>
+
+          <div class="pricing-card popular">
+            <div class="popular-badge">POPULAR</div>
+            <div class="pricing-header">
+              <h3 class="pricing-name">Professional</h3>
+              <p class="pricing-description">Ideal for serious miners</p>
+              <div class="pricing-price">
+                <span class="price-amount">$49</span>
+                <span class="price-currency">USD</span>
+              </div>
+              <div class="price-interval">per month</div>
+            </div>
+            <div class="pricing-features">
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">50 MH/s Mining Power</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Advanced Dashboard</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Email & Chat Support</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">0.3% Pool Fee</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Advanced Analytics</span>
+              </div>
+              <div class="feature-item feature-disabled">
+                <span class="feature-icon"><i class="fas fa-times"></i></span>
+                <span class="feature-text">Priority Support</span>
+              </div>
+            </div>
+            <div class="pricing-actions">
+              <a href="signup.html" class="btn btn-primary">Get Started</a>
+            </div>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <h3 class="pricing-name">Enterprise</h3>
+              <p class="pricing-description">For maximum mining performance</p>
+              <div class="pricing-price">
+                <span class="price-amount">$99</span>
+                <span class="price-currency">USD</span>
+              </div>
+              <div class="price-interval">per month</div>
+            </div>
+            <div class="pricing-features">
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">200 MH/s Mining Power</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Premium Dashboard</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">24/7 Priority Support</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">0.1% Pool Fee</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Advanced Analytics</span>
+              </div>
+              <div class="feature-item">
+                <span class="feature-icon"><i class="fas fa-check"></i></span>
+                <span class="feature-text">Dedicated Account Manager</span>
+              </div>
+            </div>
+            <div class="pricing-actions">
+              <a href="signup.html" class="btn btn-outline">Get Started</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="container">
+        <div class="section-title">
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about our mining plans</p>
+        </div>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <div class="faq-question">
+              What is the minimum contract period?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              There's no minimum contract period. You can cancel your mining
+              plan at any time. Plans are billed monthly, and you can switch
+              between plans as your needs change.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              How are the mining rewards calculated?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Mining rewards are calculated based on the hash rate of your plan,
+              current network difficulty, and the price of HyperCoin. Our
+              dashboard provides real-time estimates of your expected earnings.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              What payment methods do you accept?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              We accept credit cards, PayPal, and various cryptocurrencies
+              including Bitcoin, Ethereum, and of course, HyperCoin. All
+              payments are secure and encrypted.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              Can I change my plan later?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, you can upgrade or downgrade your plan at any time. When
+              upgrading, the new rate takes effect immediately. When
+              downgrading, the new rate applies at the start of your next
+              billing cycle.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Start Mining HyperCoin Today</h2>
+          <p>
+            Join thousands of miners already earning rewards with our platform
+          </p>
+          <a href="signup.html" class="btn btn-primary">Get Started Now</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <h4>HyperCoin</h4>
+            <p>
+              The next generation cryptocurrency mining platform designed for
+              efficiency and profitability.
+            </p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-discord"></i></a>
+              <a href="#"><i class="fab fa-reddit"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="#">Mining App</a></li>
+              <li><a href="#">API</a></li>
+              <li><a href="pricing.html">Pricing</a></li>
+              <li><a href="#">Documentation</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Press</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Community</a></li>
+              <li><a href="#">Status</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 HyperCoin. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Theme Toggle Functionality
+      const themeToggle = document.getElementById("themeToggle");
+
+      // Check for saved theme preference
+      const currentTheme = localStorage.getItem("theme");
+
+      // Apply the theme if previously set
+      if (currentTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeToggle.textContent = "☀️";
+      }
+
+      // Toggle theme on button click
+      themeToggle.addEventListener("click", () => {
+        if (!document.documentElement.getAttribute("data-theme")) {
+          document.documentElement.setAttribute("data-theme", "dark");
+          themeToggle.textContent = "☀️";
+          localStorage.setItem("theme", "dark");
+        } else {
+          document.documentElement.removeAttribute("data-theme");
+          themeToggle.textContent = "🌙";
+          localStorage.setItem("theme", "light");
+        }
+      });
+
+      // Pricing toggle functionality
+      const pricingToggle = document.getElementById("pricingToggle");
+      const monthlyPrices = [19, 49, 99];
+      const yearlyPrices = [15.2, 39.2, 79.2]; // 20% discount
+
+      pricingToggle.addEventListener("change", function () {
+        const priceElements = document.querySelectorAll(".price-amount");
+        if (this.checked) {
+          // Switch to yearly pricing
+          priceElements.forEach((el, index) => {
+            el.textContent = yearlyPrices[index];
+          });
+          document.querySelectorAll(".price-interval").forEach((el) => {
+            el.textContent = "per month, billed yearly";
+          });
+        } else {
+          // Switch to monthly pricing
+          priceElements.forEach((el, index) => {
+            el.textContent = monthlyPrices[index];
+          });
+          document.querySelectorAll(".price-interval").forEach((el) => {
+            el.textContent = "per month";
+          });
+        }
+      });
+
+      // FAQ accordion functionality
+      const faqQuestions = document.querySelectorAll(".faq-question");
+      faqQuestions.forEach((question) => {
+        question.addEventListener("click", () => {
+          const answer = question.nextElementSibling;
+          const icon = question.querySelector("i");
+
+          // Toggle answer visibility
+          if (answer.style.display === "block") {
+            answer.style.display = "none";
+            icon.classList.remove("fa-chevron-up");
+            icon.classList.add("fa-chevron-down");
+          } else {
+            answer.style.display = "block";
+            icon.classList.remove("fa-chevron-down");
+            icon.classList.add("fa-chevron-up");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
