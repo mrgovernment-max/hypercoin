@@ -22,26 +22,34 @@
 
         <ul class="sidebar-nav">
           <li>
-            <a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a>
+            <a onclick="hideonClick()" href="#" class="active"
+              ><i class="fas fa-home"></i> Dashboard</a
+            >
           </li>
           <li>
-            <a href="#mining-control"><i class="fas fa-hard-hat"></i> Mining</a>
+            <a onclick="hideonClick()" href="#mining-control"
+              ><i class="fas fa-hard-hat"></i> Mining</a
+            >
           </li>
           <li>
-            <a href="#"><i class="fas fa-wallet"></i> Wallet</a>
+            <a onclick="hideonClick()" href="#"
+              ><i class="fas fa-wallet"></i> Wallet</a
+            >
           </li>
           <li>
-            <a href="#transactions"
+            <a onclick="hideonClick()" href="#transactions"
               ><i class="fas fa-exchange-alt"></i> Transactions</a
             >
           </li>
           <li>
-            <a href="#charts-section"
+            <a onclick="hideonClick()" href="#charts-section"
               ><i class="fas fa-chart-line"></i> Analytics</a
             >
           </li>
           <li>
-            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            <a onclick="hideonClick()" href="#configure-user"
+              ><i class="fas fa-cog"></i> Settings</a
+            >
           </li>
         </ul>
 
@@ -286,7 +294,7 @@
         </div>
 
         <!-- User Configuration Section -->
-        <div class="configure-user">
+        <div id="configure-user" class="configure-user">
           <!-- Profile Header -->
           <div class="profile-header">
             <h2>User Profile</h2>

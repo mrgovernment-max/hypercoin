@@ -74,6 +74,14 @@ overlay.addEventListener("click", () => {
   overlay.classList.remove("active");
 });
 
+function hideonClick() {
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay");
+
+  sidebar.classList.remove("active");
+  overlay.classList.remove("active");
+}
+
 // Theme toggle functionality
 const themeToggle = document.getElementById("themeToggle");
 
