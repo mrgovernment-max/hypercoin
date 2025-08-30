@@ -150,22 +150,45 @@ async function fetchServerData() {
   } catch (err) {
     serverData = null;
   }
+
+  return serverData;
 }
 
 // Call it once immediately
 fetchServerData();
 
 function updatePremiumStatusUI(data) {
+  dashboardAuth();
   console.log(data);
   const userStatus = document.getElementById("user-status");
   const configure = document.getElementById("configure-plan");
   const profile_usertype = document.getElementById("profile-usertype");
   const rec = document.getElementById("rec");
 
+  // Mining efficiency bar display
+
+  const hyper_efficiency = document.getElementById("miningeff");
+  const miningInfo = document.getElementById("mining-info");
+  const bar = document.getElementById("progress-bar");
+
+  let randomNumber = (Math.random() * 99 + 1).toFixed(2);
+
+  bar.style.width = randomNumber + "%";
+  hyper_efficiency.innerHTML = randomNumber + "%";
+
   if (userStatus) {
     if (data && data.efficiency && data.hashRate)
       switch (data.usertype) {
         case "Professional":
+          //  premium users bars up or !< 45
+          if (randomNumber >= 45) {
+            bar.style.width = randomNumber + "%";
+            hyper_efficiency.innerHTML = randomNumber + "%";
+          } else {
+            bar.style.width = 45 + "%";
+            hyper_efficiency.innerHTML = 50 + "%";
+          }
+          miningInfo.innerHTML = ` Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak `;
           userStatus.textContent = data.usertype;
           userStatus.className = "user-status status-premium";
           configure.textContent = "Change Plan";
@@ -198,31 +221,6 @@ function redirectToLogin() {
   window.location.href = "login.html";
 }
 
-// Mining efficiency display
-document.addEventListener("DOMContentLoaded", () => {
-  dashboardAuth();
-  const hyper_efficiency = document.getElementById("mining-info");
-  const bar = document.getElementById("progress-bar");
-
-  function updateHyperEfficiency() {
-    let randomNumber = (Math.random() * 99 + 1).toFixed(2);
-
-    bar.style.width = randomNumber + "%";
-    hyper_efficiency.innerHTML = randomNumber + "%";
-
-    if (!updateHyperEfficiency.prev) updateHyperEfficiency.prev = randomNumber;
-    if (randomNumber > updateHyperEfficiency.prev) {
-      hyper_efficiency.style.color = "green";
-    } else if (randomNumber < updateHyperEfficiency.prev) {
-      hyper_efficiency.style.color = "red";
-    }
-    updateHyperEfficiency.prev = randomNumber;
-  }
-
-  updateHyperEfficiency();
-  setInterval(updateHyperEfficiency, 5000);
-});
-
 // Investment and hash rate updates
 let numberofinv = 0;
 let prev = 0;
@@ -230,6 +228,7 @@ let highest = localStorage.getItem("highest");
 highest = highest ? Number(highest) : 0;
 
 function addtoinv() {
+  fetchServerData();
   const balancesig = document.getElementById("balancesig");
   const balanceChange = document.getElementById("balance-change");
   const balanceValue = document.getElementById("balance-value");
@@ -237,36 +236,34 @@ function addtoinv() {
 
   prev = numberofinv;
 
-  let numberofinvestment;
-
-  if (serverData && serverData.efficiency) {
-    // Premium users get the server data (good values)
-    numberofinvestment = parseFloat(serverData.efficiency);
-  } else {
-    // Non-premium users get low/negative random values
-    numberofinvestment = Math.random() * 5 - 2.5; // Range: -2.5 to +2.5
-  }
+  let numberofinvestment =
+    serverData && serverData.efficiency
+      ? parseFloat(serverData.efficiency) // premium
+      : Math.random() * 5 - 2.5; // free
 
   numberofinv = numberofinvestment;
 
-  if (numberofinv > highest) highest = numberofinv;
+  // track highest
+  if (numberofinv > highest) {
+    highest = numberofinv;
+    localStorage.setItem("highest", highest);
+  }
 
+  // update UI
   balanceValue.textContent = (4.75 + numberofinv / 100).toFixed(2) + " HPC";
   dailyhigh.textContent = highest.toFixed(2) + "%";
 
-  // Update change indicator
+  // change
   const change = numberofinv - prev;
   if (balanceChange) {
-    balanceChange.textContent =
-      (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
+    balanceChange.textContent = `${change >= 0 ? "+" : ""}${change.toFixed(
+      2
+    )}%`;
     balanceChange.style.color =
       change > 0 ? "green" : change < 0 ? "red" : "gray";
   }
 
-  balancesig.style.color =
-    numberofinv > prev ? "green" : numberofinv < prev ? "red" : "gray";
-
-  localStorage.setItem("highest", highest);
+  balancesig.style.color = change > 0 ? "green" : change < 0 ? "red" : "gray";
 }
 
 // Hash rate updates
@@ -276,6 +273,7 @@ let highesthash = localStorage.getItem("highesthash");
 highesthash = highesthash ? Number(highesthash) : 0;
 
 function addtohash() {
+  fetchServerData();
   const hashsig = document.getElementById("hashsig");
   const hashChange = document.getElementById("hash-change");
   const hashValue = document.getElementById("hash-value");
@@ -320,10 +318,6 @@ function addtohash() {
 // Start updating the values
 setInterval(addtoinv, 2000);
 setInterval(addtohash, 2000);
-
-// Initial update
-addtoinv();
-addtohash();
 
 const avatar_controls = document.getElementById("avatar-controls");
 const user_avatar = document.getElementById("user-avatar-img");
