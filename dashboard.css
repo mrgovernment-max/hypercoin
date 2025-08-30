@@ -1,4 +1,3 @@
-/* ===== CSS VARIABLES ===== */
 :root {
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
@@ -33,7 +32,6 @@
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== BASE STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -46,25 +44,14 @@ body {
   color: var(--text);
   line-height: 1.6;
   transition: var(--transition);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* ===== LAYOUT ===== */
 .app {
   display: flex;
   min-height: 100vh;
 }
 
-/* ===== SIDEBAR ===== */
+/* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
   background: linear-gradient(180deg, var(--bg-sidebar) 0%, #0f172a 100%);
@@ -193,14 +180,14 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* ===== MAIN CONTENT ===== */
+/* Main Content */
 .main-content {
   flex: 1;
   margin-left: var(--sidebar-width);
   transition: var(--transition);
 }
 
-/* ===== HEADER ===== */
+/* Header */
 .header {
   background-color: var(--bg-card);
   box-shadow: var(--shadow);
@@ -298,12 +285,22 @@ body {
   justify-content: center;
 }
 
-/* ===== DASHBOARD CONTENT ===== */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.username {
+  font-weight: 500;
+}
+
+/* Dashboard Content */
 .dashboard-content {
   padding: 2rem;
 }
 
-/* ===== STATS GRID ===== */
+/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -409,7 +406,18 @@ body {
   color: var(--error);
 }
 
-/* ===== CHARTS SECTION ===== */
+.weekly-high {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.gold-text {
+  color: gold;
+}
+
+/* Charts Section */
 .charts-section {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -484,7 +492,7 @@ body {
   color: var(--text-light);
 }
 
-/* ===== MINING CONTROL ===== */
+/* Mining Control */
 .mining-control {
   background-color: var(--bg-card);
   border-radius: var(--radius);
@@ -530,17 +538,6 @@ body {
   color: var(--text-light);
 }
 
-.configure-mining-main {
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  margin-bottom: 5%;
-  padding: 20px;
-}
-
 .mining-progress {
   height: 8px;
   background-color: var(--bg);
@@ -553,7 +550,7 @@ body {
   height: 100%;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   border-radius: 4px;
-  transition: 0.2s ease-in-out;
+  width: 75%;
 }
 
 .mining-actions {
@@ -595,7 +592,7 @@ body {
   background-color: var(--border);
 }
 
-/* ===== TRANSACTIONS ===== */
+/* Transactions */
 .transactions {
   background-color: var(--bg-card);
   border-radius: var(--radius);
@@ -671,13 +668,43 @@ th {
   color: var(--warning);
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 1024px) {
-  .charts-section {
-    grid-template-columns: 1fr;
-  }
+/* Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
+.overlay.active {
+  display: block;
+}
+
+/* User Status Indicator */
+.user-status {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.status-premium {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.status-free {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: var(--text-light);
+}
+
+/* Responsive Design */
 @media (max-width: 968px) {
   .sidebar {
     transform: translateX(-100%);
@@ -696,19 +723,8 @@ th {
     display: block;
   }
 
-  .overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-
-  .overlay.active {
-    display: block;
+  .charts-section {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -731,15 +747,11 @@ th {
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 1rem;
-  }
-
   .header-right {
     gap: 0.75rem;
   }
 
-  .user-name {
+  .username {
     display: none;
   }
 
