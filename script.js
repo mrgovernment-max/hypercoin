@@ -100,7 +100,6 @@ signupForm.addEventListener("submit", async function (e) {
       showMessage(data.error, "error", messageElement);
     }
   } catch (err) {
-    console.error("Signup error:", err);
     showMessage("Something went wrong", "error", messageElement);
   }
 });

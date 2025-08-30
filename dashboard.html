@@ -395,6 +395,7 @@
           // Check for 401 status specifically
           if (res.status === 401) {
             console.log("Unauthorized request. Redirecting to login.");
+            dashboardAuth();
             return;
           }
 
