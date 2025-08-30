@@ -81,89 +81,177 @@ function redirectToLogin() {
   sessionStorage.clear();
   window.location.href = "login.html";
 }
+//// Assume somewhere at login / fetch you stored server values in localStorage or a global var
+// Example: server sends { investments: 15.3, hash: 7.8 }
+let serverData = null;
 
-/////addd to investments
+async function fetchServerData() {
+  const token = sessionStorage.getItem("accessToken");
+  console.log("Token:", token);
 
+  // Check if the token exists
+  if (!token) {
+    console.log("No access token found. Redirecting to login.");
+    redirectToLogin();
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/getUserStats",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // Check for 401 status specifically
+    if (res.status === 401) {
+      console.log("Unauthorized request. Redirecting to login.");
+      redirectToLogin();
+      return;
+    }
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    serverData = await res.json();
+    console.log("Server data:", serverData);
+
+    // Update UI to show premium status
+    updatePremiumStatusUI(serverData);
+  } catch (err) {
+    console.log(
+      "Error fetching server data, fallback to random low numbers",
+      err
+    );
+    serverData = null;
+  }
+}
+
+function updatePremiumStatusUI(data) {
+  const premiumStatus = document.getElementById("premium-status");
+  if (premiumStatus) {
+    if (data && data.efficiency && data.hashRate) {
+      premiumStatus.textContent = "Premium User";
+      premiumStatus.style.color = "#10b981"; // Green for premium
+      premiumStatus.innerHTML = '<i class="fas fa-crown"></i> Premium User';
+    } else {
+      premiumStatus.textContent = "Free User";
+      premiumStatus.style.color = "#6b7280"; // Gray for free
+      premiumStatus.innerHTML = '<i class="fas fa-user"></i> Free User';
+    }
+  }
+}
+
+function redirectToLogin() {
+  // Implement your login redirect logic here
+  window.location.href = "login.html";
+}
+
+// Call it once immediately
+fetchServerData();
+
+///// add to investments
 let numberofinv = 0;
 let prev = 0;
-
-// Retrieve highest from localStorage or start at 0
 let highest = localStorage.getItem("highest");
 highest = highest ? Number(highest) : 0;
 
 function addtoinv() {
   const balancesig = document.getElementById("balancesig");
   const dailyhigh = document.getElementById("dailyhigh");
+  const investmentChange = document.getElementById("investment-change");
 
-  prev = numberofinv; // store old value
+  prev = numberofinv;
 
-  // random decimal
-  let numberofinvestment = Math.random() * 32 - 10;
-  numberofinv = numberofinvestment - 2; // accumulate value
+  let numberofinvestment;
 
-  // update highest if current value is bigger
+  if (serverData && serverData.efficiency) {
+    // Premium users get the server data (good values)
+    numberofinvestment = parseFloat(serverData.efficiency);
+  } else {
+    // Non-premium users get low/negative random values
+    numberofinvestment = Math.random() * 5 - 2.5; // Range: -2.5 to +2.5
+  }
+
+  numberofinv = numberofinvestment;
+
   if (numberofinv > highest) highest = numberofinv;
 
-  // update DOM
   balancesig.textContent = numberofinv.toFixed(2) + "% ";
   dailyhigh.textContent = highest.toFixed(2) + "% ";
 
-  // color based on up/down
-  if (numberofinv > prev) {
-    balancesig.style.color = "green"; // higher
-  } else if (numberofinv < prev) {
-    balancesig.style.color = "red"; // lower
-  } else {
-    balancesig.style.color = "gray"; // no change
+  // Update change indicator
+  const change = numberofinv - prev;
+  if (investmentChange) {
+    investmentChange.textContent =
+      (change >= 0 ? "+" : "") + change.toFixed(2) + "%";
+    investmentChange.style.color =
+      change > 0 ? "green" : change < 0 ? "red" : "gray";
   }
 
-  // store highest in localStorage
+  balancesig.style.color =
+    numberofinv > prev ? "green" : numberofinv < prev ? "red" : "gray";
+
   localStorage.setItem("highest", highest);
 }
 
-// run every 2 seconds
-setInterval(addtoinv, 2000);
-
-/////addd to hash rates
-
+///// add to hash rates
 let numberofhash = 0;
 let prevhash = 0;
-
-// Retrieve highest from localStorage or start at 0
 let highesthash = localStorage.getItem("highesthash");
 highesthash = highesthash ? Number(highesthash) : 0;
 
 function addtohash() {
   const hashsig = document.getElementById("hashsig");
   const dailyhighhash = document.getElementById("dailyhighhash");
+  const hashChange = document.getElementById("hash-change");
 
-  prevhash = numberofhash; // store old value
+  prevhash = numberofhash;
 
-  // random decimal
-  let numberofinvhash = Math.random() * 20 - 6;
-  numberofhash = numberofinvhash - 2; // accumulate value
+  let numberofinvhash;
 
-  // update highesthash if current value is bigger
-  if (numberofhash > highesthash) highesthash = numberofhash;
-
-  // update DOM
-  hashsig.textContent = numberofinvhash.toFixed(2) + "% ";
-  dailyhighhash.textContent = highesthash.toFixed(2) + "% ";
-
-  // color based on up/down
-  if (numberofinv > prev) {
-    hashsig.style.color = "green"; // higher
-  } else if (numberofinv < prev) {
-    hashsig.style.color = "red"; // lower
+  if (serverData && serverData.hashRate) {
+    // Premium users get the server data (good values)
+    numberofinvhash = parseFloat(serverData.hashRate);
   } else {
-    hashsig.style.color = "green"; // no change
+    // Non-premium users get low/negative random values
+    numberofinvhash = Math.random() * 300 - 100; // Range: -100 to +200
   }
 
-  // store highesthash in localStorage
+  numberofhash = numberofinvhash;
+
+  if (numberofhash > highesthash) highesthash = numberofhash;
+
+  hashsig.textContent = numberofhash.toFixed(0) + " H/s";
+  dailyhighhash.textContent = highesthash.toFixed(0) + " H/s";
+
+  // Update change indicator
+  const change = numberofhash - prevhash;
+  if (hashChange) {
+    hashChange.textContent = (change >= 0 ? "+" : "") + change.toFixed(0);
+    hashChange.style.color = change > 0 ? "green" : change < 0 ? "red" : "gray";
+  }
+
+  hashsig.style.color =
+    numberofhash > prevhash
+      ? "green"
+      : numberofhash < prevhash
+      ? "red"
+      : "gray";
+
   localStorage.setItem("highesthash", highesthash);
 }
 
-setInterval(addtohash, 1500);
+// Start updating the values
+setInterval(addtoinv, 2000);
+setInterval(addtohash, 2000);
 
-// Run authentication once DOM is loaded
-document.addEventListener("DOMContentLoaded", dashboardAuth);
+// Initial update
+addtoinv();
+addtohash();
+setInterval(addtohash, 1500);

@@ -530,6 +530,17 @@ body {
   color: var(--text-light);
 }
 
+.configure-mining-main {
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  margin-bottom: 5%;
+  padding: 20px;
+}
+
 .mining-progress {
   height: 8px;
   background-color: var(--bg);

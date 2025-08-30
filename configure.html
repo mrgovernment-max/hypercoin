@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hype Ring - HyperCoin Mining</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --secondary: #7e22ce;
+        --accent: #00c9a7;
+        --text: #1f2937;
+        --text-light: #6b7280;
+        --bg: #f9fafb;
+        --bg-card: #ffffff;
+        --border: #e5e7eb;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --radius: 12px;
+      }
+
+      [data-theme="dark"] {
+        --primary: #3b82f6;
+        --primary-dark: #2563eb;
+        --secondary: #a855f7;
+        --text: #f3f4f6;
+        --text-light: #d1d5db;
+        --bg: #111827;
+        --bg-card: #1f2937;
+        --border: #374151;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+          0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 2rem;
+      }
+
+      .configure-mining-main {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .mining-header {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .mining-header h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .mining-header p {
+        opacity: 0.9;
+      }
+
+      .mining-content {
+        padding: 2rem;
+      }
+
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .benefit-card {
+        background: var(--bg);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.3s;
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .benefit-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+      }
+
+      .benefit-1 .benefit-icon {
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--primary);
+      }
+
+      .benefit-2 .benefit-icon {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .benefit-3 .benefit-icon {
+        background: rgba(126, 34, 206, 0.1);
+        color: var(--secondary);
+      }
+
+      .benefit-card h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .benefit-card p {
+        color: var(--text-light);
+        font-size: 0.95rem;
+      }
+
+      .pricing-section {
+        background: var(--bg);
+        border-radius: var(--radius);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+      }
+
+      .pricing-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .pricing-card {
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        padding: 2rem;
+        text-align: center;
+        border: 2px solid var(--border);
+        transition: all 0.3s;
+      }
+
+      .pricing-card.popular {
+        border-color: var(--primary);
+        transform: scale(1.03);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .popular-tag {
+        background: var(--primary);
+        color: white;
+        padding: 0.25rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+
+      .pricing-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .price {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .price-duration {
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+      }
+
+      .features-list {
+        list-style: none;
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .features-list li {
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .features-list i {
+        color: var(--success);
+        margin-right: 0.5rem;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        border-radius: var(--radius);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        width: 100%;
+        text-align: center;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+
+      .payment-section {
+        background: var(--bg);
+        border-radius: var(--radius);
+        padding: 2rem;
+      }
+
+      .payment-methods {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .payment-method {
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+        flex: 1;
+        max-width: 150px;
+      }
+
+      .payment-method.selected {
+        border-color: var(--primary);
+        background: rgba(37, 99, 235, 0.05);
+      }
+
+      .payment-method i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .payment-form {
+        background: var(--bg-card);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--bg);
+        color: var(--text);
+        font-size: 1rem;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .faq-section {
+        margin-top: 3rem;
+      }
+
+      .faq-item {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .faq-question {
+        padding: 1rem;
+        background: var(--bg);
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .faq-answer {
+        padding: 0 1rem 1rem;
+        color: var(--text-light);
+      }
+
+      @media (max-width: 750px) {
+        body {
+          padding: 1rem;
+        }
+
+        .benefits-grid,
+        .pricing-options {
+          grid-template-columns: 1fr;
+          width: 95%;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .payment-methods {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .payment-method {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--CONFIGURE HC MINING-->
+    <div id="configure-mining-main" class="configure-mining-main">
+      <div class="mining-header">
+        <h2>Hype Ring - Consistent Mining Solution</h2>
+        <p>
+          Maximize your HyperCoin mining efficiency with our premium
+          stabilization technology
+        </p>
+      </div>
+
+      <div class="mining-content">
+        <div class="benefits-grid">
+          <div class="benefit-card benefit-1">
+            <div class="benefit-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Stable Hash Rates</h3>
+            <p>
+              Eliminate fluctuations and maintain consistent mining performance
+              24/7
+            </p>
+          </div>
+
+          <div class="benefit-card benefit-2">
+            <div class="benefit-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Increased Earnings</h3>
+            <p>
+              Up to 40% more consistent rewards with our advanced optimization
+              algorithms
+            </p>
+          </div>
+
+          <div class="benefit-card benefit-3">
+            <div class="benefit-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Enhanced Security</h3>
+            <p>
+              Enterprise-grade protection for your mining operations and rewards
+            </p>
+          </div>
+        </div>
+
+        <div class="pricing-section">
+          <h2 class="section-title">Choose Your Plan</h2>
+
+          <div class="pricing-options">
+            <div class="pricing-card">
+              <h3>Basic</h3>
+              <div class="price">$2.99</div>
+              <div class="price-duration">per month</div>
+
+              <ul class="features-list">
+                <li><i class="fas fa-check"></i> 10% Hash Rate Stability</li>
+                <li><i class="fas fa-check"></i> Basic Optimization</li>
+                <li><i class="fas fa-check"></i> Email Support</li>
+                <li><i class="fas fa-check"></i> 1 Mining Rig</li>
+              </ul>
+
+              <a href="#" class="btn">Select Plan</a>
+            </div>
+
+            <div class="pricing-card popular">
+              <div class="popular-tag">MOST POPULAR</div>
+              <h3>Professional</h3>
+              <div class="price">$4.99</div>
+              <div class="price-duration">per month</div>
+
+              <ul class="features-list">
+                <li><i class="fas fa-check"></i> 25% Hash Rate Stability</li>
+                <li><i class="fas fa-check"></i> Advanced Optimization</li>
+                <li><i class="fas fa-check"></i> Priority Support</li>
+                <li><i class="fas fa-check"></i> Up to 3 Mining Rigs</li>
+                <li><i class="fas fa-check"></i> Detailed Analytics</li>
+              </ul>
+
+              <a href="#" class="btn">Select Plan</a>
+            </div>
+
+            <div class="pricing-card">
+              <h3>Enterprise</h3>
+              <div class="price">$9.99</div>
+              <div class="price-duration">per month</div>
+
+              <ul class="features-list">
+                <li><i class="fas fa-check"></i> 40% Hash Rate Stability</li>
+                <li><i class="fas fa-check"></i> Maximum Optimization</li>
+                <li><i class="fas fa-check"></i> 24/7 Dedicated Support</li>
+                <li><i class="fas fa-check"></i> Unlimited Mining Rigs</li>
+                <li><i class="fas fa-check"></i> Advanced Analytics</li>
+                <li><i class="fas fa-check"></i> Custom Configuration</li>
+              </ul>
+
+              <a href="#" class="btn">Select Plan</a>
+            </div>
+          </div>
+        </div>
+
+     
+        </div>
+
+        <div class="faq-section">
+          <h2 class="section-title">Frequently Asked Questions</h2>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              How does Hype Ring improve mining consistency?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Hype Ring uses advanced algorithms to optimize your connection to
+              our mining pools, balance workload distribution, and automatically
+              adjust to network conditions, resulting in significantly more
+              consistent mining performance.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              Can I change plans later?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              Yes, you can upgrade or downgrade your plan at any time. Changes
+              will be prorated based on your billing cycle.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              Is there a free trial available?
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              We offer a 7-day free trial for new users to experience the
+              benefits of Hype Ring before committing to a subscription.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Simple FAQ toggle functionality
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const answer = question.nextElementSibling;
+          const icon = question.querySelector("i");
+
+          // Toggle answer visibility
+          if (answer.style.display === "block") {
+            answer.style.display = "none";
+            icon.classList.remove("fa-chevron-up");
+            icon.classList.add("fa-chevron-down");
+          } else {
+            answer.style.display = "block";
+            icon.classList.remove("fa-chevron-down");
+            icon.classList.add("fa-chevron-up");
+          }
+        });
+      });
+
+    
+    </script>
+  </body>
+</html>
+
