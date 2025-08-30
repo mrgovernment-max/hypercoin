@@ -23,6 +23,8 @@ async function dashboardAuth() {
   const userAvatar = document.getElementById("user-avatar");
   const usernameDisplayy = document.getElementById("usernamee");
   const userAvatarr = document.getElementById("user-avatarr");
+  const profile_user = document.getElementById("profile-user");
+  profile_user.textContent = data.username;
 
   //display name
   usernameDisplayy
@@ -31,7 +33,6 @@ async function dashboardAuth() {
 
   //display avatar
   userAvatarr.textContent = data.username.slice(0, 2);
-
   //display name
   usernameDisplay
     ? (usernameDisplay.textContent = data.username)
@@ -41,8 +42,22 @@ async function dashboardAuth() {
   userAvatar.textContent = data.username.slice(0, 2);
 }
 
-// Server data variable
-let serverData = null;
+dashboardAuth();
+
+async function fetchDashboard(token) {
+  try {
+    return await fetch("https://backendroutes-lcpt.onrender.com/dashboard", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching dashboard:", err);
+    return redirectToLogin();
+  }
+}
 
 // Hamburger menu functionality
 const menuToggle = document.getElementById("menuToggle");
@@ -83,6 +98,9 @@ themeToggle.addEventListener("click", () => {
     localStorage.setItem("theme", "light");
   }
 });
+
+// Server data variable
+let serverData = null;
 
 // Function to fetch server data
 async function fetchServerData() {
@@ -126,18 +144,38 @@ async function fetchServerData() {
   }
 }
 
+// Call it once immediately
+fetchServerData();
+
 function updatePremiumStatusUI(data) {
+  console.log(data);
   const userStatus = document.getElementById("user-status");
   const configure = document.getElementById("configure-plan");
+  const profile_usertype = document.getElementById("profile-usertype");
   if (userStatus) {
-    if (data && data.efficiency && data.hashRate) {
-      userStatus.textContent = "Premium";
-      userStatus.className = "user-status status-premium";
-      configure.textContent = "Change Plan";
-    } else {
-      userStatus.textContent = "Free";
-      userStatus.className = "user-status status-free";
-      configure.textContent = "configur";
+    if (data && data.efficiency && data.hashRate)
+      switch (data.usertype) {
+        case "Professional":
+          userStatus.textContent = data.usertype;
+          userStatus.className = "user-status status-premium";
+          configure.textContent = "Change Plan";
+          profile_usertype.textContent = data.usertype;
+          break;
+
+        case "free":
+          userStatus.textContent = data.usertype;
+          userStatus.className = "user-status status-free";
+          configure.textContent = "configure";
+          profile_usertype.textContent = data.usertype;
+          break;
+        default:
+          userStatus.textContent = data.usertype;
+          userStatus.className = "user-status status-free";
+          configure.textContent = "configure";
+          profile_usertype.textContent = data.usertype;
+      }
+
+    {
     }
   }
 }
@@ -147,11 +185,9 @@ function redirectToLogin() {
   window.location.href = "login.html";
 }
 
-// Call it once immediately
-fetchServerData();
-
 // Mining efficiency display
 document.addEventListener("DOMContentLoaded", () => {
+  dashboardAuth();
   const hyper_efficiency = document.getElementById("mining-info");
   const bar = document.getElementById("progress-bar");
 
@@ -275,3 +311,21 @@ setInterval(addtohash, 2000);
 // Initial update
 addtoinv();
 addtohash();
+
+const avatar_controls = document.getElementById("avatar-controls");
+const user_avatar = document.getElementById("user-avatar-img");
+
+// On page load, set avatar from localStorage if exists
+const savedAvatar = localStorage.getItem("avatar");
+if (savedAvatar) {
+  user_avatar.src = savedAvatar;
+}
+
+// When user selects a new avatar
+avatar_controls.addEventListener("change", function () {
+  dashboardAuth();
+  const avatarimg = this.value; // selected avatar URL
+  user_avatar.src = avatarimg; // update image
+  localStorage.setItem("avatar", avatarimg); // save to localStorage
+  console.log("Selected avatar URL:", avatarimg);
+});
