@@ -160,6 +160,8 @@ function updatePremiumStatusUI(data) {
   const userStatus = document.getElementById("user-status");
   const configure = document.getElementById("configure-plan");
   const profile_usertype = document.getElementById("profile-usertype");
+  const rec = document.getElementById("rec");
+
   if (userStatus) {
     if (data && data.efficiency && data.hashRate)
       switch (data.usertype) {
@@ -167,14 +169,17 @@ function updatePremiumStatusUI(data) {
           userStatus.textContent = data.usertype;
           userStatus.className = "user-status status-premium";
           configure.textContent = "Change Plan";
-          profile_usertype.textContent = data.usertype;
+          profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
+          rec.innerHTML = "";
           break;
 
-        case "free":
+        case "Free":
           userStatus.textContent = data.usertype;
           userStatus.className = "user-status status-free";
           configure.textContent = "configure";
           profile_usertype.textContent = data.usertype;
+          rec.innerHTML =
+            "<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  upgrade to one of our plans for <br> effective mining and other benefits </span>";
           break;
         default:
           userStatus.textContent = data.usertype;
