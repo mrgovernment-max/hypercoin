@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
 const ACCESS_SECRET = process.env.ACCESS_SECRET || "access_secret_example_123";

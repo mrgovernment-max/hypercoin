@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 const ACCESS_SECRET = process.env.ACCESS_SECRET || "access_secret_example_123";
 const REFRESH_SECRET =
