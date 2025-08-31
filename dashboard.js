@@ -46,7 +46,7 @@ dashboardAuth();
 
 async function fetchDashboard(token) {
   try {
-    return await fetch("https://backendroutes-lcpt.onrender.com/dashboard", {
+    return await fetch("/.netlify/functions/dashboard", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ async function requestToken() {
   if (!refreshToken) return redirectToLogin();
 
   try {
-    const res = await fetch("https://backendroutes-lcpt.onrender.com/token", {
+    const res = await fetch("/.netlify/functions/token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: refreshToken }),
@@ -142,15 +142,12 @@ async function fetchServerData() {
   }
 
   try {
-    const res = await fetch(
-      "https://backendroutes-lcpt.onrender.com/getUserStats",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await fetch("/.netlify/functions/getUserStats", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     // Check for 401 status specifically
     if (res.status === 401) {
@@ -395,14 +392,11 @@ changeps.addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch(
-      "https://backendroutes-lcpt.onrender.com/resetpass",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      }
-    );
+    const res = await fetch("/.netlify/functions/resetpass", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
 
     const data = await res.json();
 

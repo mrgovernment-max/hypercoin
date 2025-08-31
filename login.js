@@ -26,14 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const messageEl = document.getElementById("loginMessage");
 
       try {
-        const res = await fetch(
-          "https://backendroutes-lcpt.onrender.com/login",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: username, password }),
-          }
-        );
+        const res = await fetch("/.netlify/functions/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: username, password }),
+        });
 
         const data = await res.json();
 
