@@ -22,9 +22,13 @@ async function dashboardAuth() {
   const data = await res.json();
 
   const userAvatar = document.getElementById("user-avatar");
-
+  const profileUser = document.getElementById("profile-user");
   const usernameDisplayy = document.getElementById("usernamee");
   const userAvatarr = document.getElementById("user-avatarr");
+
+  profileUser
+    ? (profileUser.textContent = data.username)
+    : (profileUser.textContent = "Guest");
 
   //display name
   usernameDisplayy
@@ -169,7 +173,7 @@ window.onload = fetchServerData;
 
 function updatePremiumStatusUI(data) {
   dashboardAuth();
-  const userStatus = document.getElementById("profile-user");
+
   const userRole = document.getElementById("user-role");
   const configure = document.getElementById("configure-plan");
   const profile_usertype = document.getElementById("profile-usertype");
@@ -188,7 +192,7 @@ function updatePremiumStatusUI(data) {
   bar.style.width = randomNumber + "%";
   hyper_efficiency.innerHTML = randomNumber + "%";
 
-  if (userStatus) {
+  if (true) {
     if (data && data.efficiency && data.hashRate)
       switch (data.usertype) {
         case "Professional":
@@ -201,7 +205,6 @@ function updatePremiumStatusUI(data) {
             hyper_efficiency.innerHTML = 50 + "%";
           }
           miningInfo.innerHTML = ` Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak `;
-          userStatus.textContent = data.usertype;
           configure.textContent = "Change Plan";
           profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
           rec.innerHTML = "";
@@ -213,14 +216,12 @@ function updatePremiumStatusUI(data) {
         case "Free":
           setInterval(fetchServerData, 10000);
           miningInfo.innerHTML = `Mining is inactive upgrade to one of our plans to enable hypercoin rigs for more consistent and effective mining efficiency`;
-          userStatus.textContent = data.usertype;
           configure.textContent = "configure";
           profile_usertype.textContent = data.usertype;
           miningState.innerHTML = `Mining Disabled`;
           rec.innerHTML = `<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  <a style='color: #FFD43B' href='configure.html'>upgrade</a> to one of our plans  <br> to start mining and earning with as little at $4.99 </span>`;
           break;
         default:
-          userStatus.textContent = data.usertype;
           userStatus.className = "user-status status-free";
           configure.textContent = "configure";
           profile_usertype.textContent = data.usertype;
