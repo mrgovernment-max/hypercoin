@@ -18,12 +18,11 @@ async function dashboardAuth() {
   if (!res.ok) return redirectToLogin();
 
   const data = await res.json();
-  const usernameDisplay = document.getElementById("username");
+
   const userAvatar = document.getElementById("user-avatar");
+
   const usernameDisplayy = document.getElementById("usernamee");
   const userAvatarr = document.getElementById("user-avatarr");
-  const profile_user = document.getElementById("profile-user");
-  profile_user.textContent = data.username;
 
   //display name
   usernameDisplayy
@@ -32,13 +31,9 @@ async function dashboardAuth() {
 
   //display avatar
   userAvatarr.textContent = data.username.slice(0, 2);
-  //display name
-  usernameDisplay
-    ? (usernameDisplay.textContent = data.username)
-    : (usernameDisplay.textContent = "Guest");
 
   //display avatar
-  userAvatar.textContent = data.username.slice(0, 2);
+  userAvatar.innerHTML = data.username.slice(0, 2);
 }
 
 dashboardAuth();
@@ -152,14 +147,13 @@ async function fetchServerData() {
 
   return serverData;
 }
-
-// Call it once immediately
-fetchServerData();
+fetchDashboard();
+window.onload = fetchServerData;
 
 function updatePremiumStatusUI(data) {
   dashboardAuth();
   const userStatus = document.getElementById("profile-user");
-  console.log(userStatus);
+  const userRole = document.getElementById("user-role");
   const configure = document.getElementById("configure-plan");
   const profile_usertype = document.getElementById("profile-usertype");
   const rec = document.getElementById("rec");
@@ -192,18 +186,21 @@ function updatePremiumStatusUI(data) {
           miningInfo.innerHTML = ` Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak `;
           userStatus.textContent = data.usertype;
           configure.textContent = "Change Plan";
-          profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
+          profile_usertype.innerHTML = `  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
           rec.innerHTML = "";
-          miningState.innerHTML = "Active Mining";
+          miningState.innerHTML = "Mining Enabled";
           mining_status.className = " mining-status status-active";
+          userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Miner`;
           break;
 
         case "Free":
-          miningInfo.innerHTML = `Mining is inactive Current Efficiency inconsistently rolling around`;
+          setInterval(fetchServerData, 10000);
+          miningInfo.innerHTML = `Mining is inactive upgrade to one of our plans to enable hypercoin rigs for more consistent and effective mining efficiency`;
           userStatus.textContent = data.usertype;
           configure.textContent = "configure";
           profile_usertype.textContent = data.usertype;
-          rec.innerHTML = `<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  <a style='color: #FFD43B' href='configure.html'>upgrade</a> to one of our plans for <br> effective mining and other benefits </span>`;
+          miningState.innerHTML = `Mining Disabled`;
+          rec.innerHTML = `<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  <a style='color: #FFD43B' href='configure.html'>upgrade</a> to one of our plans  <br> to start mining and earning with as little at $4.99 </span>`;
           break;
         default:
           userStatus.textContent = data.usertype;
