@@ -14,8 +14,6 @@ async function dashboardAuth() {
   }
 
   const data = await res.json();
-  const usernameDisplay = document.getElementById("username");
-  const userAvatar = document.getElementById("user-avatar");
   const usernameDisplayy = document.getElementById("usernamee");
   const userAvatarr = document.getElementById("user-avatarr");
 
@@ -26,14 +24,6 @@ async function dashboardAuth() {
 
   //display avatar
   userAvatarr.textContent = data.username.slice(0, 2);
-
-  //display name
-  usernameDisplay
-    ? (usernameDisplay.textContent = data.username)
-    : (usernameDisplay.textContent = "Guest");
-
-  //display avatar
-  userAvatar.textContent = data.username.slice(0, 2);
 }
 
 dashboardAuth();

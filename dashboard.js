@@ -2,16 +2,18 @@
 
 async function dashboardAuth() {
   let token = sessionStorage.getItem("accessToken");
-  if (!token);
+  if (!token) {
+    redirectToLogin();
+  }
 
   let res = await fetchDashboard(token);
 
   if (res.status === 401) {
     // Try refresh token
-    const refreshed = await requestToken();
-    if (!refreshed) return redirectToLogin();
+    await requestToken();
 
     token = sessionStorage.getItem("accessToken");
+
     res = await fetchDashboard(token);
   }
 
@@ -49,6 +51,28 @@ async function fetchDashboard(token) {
     });
   } catch (err) {
     console.error("Error fetching dashboard:", err);
+    return redirectToLogin();
+  }
+}
+
+async function requestToken() {
+  const refreshToken = sessionStorage.getItem("refreshToken");
+  if (!refreshToken) return redirectToLogin();
+
+  try {
+    const res = await fetch("https://backendroutes-lcpt.onrender.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: refreshToken }),
+    });
+    if (!res.ok) return redirectToLogin();
+
+    const data = await res.json();
+    sessionStorage.setItem("accessToken", data.accessToken);
+
+    return true;
+  } catch (err) {
+    console.error("Token refresh failed:", err);
     return redirectToLogin();
   }
 }
@@ -110,9 +134,7 @@ async function fetchServerData() {
 
   // Check if the token exists
   if (!token) {
-    console.log("No access token found. Redirecting to login.");
-
-    return;
+    redirectToLogin();
   }
 
   try {
@@ -128,13 +150,8 @@ async function fetchServerData() {
 
     // Check for 401 status specifically
     if (res.status === 401) {
-      console.log("Unauthorized request. Redirecting to login.");
       dashboardAuth();
       return;
-    }
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
     }
 
     serverData = await res.json();
@@ -186,7 +203,7 @@ function updatePremiumStatusUI(data) {
           miningInfo.innerHTML = ` Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak `;
           userStatus.textContent = data.usertype;
           configure.textContent = "Change Plan";
-          profile_usertype.innerHTML = `  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
+          profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
           rec.innerHTML = "";
           miningState.innerHTML = "Mining Enabled";
           mining_status.className = " mining-status status-active";
@@ -361,7 +378,6 @@ avatar_controls.addEventListener("change", function () {
   const avatarimg = this.value; // selected avatar URL
   user_avatar.src = avatarimg; // update image
   localStorage.setItem("avatar", avatarimg); // save to localStorage
-  console.log("Selected avatar URL:", avatarimg);
 });
 
 /// Get the forgot password button
@@ -370,7 +386,6 @@ const changeps = document.getElementById("forgot-password");
 // Add click event listener
 changeps.addEventListener("click", async () => {
   const token = sessionStorage.getItem("accessToken");
-  console.log(token);
 
   if (!token) {
     console.error("No access token found");
