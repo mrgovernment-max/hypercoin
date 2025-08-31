@@ -30,7 +30,7 @@ dashboardAuth();
 
 async function fetchDashboard(token) {
   try {
-    return await fetch("/.netlify/functions/dashboard", {
+    return await fetch("https://backendroutes-lcpt.onrender.com/dashboard", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ async function requestToken() {
   if (!refreshToken) return redirectToLogin();
 
   try {
-    const res = await fetch("/.netlify/functions/token", {
+    const res = await fetch("https://backendroutes-lcpt.onrender.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: refreshToken }),
