@@ -18,7 +18,6 @@ async function dashboardAuth() {
   if (!res.ok) return redirectToLogin();
 
   const data = await res.json();
-  console.log("Dashboard data:", data);
   const usernameDisplay = document.getElementById("username");
   const userAvatar = document.getElementById("user-avatar");
   const usernameDisplayy = document.getElementById("usernamee");
@@ -113,11 +112,12 @@ let serverData = null;
 // Function to fetch server data
 async function fetchServerData() {
   const token = sessionStorage.getItem("accessToken");
+  console.log(token);
 
   // Check if the token exists
   if (!token) {
     console.log("No access token found. Redirecting to login.");
-    dashboardAuth();
+
     return;
   }
 
@@ -159,7 +159,6 @@ fetchServerData();
 
 function updatePremiumStatusUI(data) {
   dashboardAuth();
-  console.log(data);
   const userStatus = document.getElementById("user-status");
   const configure = document.getElementById("configure-plan");
   const profile_usertype = document.getElementById("profile-usertype");
@@ -228,7 +227,6 @@ let highest = localStorage.getItem("highest");
 highest = highest ? Number(highest) : 0;
 
 function addtoinv() {
-  fetchServerData();
   const balancesig = document.getElementById("balancesig");
   const balanceChange = document.getElementById("balance-change");
   const balanceValue = document.getElementById("balance-value");
@@ -273,7 +271,6 @@ let highesthash = localStorage.getItem("highesthash");
 highesthash = highesthash ? Number(highesthash) : 0;
 
 function addtohash() {
-  fetchServerData();
   const hashsig = document.getElementById("hashsig");
   const hashChange = document.getElementById("hash-change");
   const hashValue = document.getElementById("hash-value");
@@ -335,4 +332,44 @@ avatar_controls.addEventListener("change", function () {
   user_avatar.src = avatarimg; // update image
   localStorage.setItem("avatar", avatarimg); // save to localStorage
   console.log("Selected avatar URL:", avatarimg);
+});
+
+/// Get the forgot password button
+const changeps = document.getElementById("forgot-password");
+
+// Add click event listener
+changeps.addEventListener("click", async () => {
+  const token = sessionStorage.getItem("accessToken");
+  console.log(token);
+
+  if (!token) {
+    console.error("No access token found");
+    alert("Please log in first");
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/resetpass",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.ok) {
+      const codeSentmsg = data.message;
+      console.log(codeSentmsg);
+      alert("Password reset code sent to your email");
+    } else {
+      console.error("Error:", data.error);
+      alert("Error: " + data.error);
+    }
+  } catch (err) {
+    console.error("Request failed:", err);
+    alert("Failed to send reset code. Please try again.");
+  }
 });
