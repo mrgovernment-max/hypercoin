@@ -163,6 +163,8 @@ function updatePremiumStatusUI(data) {
   const configure = document.getElementById("configure-plan");
   const profile_usertype = document.getElementById("profile-usertype");
   const rec = document.getElementById("rec");
+  const miningState = document.getElementById("miningState");
+  const mining_status = document.getElementById("mining-status");
 
   // Mining efficiency bar display
 
@@ -193,15 +195,17 @@ function updatePremiumStatusUI(data) {
           configure.textContent = "Change Plan";
           profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
           rec.innerHTML = "";
+          miningState.innerHTML = "Active Mining";
+          mining_status.className = " mining-status status-active";
           break;
 
         case "Free":
+          miningInfo.innerHTML = `Mining is inactive Current Efficiency inconsistently rolling around`;
           userStatus.textContent = data.usertype;
           userStatus.className = "user-status status-free";
           configure.textContent = "configure";
           profile_usertype.textContent = data.usertype;
-          rec.innerHTML =
-            "<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  upgrade to one of our plans for <br> effective mining and other benefits </span>";
+          rec.innerHTML = `<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  <a style='color: #FFD43B' href='configure.html'>upgrade</a> to one of our plans for <br> effective mining and other benefits </span>`;
           break;
         default:
           userStatus.textContent = data.usertype;
@@ -227,6 +231,7 @@ let highest = localStorage.getItem("highest");
 highest = highest ? Number(highest) : 0;
 
 function addtoinv() {
+  fetchServerData();
   const balancesig = document.getElementById("balancesig");
   const balanceChange = document.getElementById("balance-change");
   const balanceValue = document.getElementById("balance-value");
@@ -271,6 +276,7 @@ let highesthash = localStorage.getItem("highesthash");
 highesthash = highesthash ? Number(highesthash) : 0;
 
 function addtohash() {
+  fetchServerData();
   const hashsig = document.getElementById("hashsig");
   const hashChange = document.getElementById("hash-change");
   const hashValue = document.getElementById("hash-value");
