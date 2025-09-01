@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HYPERCOIN - Crypto Mining Features</title>
+    <link rel="stylesheet" href="features.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">
+            <span class="logo-icon"><i class="fas fa-coins"></i></span>
+            <a style="text-decoration: none" href="index.html">HYPERCOIN</a>
+          </div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="signup.html">Sign Up</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+          <button class="theme-toggle" id="themeToggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Maximize Your Crypto Mining Potential</h1>
+        <p>
+          Join thousands of users mining HYPERCOIN with our advanced cloud
+          mining platform. Choose your plan and start earning today!
+        </p>
+      </section>
+
+      <section class="mining-stats">
+        <div class="stat-card">
+          <div class="stat-value">12,458</div>
+          <div class="stat-label">ACTIVE MINERS</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4.28%</div>
+          <div class="stat-label">DAILY PROFIT</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$1.M</div>
+          <div class="stat-label">TOTAL EARNED</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">90.7%</div>
+          <div class="stat-label">UPTIME</div>
+        </div>
+      </section>
+
+      <section id="plans" class="plans">
+        <h2 class="section-title">Investment Plans</h2>
+        <div class="plans-container">
+          <div class="plan-card">
+            <h3 class="plan-name">Starter Plan</h3>
+            <div class="plan-price">$4.99<span>/month</span></div>
+            <ul class="plan-features">
+              <li>Hash Rate: 50 GH/s</li>
+              <li>Daily Earnings: ~0.5 HYPER</li>
+              <li>Maintenance Fee: $0.10/day</li>
+              <li>24/7 Monitoring</li>
+              <li>Basic Support</li>
+            </ul>
+            <button class="plan-button">Select Plan</button>
+          </div>
+          <div class="plan-card popular">
+            <h3 class="plan-name">Pro Plan</h3>
+            <div class="plan-price">$9.99<span>/month</span></div>
+            <ul class="plan-features">
+              <li>Hash Rate: 120 GH/s</li>
+              <li>Daily Earnings: ~1.2 HYPER</li>
+              <li>Maintenance Fee: $0.15/day</li>
+              <li>Priority Monitoring</li>
+              <li>Premium Support</li>
+              <li>+5% Bonus Earnings</li>
+            </ul>
+            <button class="plan-button">Select Plan</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="mining-visualization">
+        <h2 class="section-title">Live Mining Simulation</h2>
+        <p>
+          Watch your HYPERCOIN being mined in real-time with our advanced
+          algorithms
+        </p>
+        <div class="mining-animation">
+          <div class="mining-rig">HPC MINER</div>
+          <div class="coin"></div>
+          <div class="coin"></div>
+          <div class="coin"></div>
+          <div class="coin"></div>
+        </div>
+      </section>
+
+      <section class="calculator">
+        <h2 class="section-title">Investment Calculator</h2>
+        <div class="calculator-form">
+          <div class="form-group">
+            <label for="planSelect">Select Plan</label>
+            <select id="planSelect">
+              <option value="4.99">Starter Plan ($4.99/month)</option>
+              <option value="9.99">Pro Plan ($9.99/month)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="investmentAmount">Investment Amount ($)</label>
+            <input
+              type="number"
+              id="investmentAmount"
+              min="4.99"
+              value="4.99"
+              step="0.01"
+            />
+          </div>
+          <div class="calculator-result">
+            <h3>Projected Monthly Earnings</h3>
+            <div class="result-value" id="earningsResult">5.2 HYPER</div>
+            <p>Based on current network difficulty and hash rate</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="logo">
+          <span class="logo-icon"><i class="fas fa-coins"></i></span>
+          <span>HYPERCOIN</span>
+        </div>
+        <ul class="footer-links">
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+        <p>© 2023 HYPERCOIN Mining Platform. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Theme Toggle
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
+        document.body.dataset.theme =
+          document.body.dataset.theme === "dark" ? "light" : "dark";
+        themeToggle.textContent =
+          document.body.dataset.theme === "dark" ? "☀️" : "🌙";
+      });
+
+      // Investment Calculator
+      const planSelect = document.getElementById("planSelect");
+      const investmentAmount = document.getElementById("investmentAmount");
+      const earningsResult = document.getElementById("earningsResult");
+
+      function calculateEarnings() {
+        const planValue = parseFloat(planSelect.value);
+        const amount = parseFloat(investmentAmount.value);
+
+        // Validate input
+        if (isNaN(amount) || amount < planValue) {
+          investmentAmount.value = planValue;
+          calculateEarnings();
+          return;
+        }
+
+        // Calculate projected earnings (simplified)
+        let earnings;
+        if (planValue === 4.99) {
+          earnings = (amount / 4.99) * 5.2;
+        } else {
+          earnings = (amount / 9.99) * 12.5;
+        }
+
+        earningsResult.textContent = `${earnings.toFixed(1)} HPC`;
+      }
+
+      planSelect.addEventListener("change", () => {
+        investmentAmount.value = planSelect.value;
+        calculateEarnings();
+      });
+
+      investmentAmount.addEventListener("input", calculateEarnings);
+
+      // Initialize calculator
+      calculateEarnings();
+    </script>
+  </body>
+</html>
