@@ -229,28 +229,28 @@ function updatePremiumStatusUI(data) {
       }
 
       if (miningInfo)
-        miningInfo.innerHTML = `Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak`;
+        miningInfo.innerHTML = `Investmenst is active  Current efficiency is around`;
       if (configure) configure.textContent = "Change Plan";
       if (profile_usertype)
         profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
       if (rec) rec.innerHTML = "";
-      if (miningState) miningState.innerHTML = "Mining Enabled";
+      if (miningState) miningState.innerHTML = " Investment Enabled ";
       if (mining_status)
         mining_status.className = "mining-status status-active";
       if (userRole)
-        userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Miner`;
+        userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Investor`;
     } else {
       // Free users
       if (miningInfo)
-        miningInfo.innerHTML = `Mining is inactive. Upgrade to one of our plans to enable HyperCoin rigs for more consistent and effective mining efficiency`;
-      if (configure) configure.textContent = "Start Mining";
+        miningInfo.innerHTML = `Investment is inactive. Depoite Funds into Your Account and Start Investing`;
+      if (configure) configure.textContent = "";
       if (profile_usertype) profile_usertype.textContent = data.usertype;
-      if (miningState) miningState.innerHTML = `Mining Disabled`;
+      if (miningState) miningState.innerHTML = `Investment Disabled`;
       if (rec)
         rec.innerHTML = `<span style='color:#ff9800'>
           <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>
-          <a style='color: #FFD43B' href='configure.html'>Upgrade</a> to one of our plans<br>
-          to start mining and earning from as little as $4.99
+          <a style='color: #FFD43B' target='_blank' href='features.html#calculator'>Upgrade</a> to one of our plans<br>
+          to start investing and earning from as little as $4.99
         </span>`;
     }
   }
@@ -364,7 +364,7 @@ async function updateMiningStats() {
     dailyHighHash.textContent = Math.round(highestHashRate) + " MH/s";
   if (balanceValue)
     balanceValue.textContent = currentBalance.toFixed(2) + " HPC";
-  if (dailyHigh) dailyHigh.textContent = highestBalance.toFixed(2) + " HPC";
+  if (dailyHigh) dailyHigh.textContent = "1 HPC = 1.5 USD";
 
   // Update change indicators
   const hashChangeValue = currentHashRate - prevHashRate;
