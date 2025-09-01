@@ -9,6 +9,9 @@
   --border: #e5e7eb;
   --success: #10b981;
   --warning: #f59e0b;
+  --miner: #ffd700;
+  --coins: #7e22ce;
+  --miner-container: #2e2e327b;
   --error: #ef4444;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -19,9 +22,11 @@
   --primary: #3b82f6;
   --primary-dark: #2563eb;
   --secondary: #a855f7;
+  --miner-container: rgba(18, 43, 56, 0.674);
   --text: #f3f4f6;
   --text-light: #d1d5db;
   --bg: #111827;
+  --coins: yellow;
   --bg-card: #1f2937;
   --border: #374151;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
@@ -308,7 +313,7 @@ nav a:hover {
   width: 130px;
   height: 80px;
   padding: 0 5px;
-  background-color: var(--bg-card);
+  background-color: var(--miner-container);
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -331,7 +336,7 @@ nav a:hover {
   width: 20px;
   height: 30px;
   left: 35%;
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  background: var(--coins);
   border-radius: 50%;
   animation: mineCoin 2.2s infinite;
 }
