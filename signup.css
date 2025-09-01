@@ -66,9 +66,9 @@ header {
 
 .header-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
 }
 
 .logo {

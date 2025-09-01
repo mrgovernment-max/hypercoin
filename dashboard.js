@@ -1,5 +1,4 @@
 // Get elements for dashboard
-
 async function dashboardAuth() {
   let token = sessionStorage.getItem("accessToken");
   if (!token) {
@@ -219,42 +218,40 @@ function updatePremiumStatusUI(data) {
   if (hyper_efficiency) hyper_efficiency.innerHTML = randomNumber + "%";
 
   if (data && data.usertype) {
-    switch (data.usertype) {
-      case "Professional":
-        // premium users bars up or !< 45
-        if (randomNumber >= 45) {
-          if (bar) bar.style.width = randomNumber + "%";
-          if (hyper_efficiency) hyper_efficiency.innerHTML = randomNumber + "%";
-        } else {
-          if (bar) bar.style.width = "45%";
-          if (hyper_efficiency) hyper_efficiency.innerHTML = "50%";
-        }
-        if (miningInfo)
-          miningInfo.innerHTML = ` Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak `;
-        if (configure) configure.textContent = "Change Plan";
-        if (profile_usertype)
-          profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
-        if (rec) rec.innerHTML = "";
-        if (miningState) miningState.innerHTML = "Mining Enabled";
-        if (mining_status)
-          mining_status.className = " mining-status status-active";
-        if (userRole)
-          userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Miner`;
-        break;
+    if (data.usertype !== "Free") {
+      // Premium / Professional / any non-free user
+      if (randomNumber >= 45) {
+        if (bar) bar.style.width = randomNumber + "%";
+        if (hyper_efficiency) hyper_efficiency.innerHTML = randomNumber + "%";
+      } else {
+        if (bar) bar.style.width = "45%";
+        if (hyper_efficiency) hyper_efficiency.innerHTML = "50%";
+      }
 
-      case "Free":
-        if (miningInfo)
-          miningInfo.innerHTML = `Mining is inactive upgrade to one of our plans to enable hypercoin rigs for more consistent and effective mining efficiency`;
-        if (configure) configure.textContent = "configure";
-        if (profile_usertype) profile_usertype.textContent = data.usertype;
-        if (miningState) miningState.innerHTML = `Mining Disabled`;
-        if (rec)
-          rec.innerHTML = `<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  <a style='color: #FFD43B' href='configure.html'>upgrade</a> to one of our plans  <br> to start mining and earning with as little at $4.99 </span>`;
-        break;
-      default:
-        if (configure) configure.textContent = "configure";
-        if (profile_usertype)
-          profile_usertype.textContent = data.usertype || "Free";
+      if (miningInfo)
+        miningInfo.innerHTML = `Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak`;
+      if (configure) configure.textContent = "Change Plan";
+      if (profile_usertype)
+        profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
+      if (rec) rec.innerHTML = "";
+      if (miningState) miningState.innerHTML = "Mining Enabled";
+      if (mining_status)
+        mining_status.className = "mining-status status-active";
+      if (userRole)
+        userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Miner`;
+    } else {
+      // Free users
+      if (miningInfo)
+        miningInfo.innerHTML = `Mining is inactive. Upgrade to one of our plans to enable HyperCoin rigs for more consistent and effective mining efficiency`;
+      if (configure) configure.textContent = "Start Mining";
+      if (profile_usertype) profile_usertype.textContent = data.usertype;
+      if (miningState) miningState.innerHTML = `Mining Disabled`;
+      if (rec)
+        rec.innerHTML = `<span style='color:#ff9800'>
+          <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>
+          <a style='color: #FFD43B' href='configure.html'>Upgrade</a> to one of our plans<br>
+          to start mining and earning from as little as $4.99
+        </span>`;
     }
   }
 }
@@ -426,6 +423,22 @@ function initMiningStats() {
   highestHashRate = parseFloat(localStorage.getItem("highestHashRate")) || 0;
   highestBalance = parseFloat(localStorage.getItem("highestBalance")) || 0;
 }
+
+async function activeUsers() {
+  const activeUsers = document.getElementById("active-users");
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/activeusers"
+  );
+
+  const data = await res.json();
+  const active = data.activeUsers;
+  activeUsers.innerHTML = active;
+  const offline = 200 - parseFloat(active.split(" ")[0]);
+  const offlineUsers = document.getElementById("offline-users");
+  offlineUsers.innerHTML = offline;
+}
+
+activeUsers();
 
 initMiningStats();
 

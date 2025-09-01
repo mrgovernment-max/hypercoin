@@ -97,7 +97,7 @@
           <div class="stats-grid">
             <!-- Balance Card -->
 <div class="stat-card">
-  <div class="stat-header">
+  <div class="stat-header"> 
     <div class="stat-title">BALANCE</div>
     <div class="stat-icon">
       <i class="fas fa-wallet"></i>
@@ -105,12 +105,13 @@
   </div>
   <div id="balance-value" class="stat-value">£0.00</div>
   <div class="weekly-high">
-    <span id="dailyhigh" class="gold-text">£0.00</span> weekly high
+    <span id="dailyhigh" class="gold-text">£0.00</span> weekly average
   </div>
   <div id="balancesig" class="stat-change">
     <i class="fas fa-arrow-up"></i>
     <span id="balance-change">0.00%</span>
-  </div>
+     </div>
+  <small style="font: 100; font-family: monospace;"> <i class="fa-solid fa-bell"></i> updates every minute</small>
 </div>
             <!-- Hash Rate Card -->
 <div class="stat-card">
@@ -134,14 +135,14 @@
              
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-title">ACTIVE MINERS</div>
+                <div class="stat-title">ACTIVE MINERS IN YOUR CITY</div>
                 <div class="stat-icon">
                   <i class="fas fa-server"></i>
                 </div>
               </div>
-              <div class="stat-value">3/5</div>
+              <div id="active-users" class="stat-value"></div>
               <div class="stat-change negative">
-                <i class="fas fa-arrow-down"></i> 2 miners offline
+                <i class="fas fa-arrow-down"></i> <span id="offline-users"></span> miners offline
               </div>
             </div>
             <div class="stat-card">
@@ -174,7 +175,7 @@
               <div id="progress-bar" class="progress-bar"></div>
             </div>
             <div class="mining-actions">
-              <button class="btn btn-primary">
+              <button disabled class="btn btn-primary" >
                 <i class="fas fa-play"></i> Start Mining
               </button>
               <button class="btn btn-outline">
