@@ -26,23 +26,21 @@ async function dashboardAuth() {
   const usernameDisplayy = document.getElementById("usernamee");
   const userAvatarr = document.getElementById("user-avatarr");
 
-  profileUser
-    ? (profileUser.textContent = data.username)
-    : (profileUser.textContent = "Guest");
-
-  //display name
-  usernameDisplayy
-    ? (usernameDisplayy.textContent = data.username)
-    : (usernameDisplayy.textContent = "Guest");
-
-  //display avatar
-  userAvatarr.textContent = data.username.slice(0, 2);
-
-  //display avatar
-  userAvatar.innerHTML = data.username.slice(0, 2);
+  if (profileUser) profileUser.textContent = data.username || "Guest";
+  if (usernameDisplayy) usernameDisplayy.textContent = data.username || "Guest";
+  if (userAvatarr)
+    userAvatarr.textContent = data.username ? data.username.slice(0, 2) : "G";
+  if (userAvatar)
+    userAvatar.innerHTML = data.username ? data.username.slice(0, 2) : "G";
 }
 
-dashboardAuth();
+// Call dashboardAuth on load
+document.addEventListener("DOMContentLoaded", function () {
+  dashboardAuth();
+
+  // Initialize mining stats after a short delay to ensure auth is complete
+  setTimeout(initMiningStats, 1000);
+});
 
 async function fetchDashboard(token) {
   try {
@@ -55,13 +53,17 @@ async function fetchDashboard(token) {
     });
   } catch (err) {
     console.error("Error fetching dashboard:", err);
-    return redirectToLogin();
+    redirectToLogin();
+    return { ok: false }; // Return a mock response object
   }
 }
 
 async function requestToken() {
   const refreshToken = sessionStorage.getItem("refreshToken");
-  if (!refreshToken) return redirectToLogin();
+  if (!refreshToken) {
+    redirectToLogin();
+    return false;
+  }
 
   try {
     const res = await fetch("https://backendroutes-lcpt.onrender.com/token", {
@@ -69,15 +71,18 @@ async function requestToken() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token: refreshToken }),
     });
-    if (!res.ok) return redirectToLogin();
+    if (!res.ok) {
+      redirectToLogin();
+      return false;
+    }
 
     const data = await res.json();
     sessionStorage.setItem("accessToken", data.accessToken);
-
     return true;
   } catch (err) {
     console.error("Token refresh failed:", err);
-    return redirectToLogin();
+    redirectToLogin();
+    return false;
   }
 }
 
@@ -86,59 +91,67 @@ const menuToggle = document.getElementById("menuToggle");
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 
-menuToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-  overlay.classList.toggle("active");
-});
+if (menuToggle && sidebar && overlay) {
+  menuToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+  });
 
-overlay.addEventListener("click", () => {
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-});
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  });
+}
 
 function hideonClick() {
   const sidebar = document.getElementById("sidebar");
   const overlay = document.getElementById("overlay");
 
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
+  if (sidebar && overlay) {
+    sidebar.classList.remove("active");
+    overlay.classList.remove("active");
+  }
 }
 
 // Theme toggle functionality
 const themeToggle = document.getElementById("themeToggle");
 
-// Check for saved theme preference
-const currentTheme = localStorage.getItem("theme");
+if (themeToggle) {
+  // Check for saved theme preference
+  const currentTheme = localStorage.getItem("theme");
 
-// Apply the theme if previously set
-if (currentTheme === "dark") {
-  document.documentElement.setAttribute("data-theme", "dark");
-  themeToggle.textContent = "☀️";
-}
-
-// Toggle theme on button click
-themeToggle.addEventListener("click", () => {
-  if (!document.documentElement.getAttribute("data-theme")) {
+  // Apply the theme if previously set
+  if (currentTheme === "dark") {
     document.documentElement.setAttribute("data-theme", "dark");
     themeToggle.textContent = "☀️";
-    localStorage.setItem("theme", "dark");
-  } else {
-    document.documentElement.removeAttribute("data-theme");
-    themeToggle.textContent = "🌙";
-    localStorage.setItem("theme", "light");
   }
-});
+
+  // Toggle theme on button click
+  themeToggle.addEventListener("click", () => {
+    if (!document.documentElement.getAttribute("data-theme")) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeToggle.textContent = "☀️";
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      themeToggle.textContent = "🌙";
+      localStorage.setItem("theme", "light");
+    }
+  });
+}
 
 // Server data variable
 let serverData = null;
 
 // Function to fetch server data
 async function fetchServerData() {
+  await dashboardAuth();
   const token = sessionStorage.getItem("accessToken");
 
   // Check if the token exists
   if (!token) {
     redirectToLogin();
+    return null;
   }
 
   try {
@@ -155,23 +168,37 @@ async function fetchServerData() {
     // Check for 401 status specifically
     if (res.status === 401) {
       dashboardAuth();
-      return;
+      return null;
+    }
+
+    if (!res.ok) {
+      console.error("Failed to fetch user stats:", res.status);
+      return null;
     }
 
     serverData = await res.json();
 
     // Update UI to show premium status
     updatePremiumStatusUI(serverData);
+    return serverData;
   } catch (err) {
+    console.error("Error fetching server data:", err);
     serverData = null;
+    return null;
   }
-
-  return serverData;
 }
-fetchDashboard();
-window.onload = fetchServerData;
+
+// Call fetchServerData on window load
+window.onload = function () {
+  fetchServerData();
+};
 
 function updatePremiumStatusUI(data) {
+  if (!data) {
+    console.error("No data provided to updatePremiumStatusUI");
+    return;
+  }
+
   dashboardAuth();
 
   const userRole = document.getElementById("user-role");
@@ -182,58 +209,57 @@ function updatePremiumStatusUI(data) {
   const mining_status = document.getElementById("mining-status");
 
   // Mining efficiency bar display
-
   const hyper_efficiency = document.getElementById("miningeff");
   const miningInfo = document.getElementById("mining-info");
   const bar = document.getElementById("progress-bar");
 
   let randomNumber = (Math.random() * 99 + 1).toFixed(2);
 
-  bar.style.width = randomNumber + "%";
-  hyper_efficiency.innerHTML = randomNumber + "%";
+  if (bar) bar.style.width = randomNumber + "%";
+  if (hyper_efficiency) hyper_efficiency.innerHTML = randomNumber + "%";
 
-  if (true) {
-    if (data && data.efficiency && data.hashRate)
-      switch (data.usertype) {
-        case "Professional":
-          //  premium users bars up or !< 45
-          if (randomNumber >= 45) {
-            bar.style.width = randomNumber + "%";
-            hyper_efficiency.innerHTML = randomNumber + "%";
-          } else {
-            bar.style.width = 45 + "%";
-            hyper_efficiency.innerHTML = 50 + "%";
-          }
+  if (data && data.usertype) {
+    switch (data.usertype) {
+      case "Professional":
+        // premium users bars up or !< 45
+        if (randomNumber >= 45) {
+          if (bar) bar.style.width = randomNumber + "%";
+          if (hyper_efficiency) hyper_efficiency.innerHTML = randomNumber + "%";
+        } else {
+          if (bar) bar.style.width = "45%";
+          if (hyper_efficiency) hyper_efficiency.innerHTML = "50%";
+        }
+        if (miningInfo)
           miningInfo.innerHTML = ` Your mining rig is active and generating HyperCoin consistently. Current efficiency is running at its peak `;
-          configure.textContent = "Change Plan";
+        if (configure) configure.textContent = "Change Plan";
+        if (profile_usertype)
           profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
-          rec.innerHTML = "";
-          miningState.innerHTML = "Mining Enabled";
+        if (rec) rec.innerHTML = "";
+        if (miningState) miningState.innerHTML = "Mining Enabled";
+        if (mining_status)
           mining_status.className = " mining-status status-active";
+        if (userRole)
           userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Miner`;
-          break;
+        break;
 
-        case "Free":
-          setInterval(fetchServerData, 10000);
+      case "Free":
+        if (miningInfo)
           miningInfo.innerHTML = `Mining is inactive upgrade to one of our plans to enable hypercoin rigs for more consistent and effective mining efficiency`;
-          configure.textContent = "configure";
-          profile_usertype.textContent = data.usertype;
-          miningState.innerHTML = `Mining Disabled`;
+        if (configure) configure.textContent = "configure";
+        if (profile_usertype) profile_usertype.textContent = data.usertype;
+        if (miningState) miningState.innerHTML = `Mining Disabled`;
+        if (rec)
           rec.innerHTML = `<span style='color:#ff9800'> <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>  <a style='color: #FFD43B' href='configure.html'>upgrade</a> to one of our plans  <br> to start mining and earning with as little at $4.99 </span>`;
-          break;
-        default:
-          userStatus.className = "user-status status-free";
-          configure.textContent = "configure";
-          profile_usertype.textContent = data.usertype;
-      }
-
-    {
+        break;
+      default:
+        if (configure) configure.textContent = "configure";
+        if (profile_usertype)
+          profile_usertype.textContent = data.usertype || "Free";
     }
   }
 }
 
 function redirectToLogin() {
-  // Implement your login redirect logic here
   window.location.href = "login.html";
 }
 
@@ -242,13 +268,52 @@ let currentHashRate = 0;
 let prevHashRate = 0;
 let highestHashRate = parseFloat(localStorage.getItem("highestHashRate")) || 0;
 
-let currentBalance =
-  parseFloat(localStorage.getItem("currentBalance")) ||
-  (serverData && serverData.usertype === "Professional" ? 5.0 : 2.0);
+let currentBalance = 0;
 let prevBalance = 0;
 let highestBalance = parseFloat(localStorage.getItem("highestBalance")) || 0;
 
-function updateMiningStats() {
+// API endpoint URL
+const BALANCE_API_URL = "https://backendroutes-lcpt.onrender.com/balance";
+
+// Function to fetch balance from API - USE REFRESH TOKEN
+async function fetchBalanceFromAPI() {
+  const token = sessionStorage.getItem("accessToken"); // Use refresh token here
+
+  // Check if token exists
+  if (!token) {
+    console.error("No refresh token found in sessionStorage");
+    return currentBalance;
+  }
+
+  try {
+    const response = await fetch(BALANCE_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Check if hpcbalance exists in response
+    if (data.hpcbalance === undefined) {
+      throw new Error("hpcbalance field missing from API response");
+    }
+
+    return parseFloat(data.hpcbalance);
+  } catch (error) {
+    console.error("Error fetching balance:", error);
+    return currentBalance; // Return current balance if API fails
+  }
+}
+
+// Function to update mining stats with API balance
+async function updateMiningStats() {
   // Get DOM elements
   const hashValue = document.getElementById("hash-value");
   const hashChange = document.getElementById("hash-change");
@@ -266,12 +331,7 @@ function updateMiningStats() {
   prevHashRate = currentHashRate;
   prevBalance = currentBalance;
 
-  // Generate new hash rate based on user type
-  if (serverData && serverData.usertype === "Professional") {
-    currentHashRate = 100 + (Math.random() * 50 - 25); // 75-125 MH/s
-  } else {
-    currentHashRate = 30 + (Math.random() * 40 - 20); // 10-50 MH/s
-  }
+  currentHashRate = 50 + (Math.random() * 40 - 20); // Default hash rate
 
   // Update highest hash rate
   if (currentHashRate > highestHashRate) {
@@ -279,41 +339,38 @@ function updateMiningStats() {
     localStorage.setItem("highestHashRate", highestHashRate);
   }
 
-  // Calculate balance contribution (20 MH/s = £1 per hour)
-  const hashContribution = currentHashRate / 20 / 3600;
-  const marketFluctuation = 1 + (Math.random() * 0.02 - 0.01);
-  currentBalance += hashContribution * marketFluctuation;
+  // Fetch balance from API instead of calculating it
+  try {
+    const newBalance = await fetchBalanceFromAPI();
 
-  // Keep balances in target ranges
-  if (serverData && serverData.usertype === "Professional") {
-    if (currentBalance > 6.5) currentBalance -= 0.02;
-    if (currentBalance < 3.5) currentBalance += 0.02;
-  } else {
-    if (currentBalance > 3.0) currentBalance -= 0.01;
-    if (currentBalance < 1.0) currentBalance += 0.01;
+    // Update current balance with API response
+    currentBalance = newBalance;
+
+    // Update highest balance if current balance is higher
+    if (currentBalance > highestBalance) {
+      highestBalance = currentBalance;
+      localStorage.setItem("highestBalance", highestBalance);
+    }
+  } catch (error) {
+    console.error("Failed to update balance from API:", error);
+    // Keep using the current balance if API call fails
   }
 
-  // Ensure non-negative and update highest balance
-  currentBalance = Math.max(0, currentBalance);
-  if (currentBalance > highestBalance) {
-    highestBalance = currentBalance;
-    localStorage.setItem("highestBalance", highestBalance);
-  }
-
-  localStorage.setItem("currentBalance", currentBalance);
+  // Calculate balance change for indicators
+  const balanceChangeValue = currentBalance - prevBalance;
+  const changePercent =
+    prevBalance > 0 ? (balanceChangeValue / prevBalance) * 100 : 0;
 
   // Update UI elements
   if (hashValue) hashValue.textContent = Math.round(currentHashRate) + " MH/s";
   if (dailyHighHash)
     dailyHighHash.textContent = Math.round(highestHashRate) + " MH/s";
-  if (balanceValue) balanceValue.textContent = "£" + currentBalance.toFixed(2);
-  if (dailyHigh) dailyHigh.textContent = "£" + highestBalance.toFixed(2);
+  if (balanceValue)
+    balanceValue.textContent = currentBalance.toFixed(2) + " HPC";
+  if (dailyHigh) dailyHigh.textContent = highestBalance.toFixed(2) + " HPC";
 
   // Update change indicators
   const hashChangeValue = currentHashRate - prevHashRate;
-  const balanceChangeValue = currentBalance - prevBalance;
-  const changePercent =
-    prevBalance > 0 ? (balanceChangeValue / prevBalance) * 100 : 0;
 
   if (hashChange) {
     hashChange.textContent =
@@ -359,63 +416,78 @@ function updateMiningStats() {
         ? "red"
         : "gray";
   }
-}
 
-// Update every 2 seconds
-setInterval(updateMiningStats, 2000);
-updateMiningStats();
-const avatar_controls = document.getElementById("avatar-controls");
-const user_avatar = document.getElementById("user-avatar-img");
-
-// On page load, set avatar from localStorage if exists
-const savedAvatar = localStorage.getItem("avatar");
-if (savedAvatar) {
-  user_avatar.src = savedAvatar;
-}
-
-// When user selects a new avatar
-avatar_controls.addEventListener("change", function () {
   dashboardAuth();
-  const avatarimg = this.value; // selected avatar URL
-  user_avatar.src = avatarimg; // update image
-  localStorage.setItem("avatar", avatarimg); // save to localStorage
-});
+}
 
-/// Get the forgot password button
-const changeps = document.getElementById("forgot-password");
+// Initialize and start updating
+function initMiningStats() {
+  // Load highest values from localStorage
+  highestHashRate = parseFloat(localStorage.getItem("highestHashRate")) || 0;
+  highestBalance = parseFloat(localStorage.getItem("highestBalance")) || 0;
+}
 
-// Add click event listener
-changeps.addEventListener("click", async () => {
-  const token = sessionStorage.getItem("accessToken");
+initMiningStats();
 
-  if (!token) {
-    console.error("No access token found");
-    alert("Please log in first");
-    return;
+// Start regular updates
+setInterval(updateMiningStats, 3000); // Update every 5 seconds
+updateMiningStats(); // Initial update
+
+// Avatar controls
+document.addEventListener("DOMContentLoaded", function () {
+  const avatar_controls = document.getElementById("avatar-controls");
+  const user_avatar = document.getElementById("user-avatar-img");
+
+  if (avatar_controls && user_avatar) {
+    // On page load, set avatar from localStorage if exists
+    const savedAvatar = localStorage.getItem("avatar");
+    if (savedAvatar) {
+      user_avatar.src = savedAvatar;
+    }
+
+    // When user selects a new avatar
+    avatar_controls.addEventListener("change", function () {
+      dashboardAuth();
+      const avatarimg = this.value; // selected avatar URL
+      user_avatar.src = avatarimg; // update image
+      localStorage.setItem("avatar", avatarimg); // save to localStorage
+    });
   }
 
-  try {
-    const res = await fetch(
-      "https://backendroutes-lcpt.onrender.com/resetpass",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
+  // Forgot password button
+  const changeps = document.getElementById("forgot-password");
+  if (changeps) {
+    changeps.addEventListener("click", async () => {
+      const token = sessionStorage.getItem("accessToken");
+
+      if (!token) {
+        console.error("No access token found");
+        alert("Please log in first");
+        return;
       }
-    );
 
-    const data = await res.json();
+      try {
+        const res = await fetch(
+          "https://backendroutes-lcpt.onrender.com/resetpass",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+          }
+        );
 
-    if (res.ok) {
-      const codeSentmsg = data.message;
-      console.log(codeSentmsg);
-      alert("Password reset code sent to your email");
-    } else {
-      console.error("Error:", data.error);
-      alert("Error: " + data.error);
-    }
-  } catch (err) {
-    console.error("Request failed:", err);
-    alert("Failed to send reset code. Please try again.");
+        const data = await res.json();
+
+        if (res.ok) {
+          alert("Password reset code sent to your email");
+        } else {
+          console.error("Error:", data.error);
+          alert("Error: " + data.error);
+        }
+      } catch (err) {
+        console.error("Request failed:", err);
+        alert("Failed to send reset code. Please try again.");
+      }
+    });
   }
 });
