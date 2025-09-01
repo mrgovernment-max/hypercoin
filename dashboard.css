@@ -607,27 +607,22 @@ body {
 .btn-primary {
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   color: white;
-  animation: heartbeat 1s infinite;
+  animation: softFloat 2s ease-in-out infinite;
 }
 
 .btn-primary:hover {
   opacity: 0.9;
-  transform: heartbeat;
 }
 
-@keyframes heartbeat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  25% {
-    transform: translateY(5px);
+@keyframes softFloat {
+  0% {
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(10px);
+    transform: translateY(-10px); /* Slow rise to the top */
   }
-  75% {
-    transform: translateY(5px);
+  100% {
+    transform: translateY(0px); /* Gentle fall back down */
   }
 }
 

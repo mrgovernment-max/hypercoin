@@ -240,9 +240,8 @@ function updatePremiumStatusUI(data) {
       if (mining_status)
         mining_status.className = "mining-status status-active";
       if (startInv) {
-        startInv.innerHTML = "Resume Investing";
         startInv.addEventListener("click", () => {
-          startInv.innerHTML = "Investment is now Active";
+          startInv.innerHTML = "Investment is Active";
         });
       }
 
@@ -308,6 +307,32 @@ stoptInv.addEventListener("click", async function deactivateUser() {
   );
   localStorage.removeItem("activate");
 });
+
+async function checkuserState() {
+  await dashboardAuth();
+  const token = sessionStorage.getItem("accessToken");
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/checkuserstate",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    }
+  );
+  const data = await res.json();
+  const mining_state = data.message.mining_state;
+  console.log(mining_state);
+  if (mining_state === "active") {
+    startInv.innerHTML = "Investment is Active";
+    stoptInv.innerHTML = "Pause Investment";
+  } else {
+    startInv.innerHTML = "Resume Investing";
+  }
+}
+
+checkuserState();
 
 function redirectToLogin() {
   window.location.href = "login.html";
