@@ -607,11 +607,33 @@ body {
 .btn-primary {
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   color: white;
+  animation: heartbeat 1s infinite;
 }
 
 .btn-primary:hover {
   opacity: 0.9;
-  transform: translateY(-2px);
+  transform: heartbeat;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  75% {
+    transform: translateY(5px);
+  }
+}
+
+.heartbeat {
+  display: inline-block;
+  animation: heartbeat 1s infinite;
 }
 
 .btn-outline {

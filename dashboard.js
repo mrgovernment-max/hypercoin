@@ -206,6 +206,8 @@ function updatePremiumStatusUI(data) {
   const rec = document.getElementById("rec");
   const miningState = document.getElementById("miningState");
   const mining_status = document.getElementById("mining-status");
+  const startInv = document.getElementById("start-inv");
+  const stoptInv = document.getElementById("stop-inv");
 
   // Mining efficiency bar display
   const hyper_efficiency = document.getElementById("miningeff");
@@ -229,32 +231,83 @@ function updatePremiumStatusUI(data) {
       }
 
       if (miningInfo)
-        miningInfo.innerHTML = `Investmenst is active  Current efficiency is around`;
-      if (configure) configure.textContent = "Change Plan";
+        miningInfo.innerHTML = `Investmenst is active  Current efficiency is around :`;
+      if (configure) configure.textContent = "Deposite Funds";
       if (profile_usertype)
         profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
       if (rec) rec.innerHTML = "";
       if (miningState) miningState.innerHTML = " Investment Enabled ";
       if (mining_status)
         mining_status.className = "mining-status status-active";
+      if (startInv) {
+        startInv.innerHTML = "Resume Investing";
+        startInv.addEventListener("click", () => {
+          startInv.innerHTML = "Investment is now Active";
+        });
+      }
+
+      if (stoptInv) {
+        stoptInv.innerHTML = "Pause Investment";
+        stoptInv.addEventListener("click", () => {
+          startInv.innerHTML = "Resume Investing";
+        });
+      }
       if (userRole)
         userRole.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE; margin-right:6px;"></i> ${data.usertype} Investor`;
     } else {
       // Free users
       if (miningInfo)
-        miningInfo.innerHTML = `Investment is inactive. Depoite Funds into Your Account and Start Investing`;
-      if (configure) configure.textContent = "";
+        miningInfo.innerHTML = `Investment is inactive Depoite Funds into Your Account and Start Investing <br> Current HPC efficiency :`;
+      if (configure) configure.style.display = " none";
+      if (stoptInv) stoptInv.style.display = "none";
+      if (startInv) startInv.innerHTML = "Deposite Funds";
       if (profile_usertype) profile_usertype.textContent = data.usertype;
       if (miningState) miningState.innerHTML = `Investment Disabled`;
       if (rec)
         rec.innerHTML = `<span style='color:#ff9800'>
           <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>
-          <a style='color: #FFD43B' target='_blank' href='features.html#calculator'>Upgrade</a> to one of our plans<br>
-          to start investing and earning from as little as $4.99
+          <a style='color: #FFD43B' target='_blank' href='features.html#calculator'>Deposite</a>  funds into account<br>
+          to start investing and earning
         </span>`;
     }
   }
 }
+
+////////USER ACTIVATE AND DEACTIVATE
+
+const startInv = document.getElementById("start-inv");
+const stoptInv = document.getElementById("stop-inv");
+
+startInv.addEventListener("click", async function activateUser() {
+  await dashboardAuth();
+  const token = sessionStorage.getItem("accessToken");
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/activateuser",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    }
+  );
+});
+
+stoptInv.addEventListener("click", async function deactivateUser() {
+  await dashboardAuth();
+  const token = sessionStorage.getItem("accessToken");
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/deactivateuser",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token }),
+    }
+  );
+  localStorage.removeItem("activate");
+});
 
 function redirectToLogin() {
   window.location.href = "login.html";
