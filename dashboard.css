@@ -994,7 +994,8 @@ h6 {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  .app {
+
+  .dashboard-content {
     margin-top: 15%;
   }
   .mining-actions {
