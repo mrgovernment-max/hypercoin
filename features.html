@@ -56,37 +56,6 @@
         </div>
       </section>
 
-      <section id="plans" class="plans">
-        <h2 class="section-title">Investment Plans</h2>
-        <div class="plans-container">
-          <div class="plan-card">
-            <h3 class="plan-name">Starter Plan</h3>
-            <div class="plan-price">$4.99<span>/month</span></div>
-            <ul class="plan-features">
-              <li>Hash Rate: 50 GH/s</li>
-              <li>Daily Earnings: ~0.5 HYPER</li>
-              <li>Maintenance Fee: $0.10/day</li>
-              <li>24/7 Monitoring</li>
-              <li>Basic Support</li>
-            </ul>
-            <button class="plan-button">Select Plan</button>
-          </div>
-          <div class="plan-card popular">
-            <h3 class="plan-name">Pro Plan</h3>
-            <div class="plan-price">$9.99<span>/month</span></div>
-            <ul class="plan-features">
-              <li>Hash Rate: 120 GH/s</li>
-              <li>Daily Earnings: ~1.2 HYPER</li>
-              <li>Maintenance Fee: $0.15/day</li>
-              <li>Priority Monitoring</li>
-              <li>Premium Support</li>
-              <li>+5% Bonus Earnings</li>
-            </ul>
-            <button class="plan-button">Select Plan</button>
-          </div>
-        </div>
-      </section>
-
       <section class="mining-visualization">
         <h2 class="section-title">Live Mining Simulation</h2>
         <p>
@@ -103,24 +72,16 @@
       </section>
 
       <section class="calculator">
-        <h2 class="section-title">Investment Calculator</h2>
+        <h2 class="section-title">MINING Calculator</h2>
         <div class="calculator-form">
           <div class="form-group">
             <label for="planSelect">Select Plan</label>
-            <select id="planSelect">
-              <option value="4.99">Starter Plan ($4.99/month)</option>
-              <option value="9.99">Pro Plan ($9.99/month)</option>
-            </select>
+            <span id="planSelect">Current average conversion </span> <br />
+            <em>1HPC = 1.5 UDS</em>
           </div>
           <div class="form-group">
             <label for="investmentAmount">Investment Amount ($)</label>
-            <input
-              type="number"
-              id="investmentAmount"
-              min="4.99"
-              value="4.99"
-              step="0.01"
-            />
+            <input type="number" id="investmentAmount" value="4.99" />
           </div>
           <div class="calculator-result">
             <h3>Projected Monthly Earnings</h3>
@@ -158,36 +119,21 @@
       });
 
       // Investment Calculator
-      const planSelect = document.getElementById("planSelect");
       const investmentAmount = document.getElementById("investmentAmount");
       const earningsResult = document.getElementById("earningsResult");
-
       function calculateEarnings() {
         const planValue = parseFloat(planSelect.value);
-        const amount = parseFloat(investmentAmount.value);
+        let amount = parseFloat(investmentAmount.value);
 
-        // Validate input
-        if (isNaN(amount) || amount < planValue) {
-          investmentAmount.value = planValue;
-          calculateEarnings();
+        if (isNaN(amount) || amount <= 0) {
+          earningsResult.textContent = `0 USD`;
           return;
         }
 
-        // Calculate projected earnings (simplified)
-        let earnings;
-        if (planValue === 4.99) {
-          earnings = (amount / 4.99) * 5.2;
-        } else {
-          earnings = (amount / 9.99) * 12.5;
-        }
+        let earnings = amount * 1.5;
 
-        earningsResult.textContent = `${earnings.toFixed(1)} HPC`;
+        earningsResult.textContent = `${earnings.toFixed(1)} USD`;
       }
-
-      planSelect.addEventListener("change", () => {
-        investmentAmount.value = planSelect.value;
-        calculateEarnings();
-      });
 
       investmentAmount.addEventListener("input", calculateEarnings);
 
