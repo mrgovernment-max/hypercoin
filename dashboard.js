@@ -576,3 +576,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+const logOut = document.getElementById("logout-btn");
+logOut.addEventListener("click", () => {
+  ["accessToken", "refreshToken"].forEach((key) =>
+    sessionStorage.removeItem(key)
+  );
+  window.location.reload();
+});

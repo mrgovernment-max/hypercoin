@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         messageEl.className = "success";
 
         setTimeout(() => {
+          window.location.reload();
           window.location.href = "dashboard.html";
         }, 1000);
       } catch (err) {
