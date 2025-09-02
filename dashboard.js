@@ -19,7 +19,7 @@ async function dashboardAuth() {
   if (!res.ok) return redirectToLogin();
 
   const data = await res.json();
-
+  const page_title = document.getElementById("page-title");
   const userAvatar = document.getElementById("user-avatar");
   const profileUser = document.getElementById("profile-user");
   const usernameDisplayy = document.getElementById("usernamee");
@@ -31,7 +31,11 @@ async function dashboardAuth() {
     userAvatarr.textContent = data.username ? data.username.slice(0, 2) : "G";
   if (userAvatar)
     userAvatar.innerHTML = data.username ? data.username.slice(0, 2) : "G";
+  if (page_title)
+    page_title.innerHTML = `${data.username.toUpperCase()}'s DASHBOARD `;
 }
+
+window.onload = dashboardAuth;
 
 // Call dashboardAuth on load
 document.addEventListener("DOMContentLoaded", function () {
