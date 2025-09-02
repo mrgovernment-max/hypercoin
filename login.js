@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       const messageEl = document.getElementById("loginMessage");
+      messageEl.innerHTML = "";
 
       try {
         const res = await fetch(
@@ -52,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         messageEl.className = "success";
 
         setTimeout(() => {
-          window.location.reload();
           window.location.href = "dashboard.html";
         }, 1000);
       } catch (err) {
