@@ -908,7 +908,8 @@ input[type="text"]:focus {
   margin: auto;
   padding-top: 16px;
   border-top: 1px solid var(--border);
-  width: 200px;
+  width: 90%;
+  display: flex;
 }
 
 .password-recovery h3 {
@@ -952,6 +953,86 @@ input[type="text"]:focus {
 
 #change-password:hover {
   background-color: #6b21a8;
+}
+
+#vinput {
+  display: none;
+  background-color: var(--secondary);
+  color: white;
+}
+
+.reset-container {
+  height: auto;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 1rem;
+}
+
+.reset-card {
+  background: var(--bg-card);
+  color: var(--text);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 400px;
+  width: 100%;
+  transition: var(--transition);
+}
+
+.reset-card h2 {
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.reset-card p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  transition: var(--transition);
+}
+
+input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-dark);
+}
+
+.btn-confirm {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.75rem;
+  width: 100%;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-confirm:hover {
+  background: var(--primary-dark);
 }
 
 /* Ensure all elements respect container boundaries */

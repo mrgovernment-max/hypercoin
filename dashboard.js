@@ -580,42 +580,102 @@ document.addEventListener("DOMContentLoaded", function () {
   getAvr();
 
   // Forgot password button
-  const changeps = document.getElementById("forgot-password");
-  if (changeps) {
-    changeps.addEventListener("click", async () => {
-      const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  const pforgot = document.getElementById("forgot-password");
+  const changeps = document.getElementById("change-password");
+  const pinput = document.getElementById("psInput");
+  const vinput = document.getElementById("vinput");
+  if (pforgot) {
+    pforgot.addEventListener("click", async () => {
+      changeps.style.display = "block";
+      changeps.addEventListener("click", async () => {
+        if (changeps.style.display === "block") {
+          const token = cryptoServiveqwertypoiu.getItem("accessToken");
 
-      if (!token) {
-        console.error("No access token found");
-        alert("Please log in first");
-        return;
-      }
-
-      try {
-        const res = await fetch(
-          "https://backendroutes-lcpt.onrender.com/resetpass",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token }),
+          if (!token) {
+            console.error("No access token found");
+            alert("Please log in first");
+            return;
           }
-        );
 
-        const data = await res.json();
+          try {
+            const res = await fetch(
+              "https://backendroutes-lcpt.onrender.com/resetpass",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token }),
+              }
+            );
 
-        if (res.ok) {
-          alert("Password reset code sent to your email");
-        } else {
-          console.error("Error:", data.error);
-          alert("Error: " + data.error);
+            const data = await res.json();
+
+            if (res.ok) {
+            } else {
+              console.error("Error:", data.error);
+            }
+          } catch (err) {
+            console.error("Request failed:", err);
+          }
+
+          pinput.style.display = "block";
+          changeps.innerHTML =
+            "Input the reset code sent to your registered mail";
+          pinput.addEventListener("focus", () => {
+            vinput.style.display = "block";
+            vinput.innerHTML = "Verify Code";
+            pforgot.innerHTML =
+              "Please refresh the page to start a new password reset request. ";
+          });
         }
-      } catch (err) {
-        console.error("Request failed:", err);
-        alert("Failed to send reset code. Please try again.");
-      }
+      });
     });
   }
 });
+
+async function verifyCode() {
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  const ucode = document.getElementById("psInput").value;
+  const newps = document.getElementById("reset-container");
+  const vinput = document.getElementById("vinput");
+  const recovery_actions = document.getElementById("recovery-actions");
+
+  try {
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/verifyReset",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, ucode }),
+      }
+    );
+
+    const data = await res.json();
+    const codeValidation = data.message;
+    if (codeValidation === "Valid code") {
+      newps.style.display = "flex";
+      recovery_actions.style.display = "none";
+    }
+
+    codeValidation === "Invalid code"
+      ? (vinput.innerHTML = "Invalid code")
+      : [];
+
+    if (codeValidation === "Code Expired") {
+      vinput.innerHTML = "Code Expired Roloading Page ....";
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
+
+    if (res.ok) {
+    } else {
+      console.error("Error:", data.error);
+    }
+  } catch (err) {
+    console.error("Request failed:", err);
+  }
+}
 
 const logOut = document.getElementById("logout-btn");
 logOut.addEventListener("click", () => {

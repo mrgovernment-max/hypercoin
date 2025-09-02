@@ -340,20 +340,42 @@
           </div>
 
           <!-- Password Recovery Section -->
+          <h3>Password Options</h3>
           <div class="password-recovery">
-            <h3>Password Options</h3>
-            <div class="recovery-actions">
+            
+            <div id="recovery-actions" class="recovery-actions">
               <button type="button" id="forgot-password">
                 Forgot Password?
               </button>
               
               <button type="button" id="change-password">
-                Change Password
+                Resquest Code
               </button>
               <input type="text" id="psInput">
-           
+              <button onclick="verifyCode()" type="button" id="vinput">
+                Verify Input
+              </button>
             </div>
           </div>
+          
+          <div id="reset-container" class="reset-container">
+            <div class="reset-card">
+              <h2>Reset Your Password</h2>
+              <p>Please enter your new password below to complete the reset process.</p>
+              <form>
+                <div class="form-group">
+                  <label for="new-password">New Password</label>
+                  <input type="password" id="new-password" placeholder="Enter new password" required />
+                </div>
+                <div class="form-group">
+                  <label for="confirm-password">Confirm Password</label>
+                  <input type="password" id="confirm-password" placeholder="Confirm new password" required />
+                </div>
+                <button type="submit" class="btn-confirm">Reset Password</button>
+              </form>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
