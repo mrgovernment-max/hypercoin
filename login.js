@@ -16,6 +16,7 @@ if (themeToggle) {
   });
 }
 // Login form
+messageEl.innerHTML = "";
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
@@ -24,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       const messageEl = document.getElementById("loginMessage");
-      messageEl.innerHTML = "";
 
       try {
         const res = await fetch(

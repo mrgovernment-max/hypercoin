@@ -19,6 +19,7 @@ if (themeToggle) {
 // Signup
 const signupForm = document.getElementById("signupForm");
 const messageElement = document.getElementById("message");
+messageElement.innerHTML = "";
 
 signupForm.addEventListener("submit", async function (e) {
   e.preventDefault();
