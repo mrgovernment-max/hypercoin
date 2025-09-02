@@ -78,7 +78,8 @@ header {
   color: transparent;
 }
 
-.logo-text {
+.logo-text,
+.logo-text a {
   font-size: 1.5rem;
   font-weight: 700;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
