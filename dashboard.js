@@ -1,6 +1,6 @@
 // Get elements for dashboard
 async function dashboardAuth() {
-  let token = sessionStorage.getItem("accessToken");
+  let token = cryptoServiveqwertypoiu.getItem("accessToken");
   if (!token) {
     redirectToLogin();
   }
@@ -11,7 +11,7 @@ async function dashboardAuth() {
     // Try refresh token
     await requestToken();
 
-    token = sessionStorage.getItem("accessToken");
+    token = cryptoServiveqwertypoiu.getItem("accessToken");
 
     res = await fetchDashboard(token);
   }
@@ -62,7 +62,7 @@ async function fetchDashboard(token) {
 }
 
 async function requestToken() {
-  const refreshToken = sessionStorage.getItem("refreshToken");
+  const refreshToken = cryptoServiveqwertypoiu.getItem("refreshToken");
   if (!refreshToken) {
     redirectToLogin();
     return false;
@@ -80,7 +80,7 @@ async function requestToken() {
     }
 
     const data = await res.json();
-    sessionStorage.setItem("accessToken", data.accessToken);
+    cryptoServiveqwertypoiu.setItem("accessToken", data.accessToken);
     return true;
   } catch (err) {
     console.error("Token refresh failed:", err);
@@ -149,7 +149,7 @@ let serverData = null;
 // Function to fetch server data
 async function fetchServerData() {
   await dashboardAuth();
-  const token = sessionStorage.getItem("accessToken");
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
 
   // Check if the token exists
   if (!token) {
@@ -283,7 +283,7 @@ const stoptInv = document.getElementById("stop-inv");
 
 startInv.addEventListener("click", async function activateUser() {
   await dashboardAuth();
-  const token = sessionStorage.getItem("accessToken");
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
   await fetch("https://backendroutes-lcpt.onrender.com/activateuser", {
     method: "POST",
     headers: {
@@ -295,7 +295,7 @@ startInv.addEventListener("click", async function activateUser() {
 
 stoptInv.addEventListener("click", async function deactivateUser() {
   await dashboardAuth();
-  const token = sessionStorage.getItem("accessToken");
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
   await fetch("https://backendroutes-lcpt.onrender.com/deactivateuser", {
     method: "POST",
     headers: {
@@ -306,9 +306,11 @@ stoptInv.addEventListener("click", async function deactivateUser() {
   localStorage.removeItem("activate");
 });
 
+var cryptoServiveqwertypoiu = sessionStorage;
+
 async function checkuserState() {
   await dashboardAuth();
-  const token = sessionStorage.getItem("accessToken");
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
   const res = await fetch(
     "https://backendroutes-lcpt.onrender.com/checkuserstate",
     {
@@ -349,11 +351,11 @@ const BALANCE_API_URL = "https://backendroutes-lcpt.onrender.com/balance";
 
 // Function to fetch balance from API - USE REFRESH TOKEN
 async function fetchBalanceFromAPI() {
-  const token = sessionStorage.getItem("accessToken"); // Use refresh token here
+  const token = cryptoServiveqwertypoiu.getItem("accessToken"); // Use refresh token here
 
   // Check if token exists
   if (!token) {
-    console.error("No refresh token found in sessionStorage");
+    console.error("No refresh token found in cryptoServiveqwertypoiu");
     return currentBalance;
   }
 
@@ -529,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // When user selects a new avatar
   avatar_controls.addEventListener("change", async function () {
     dashboardAuth();
-    const token = sessionStorage.getItem("accessToken");
+    const token = cryptoServiveqwertypoiu.getItem("accessToken");
     const avatarimg = this.value; // selected avatar URL
     user_avatar.src = avatarimg; // update image
 
@@ -552,7 +554,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   async function getAvr() {
-    const token = sessionStorage.getItem("accessToken");
+    const token = cryptoServiveqwertypoiu.getItem("accessToken");
     const user_avatar = document.getElementById("user-avatar-img");
     try {
       const res = await fetch("https://backendroutes-lcpt.onrender.com/getav", {
@@ -576,7 +578,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const changeps = document.getElementById("forgot-password");
   if (changeps) {
     changeps.addEventListener("click", async () => {
-      const token = sessionStorage.getItem("accessToken");
+      const token = cryptoServiveqwertypoiu.getItem("accessToken");
 
       if (!token) {
         console.error("No access token found");
@@ -613,7 +615,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const logOut = document.getElementById("logout-btn");
 logOut.addEventListener("click", () => {
   ["accessToken", "refreshToken"].forEach((key) =>
-    sessionStorage.removeItem(key)
+    cryptoServiveqwertypoiu.removeItem(key)
   );
   window.location.reload();
 });
