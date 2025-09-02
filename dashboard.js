@@ -676,6 +676,35 @@ async function verifyCode() {
     console.error("Request failed:", err);
   }
 }
+const confirmBtn = document.getElementById("confirm-password");
+
+confirmBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const confirm = document.getElementById("new-password").value;
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
+
+  try {
+    const res = await fetch("https://backendroutes-lcpt.onrender.com/confirm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, confirm }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (res.ok) {
+      alert("Password updated successfully!");
+      window.location.href = "login.html";
+    } else {
+      alert(data.error || "Failed to update password");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("An error occurred. Try again.");
+  }
+});
 
 const logOut = document.getElementById("logout-btn");
 logOut.addEventListener("click", () => {
