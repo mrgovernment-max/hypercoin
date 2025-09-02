@@ -16,15 +16,17 @@ if (themeToggle) {
   });
 }
 // Login form
-messageEl.innerHTML = "";
+
 document.addEventListener("DOMContentLoaded", () => {
+  const messageEl = document.getElementById("loginMessage");
+  if (messageEl) messageEl.textContent = "";
+
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-      const messageEl = document.getElementById("loginMessage");
 
       try {
         const res = await fetch(
@@ -39,17 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (!res.ok) {
-          // Show the error returned by the server
-          messageEl.textContent = data.error || "Login failed.";
-          messageEl.className = "error";
+          showMessage(data.error || "Login failed.", "error", messageEl, 3000);
           return;
         }
 
-        // Store tokens in sessionStorage
         sessionStorage.setItem("accessToken", data.accessToken);
         sessionStorage.setItem("refreshToken", data.refreshToken);
 
-        messageEl.textContent = "Login successful! Redirecting...";
+        showMessage(
+          "Login successful! Redirecting...",
+          "success",
+          messageEl,
+          3000
+        );
         messageEl.className = "success";
 
         setTimeout(() => {
@@ -64,8 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Helper function to show messages
-function showMessage(text, type, element) {
+// Helper function to show messages temporarily
+function showMessage(text, type, element, duration = 3000) {
   element.textContent = text;
   element.className = type;
+
+  // Remove message after 'duration' milliseconds
+  setTimeout(() => {
+    element.textContent = "";
+    element.className = "";
+  }, duration);
 }
