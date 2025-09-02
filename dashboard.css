@@ -236,6 +236,7 @@ body {
 .page-title {
   font-size: 1.5rem;
   font-weight: 700;
+  color: rgba(7, 196, 92, 0.772);
 }
 
 .header-right {
@@ -1013,7 +1014,7 @@ h6 {
   }
 
   .dashboard-content {
-    margin-top: 15%;
+    margin-top: 24%;
   }
   .mining-actions {
     flex-direction: column;
@@ -1076,6 +1077,10 @@ h6 {
 
   .chart-content {
     height: 200px;
+  }
+
+  #page-title {
+    font-size: 1.3rem;
   }
 
   .configure-user {
