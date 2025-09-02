@@ -25,6 +25,7 @@ signupForm.addEventListener("submit", async function (e) {
 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
 
   // Simple validation
   if (!username || !password) {
@@ -46,7 +47,7 @@ signupForm.addEventListener("submit", async function (e) {
     const res = await fetch("https://backendroutes-lcpt.onrender.com/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: username, password }),
+      body: JSON.stringify({ name: username, password, email }),
     });
 
     const data = await res.json();

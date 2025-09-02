@@ -256,10 +256,10 @@ function updatePremiumStatusUI(data) {
     } else {
       // Free users
       if (miningInfo)
-        miningInfo.innerHTML = `Investment is inactive Depoite Funds into Your Account and Start Investing <br> Current HPC efficiency :`;
+        miningInfo.innerHTML = `Investment is inactive Depoite Funds into Your Account to Start Investing <br> Current HPC efficiency :`;
       if (configure) configure.style.display = " none";
-      if (stoptInv) stoptInv.style.display = "none";
-      if (startInv) startInv.innerHTML = "Deposite Funds";
+      if (startInv) startInv.style.display = "none";
+      if (stoptInv) stoptInv.innerHTML = "Deposite Funds";
       if (profile_usertype) profile_usertype.textContent = data.usertype;
       if (miningState) miningState.innerHTML = `Investment Disabled`;
       if (rec)
@@ -280,31 +280,25 @@ const stoptInv = document.getElementById("stop-inv");
 startInv.addEventListener("click", async function activateUser() {
   await dashboardAuth();
   const token = sessionStorage.getItem("accessToken");
-  const res = await fetch(
-    "https://backendroutes-lcpt.onrender.com/activateuser",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    }
-  );
+  await fetch("https://backendroutes-lcpt.onrender.com/activateuser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token }),
+  });
 });
 
 stoptInv.addEventListener("click", async function deactivateUser() {
   await dashboardAuth();
   const token = sessionStorage.getItem("accessToken");
-  const res = await fetch(
-    "https://backendroutes-lcpt.onrender.com/deactivateuser",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token }),
-    }
-  );
+  await fetch("https://backendroutes-lcpt.onrender.com/deactivateuser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token }),
+  });
   localStorage.removeItem("activate");
 });
 
