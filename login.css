@@ -13,6 +13,7 @@
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --radius: 8px;
+  --fa: black;
 }
 
 /* Dark Theme Variables */
@@ -25,6 +26,7 @@
   --bg: #111827;
   --bg-card: #1f2937;
   --border: #374151;
+  --fa: #a855f7;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 }
 
@@ -33,6 +35,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+#fa {
+  color: var(--fa);
 }
 
 body {
