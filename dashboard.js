@@ -527,39 +527,53 @@ document.addEventListener("DOMContentLoaded", function () {
   const avatar_controls = document.getElementById("avatar-controls");
   const user_avatar = document.getElementById("user-avatar-img");
 
-  if (avatar_controls && user_avatar) {
-    // On page load, set avatar from localStorage if exists
-    const savedAvatar = localStorage.getItem("avatar");
-    if (savedAvatar) {
-      user_avatar.src = savedAvatar;
+  // When user selects a new avatar
+  avatar_controls.addEventListener("change", async function () {
+    dashboardAuth();
+    const token = sessionStorage.getItem("accessToken");
+    const avatarimg = this.value; // selected avatar URL
+    user_avatar.src = avatarimg; // update image
+
+    try {
+      const res = await fetch(
+        "https://backendroutes-lcpt.onrender.com/postav",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token, uavatar: avatarimg }),
+        }
+      );
+      const data = await res.json();
+      const msg = data.message;
+      console.log(msg);
+    } catch (err) {
+      console.log(err);
     }
+  });
 
-    // When user selects a new avatar
-    avatar_controls.addEventListener("change", async function () {
-      dashboardAuth();
-      const token = sessionStorage.getItem("accessToken");
-      const avatarimg = this.value; // selected avatar URL
-      user_avatar.src = avatarimg; // update image
-
-      try {
-        const res = await fetch(
-          "https://backendroutes-lcpt.onrender.com/postav",
-          {
-            method: "post",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ token, uavatar: avatarimg }),
-          }
-        );
-        const data = await res.json();
-        const msg = data.message;
-        console.log(msg);
-      } catch (err) {
-        console.log(err);
-      }
-    });
+  async function getAvr() {
+    const token = sessionStorage.getItem("accessToken");
+    const user_avatar = document.getElementById("user-avatar-img");
+    try {
+      const res = await fetch("https://backendroutes-lcpt.onrender.com/getav", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+      const data = await res.json();
+      const msg = data.avatar;
+      console.log(msg);
+      user_avatar.src = msg;
+    } catch (err) {
+      console.log(err);
+    }
   }
+
+  getAvr();
 
   // Forgot password button
   const changeps = document.getElementById("forgot-password");
