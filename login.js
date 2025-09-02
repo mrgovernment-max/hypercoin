@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Helper function to show messages temporarily
-function showMessage(text, type, element, duration = 3000) {
+function showMessage(text, type, element, duration = 1000) {
   element.textContent = text;
   element.className = type;
 
