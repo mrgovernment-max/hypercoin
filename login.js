@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "Login successful! Redirecting...",
           "success",
           messageEl,
-          1500
+          1700
         );
         messageEl.className = "success";
 
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Helper function to show messages temporarily
-function showMessage(text, type, element, duration = 2000) {
+function showMessage(text, type, element, duration = 1500) {
   element.textContent = text;
   element.className = type;
 
