@@ -41,19 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
 
         if (!res.ok) {
-          showMessage(data.error || "Login failed.", "error", messageEl, 3000);
+          showMessage(data.error || "Login failed.", "error", messageEl);
           return;
         }
 
         sessionStorage.setItem("accessToken", data.accessToken);
         sessionStorage.setItem("refreshToken", data.refreshToken);
 
-        showMessage(
-          "Login successful! Redirecting...",
-          "success",
-          messageEl,
-          1700
-        );
+        showMessage("Login successful! Redirecting...", "success", messageEl);
         messageEl.className = "success";
 
         setTimeout(() => {
