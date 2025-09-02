@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           window.location.href = "dashboard.html";
-        }, 1000);
+        }, 1600);
       } catch (err) {
         messageEl.textContent = "Login failed. Check username/password.";
         messageEl.className = "error";
