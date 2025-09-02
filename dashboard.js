@@ -276,7 +276,7 @@ function updatePremiumStatusUI(data) {
   }
 }
 
-////////USER ACTIVATE AND DEACTIVATE
+////////USER  AND DEACTIVATE
 
 const startInv = document.getElementById("start-inv");
 const stoptInv = document.getElementById("stop-inv");
@@ -321,7 +321,6 @@ async function checkuserState() {
   );
   const data = await res.json();
   const mining_state = data.message.mining_state;
-  console.log(mining_state);
   if (mining_state === "active") {
     startInv.innerHTML = "Investment is Active";
     stoptInv.innerHTML = "Pause Investment";
@@ -547,7 +546,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       const data = await res.json();
       const msg = data.message;
-      console.log(msg);
     } catch (err) {
       console.log(err);
     }
@@ -566,7 +564,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       const data = await res.json();
       const msg = data.avatar;
-      console.log(msg);
       user_avatar.src = msg;
     } catch (err) {
       console.log(err);
