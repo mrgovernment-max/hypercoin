@@ -265,7 +265,7 @@ function updatePremiumStatusUI(data) {
     } else {
       // Free users
       if (miningInfo)
-        miningInfo.innerHTML = `Investment is inactive Depoite Funds into Your Account to Start Investing <br> Current HPC efficiency :`;
+        miningInfo.innerHTML = `Investment is inactive Deposite Funds into Your Account to Start Investing <br> Current HPC efficiency :`;
       if (configure) configure.style.display = " none";
       if (startInv) startInv.style.display = "none";
       if (stoptInv) stoptInv.innerHTML = "Deposite Funds";
