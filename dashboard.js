@@ -32,7 +32,7 @@ async function dashboardAuth() {
   if (userAvatar)
     userAvatar.innerHTML = data.username ? data.username.slice(0, 2) : "G";
   if (page_title)
-    page_title.innerHTML = `${data.username.toUpperCase()}'s DASHBOARD `;
+    page_title.innerHTML = `${data.username.toUpperCase()}'s Vault `;
 }
 
 window.onload = dashboardAuth;
@@ -535,11 +535,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // When user selects a new avatar
-    avatar_controls.addEventListener("change", function () {
+    avatar_controls.addEventListener("change", async function () {
       dashboardAuth();
+      const token = sessionStorage.getItem("accessToken");
       const avatarimg = this.value; // selected avatar URL
       user_avatar.src = avatarimg; // update image
-      localStorage.setItem("avatar", avatarimg); // save to localStorage
+
+      try {
+        const res = await fetch(
+          "https://backendroutes-lcpt.onrender.com/postav",
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ token, uavatar: avatarimg }),
+          }
+        );
+        const data = await res.json();
+        const msg = data.message;
+        console.log(msg);
+      } catch (err) {
+        console.log(err);
+      }
     });
   }
 
