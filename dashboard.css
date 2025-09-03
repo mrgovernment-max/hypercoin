@@ -124,8 +124,7 @@ body {
   transition: var(--transition);
 }
 
-.sidebar-nav a:hover,
-.sidebar-nav a.active {
+.sidebar-nav a:hover {
   background: rgba(255, 255, 255, 0.1);
   color: white;
 }
@@ -140,7 +139,7 @@ body {
   margin-top: auto;
   padding: 1rem 0.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 10vh;
+  margin-bottom: 15vh;
 }
 
 .user-info {
