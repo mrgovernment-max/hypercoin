@@ -168,10 +168,11 @@ body {
 .user-name {
   font-weight: 600;
   font-size: 0.95rem;
+  margin-bottom: 20px;
 }
 
 .user-role {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.7);
 }
 
