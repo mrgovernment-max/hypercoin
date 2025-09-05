@@ -577,17 +577,18 @@ body {
 }
 
 #take-p {
-  position: relative; /* important for ::before positioning */
+  position: relative;
   padding: 15px 25px;
   margin-top: 5%;
   border: none;
   font-size: larger;
-  background-color: white;
+  background-color: transparent;
   border-radius: 10px;
-  overflow: hidden; /* hide overflow so ::before stays inside */
-  z-index: 1; /* keep the button text above the pseudo-element */
+  overflow: hidden;
+  z-index: 1;
   cursor: pointer;
-  transition: color 0.3s ease-in-out; /* smooth text color change */
+  transition: color 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #take-p::before {
@@ -595,15 +596,15 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 0%; /* start hidden */
+  width: 0%;
   height: 100%;
   background-color: greenyellow;
-  z-index: -1; /* behind the text */
-  transition: width 0.6s ease-in-out; /* animate width */
+  z-index: -1;
+  transition: width 0.6s ease-in-out;
 }
 
 #take-p:hover::before {
-  width: 100%; /* expands fully from left to right */
+  width: 100%;
 }
 
 #take-p-div {
@@ -612,10 +613,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2vh;
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 #take-p-div input {
   width: 57%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 #stop-l-div {
@@ -623,10 +631,18 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 2vh;
+  gap: 4vh;
+  background: transparent;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
+
 #stop-l-div input {
   width: 57%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 #stop-l {
@@ -638,6 +654,8 @@ body {
   border-radius: 10px;
   z-index: 1;
   transition: 0.3s ease-in-out;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #stop-l::before {
@@ -646,7 +664,7 @@ body {
   top: 0;
   right: 0;
   z-index: -1;
-  background-color: red;
+  background-color: #ff4444;
   height: 100%;
   width: 0;
   transition: 0.6s ease-in-out;
@@ -659,11 +677,18 @@ body {
 #tp {
   color: green;
   margin-right: 10px;
+  transition: transform 0.3s ease;
 }
 
 #st {
-  color: black;
+  color: #cc0000;
   margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+#stop-l:hover #st,
+#take-p:hover #tp {
+  transform: scale(1.1);
 }
 
 #stop-l,
