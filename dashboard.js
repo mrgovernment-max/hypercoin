@@ -241,17 +241,18 @@ function updatePremiumStatusUI(data) {
       }
 
       if (miningInfo)
-        miningInfo.innerHTML = `Investmenst is active  Current efficiency is around :`;
+        miningInfo.innerHTML = `Investmenst is active . Current efficiency is around :`;
       if (configure) configure.textContent = "Deposite Funds";
       if (profile_usertype)
         profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
       if (rec) rec.innerHTML = "";
       if (miningState) miningState.innerHTML = " Investment Enabled ";
+      if (balanace_control) balanace_control.style.display = "flex";
       if (mining_status)
         mining_status.className = "mining-status status-active";
-      if (balanace_control) balanace_control.style.display = "none";
       if (startInv) {
         startInv.addEventListener("click", () => {
+          startInv.style.animation = "softFloat 2s ease-in-out infinite";
           startInv.innerHTML = "Investment is Active";
         });
       }
@@ -259,6 +260,7 @@ function updatePremiumStatusUI(data) {
       if (stoptInv) {
         stoptInv.innerHTML = "Pause Investment";
         stoptInv.addEventListener("click", () => {
+          startInv.style.animation = "none";
           startInv.innerHTML = "Resume Investing";
         });
       }

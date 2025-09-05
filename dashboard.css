@@ -566,7 +566,7 @@ body {
 .balanace-control {
   width: 100%;
   margin-top: auto;
-  display: flex;
+  display: none;
   flex-direction: row;
   align-items: center;
   justify-content: center;
