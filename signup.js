@@ -55,6 +55,22 @@ signupForm.addEventListener("submit", async function (e) {
 
     if (res.ok) {
       showMessage(data.message, "success", messageElement);
+
+      setTimeout(() => {
+        document.getElementById("terms-overlay").style.display = "flex";
+      }, 1000);
+
+      document.getElementById("accept-terms").addEventListener("click", () => {
+        localStorage.setItem("acceptedTerms", "true");
+        document.getElementById("terms-overlay").style.display = "none";
+        showMessage("", "", messageElement);
+
+        setTimeout(() => {});
+      });
+
+      document.getElementById("decline-terms").addEventListener("click", () => {
+        window.location.href = "https://google.com";
+      });
       signupForm.reset();
     } else {
       showMessage(data.error, "error", messageElement);

@@ -11,6 +11,22 @@
     <link rel="stylesheet" href="signup.css" />
   </head>
   <body>
+    <div class="overlay" id="terms-overlay" style="display: none">
+      <div class="terms-modal">
+        <h2>Accept Terms & Privacy</h2>
+        <p>
+          By continuing to use HyperCoin Invest, you agree to our
+          <a href="terms.html" target="_blank"
+            >Terms of Service and Privacy Policy</a
+          >
+        </p>
+        <div class="terms-actions">
+          <button id="accept-terms" class="btn-primary">I Agree</button>
+          <button id="decline-terms" class="btn-outline">Cancel</button>
+        </div>
+      </div>
+    </div>
+
     <header>
       <div class="header-container">
         <div class="logo">
@@ -44,7 +60,7 @@
             </div>
 
             <div class="input-group">
-              <i id="fa" class="fas fa-lock"></i>
+              <i id="fa" class="fa-solid fa-envelope"></i>
               <input
                 type="email"
                 id="email"
