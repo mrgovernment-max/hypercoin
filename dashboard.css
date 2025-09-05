@@ -562,19 +562,6 @@ body {
   background-color: var(--border);
 }
 
-.balanace-control {
-  width: 100%;
-  margin-top: auto;
-  display: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: justify;
-  flex-wrap: wrap;
-  gap: 5vh;
-  height: auto;
-  padding: 20px;
-}
-
 #take-p {
   position: relative;
   padding: 15px 25px;
@@ -588,6 +575,7 @@ body {
   cursor: pointer;
   transition: color 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 #take-p::before {
@@ -607,7 +595,9 @@ body {
 }
 
 #take-p-div {
-  width: 60%;
+  width: 100%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -626,7 +616,7 @@ body {
 }
 
 #stop-l-div {
-  width: 60%;
+  width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -645,6 +635,7 @@ body {
 }
 
 #stop-l {
+  cursor: pointer;
   padding: 15px 25px;
   border: none;
   font-size: larger;
@@ -1140,17 +1131,12 @@ h6 {
   }
 
   #take-p-div {
+    margin-top: 10%;
     width: 100%;
     gap: 3vh;
+    margin-bottom: 10%;
     flex-direction: row;
     flex-wrap: wrap;
-  }
-
-  .balanace-control {
-    justify-content: center;
-    width: 100%;
-    margin-top: auto;
-    gap: 1.5vh;
   }
 
   .sidebar.active {
