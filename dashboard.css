@@ -665,6 +665,12 @@ body {
   color: black;
   margin-right: 10px;
 }
+
+#stop-l,
+#take-p {
+  background-color: gainsboro;
+}
+
 /* Transactions */
 .transactions {
   background-color: var(--bg-card);
@@ -1095,8 +1101,17 @@ h6 {
     flex-wrap: wrap;
   }
 
-  #stop-l {
+  #stop-l,
+  #take-p {
     width: 95%;
+  }
+
+  #take-p {
+    background-color: rgba(172, 255, 47, 0.719);
+  }
+
+  #stop-l {
+    background-color: rgba(255, 0, 0, 0.696);
   }
 
   #take-p-div {
@@ -1104,9 +1119,6 @@ h6 {
     gap: 3vh;
     flex-direction: row;
     flex-wrap: wrap;
-  }
-  #take-p {
-    width: 95%;
   }
 
   .balanace-control {
