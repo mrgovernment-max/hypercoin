@@ -33,9 +33,8 @@ async function dashboardAuth() {
     userAvatar.innerHTML = data.username ? data.username.slice(0, 2) : "G";
   if (page_title)
     page_title.innerHTML = `
-  <span style="
-  color: rgba(7, 196, 92, 0.772);">
-   ${data.username.toUpperCase()}'s<BR>
+  <span>
+   ${data.username}'s<BR>
   </span>DASHBOARD
 `;
 }
