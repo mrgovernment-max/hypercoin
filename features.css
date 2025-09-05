@@ -80,7 +80,7 @@ header {
 
 .logo-text,
 .logo-text a {
-  font-size: 1.5rem;
+  font-size: xx-large;
   font-weight: 700;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
@@ -96,6 +96,7 @@ nav {
 
 nav a {
   color: var(--text);
+  font-size: larger;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
@@ -553,8 +554,17 @@ footer {
     justify-content: center;
   }
 
+  nav a {
+    font-size: smaller;
+  }
+
   .hero h1 {
     font-size: 2.2rem;
+  }
+
+  .logo-text,
+  .logo-text a {
+    font-size: x-large;
   }
 
   .calculator-form {
