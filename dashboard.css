@@ -1121,7 +1121,7 @@ h6 {
   }
 
   #stop-l-div {
-    width: 97%;
+    width: 100%;
     gap: 3vh;
     flex-direction: row;
     flex-wrap: wrap;
@@ -1141,13 +1141,14 @@ h6 {
   }
 
   #take-p-div {
-    width: 97%;
+    width: 100%;
     gap: 3vh;
     flex-direction: row;
     flex-wrap: wrap;
   }
 
   .balanace-control {
+    width: 100%;
     margin-top: auto;
     gap: 1.5vh;
   }

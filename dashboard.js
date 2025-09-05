@@ -217,6 +217,7 @@ function updatePremiumStatusUI(data) {
   const mining_status = document.getElementById("mining-status");
   const startInv = document.getElementById("start-inv");
   const stoptInv = document.getElementById("stop-inv");
+  const balanace_control = document.getElementById("balanace-control");
 
   // Mining efficiency bar display
   const hyper_efficiency = document.getElementById("miningeff");
@@ -248,6 +249,7 @@ function updatePremiumStatusUI(data) {
       if (miningState) miningState.innerHTML = " Investment Enabled ";
       if (mining_status)
         mining_status.className = "mining-status status-active";
+      if (balanace_control) balanace_control.style.display = "none";
       if (startInv) {
         startInv.addEventListener("click", () => {
           startInv.innerHTML = "Investment is Active";
