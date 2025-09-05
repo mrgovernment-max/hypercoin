@@ -85,13 +85,14 @@ header {
 }
 
 .logo {
+  font-size: xx-large;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .logo-icon {
-  font-size: 1.8rem;
+  font-size: xx-large;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   background-clip: text;
@@ -99,7 +100,7 @@ header {
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  font-size: xx-large;
   font-weight: 700;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
@@ -124,6 +125,7 @@ nav {
 
 nav a {
   color: var(--text);
+  font-size: larger;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
@@ -136,7 +138,7 @@ nav a:hover {
 #themeToggle {
   background: none;
   border: none;
-  font-size: 1.2rem;
+  font-size: larger;
   cursor: pointer;
   color: var(--text);
   transition: transform 0.3s;
