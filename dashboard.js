@@ -716,3 +716,53 @@ logOut.addEventListener("click", () => {
   );
   window.location.reload();
 });
+
+const take_p = document.getElementById("take-p");
+
+take_p.addEventListener("click", async () => {
+  const take_p_balance = parseFloat(
+    document.getElementById("take-p-balance").value
+  );
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  try {
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/takeprofit",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, takepbalance: take_p_balance }),
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    if (err) {
+      console.log(err);
+    }
+  }
+});
+
+const stop_l = document.getElementById("stop-l");
+
+stop_l.addEventListener("click", async () => {
+  const stop_loss_balance = parseFloat(
+    document.getElementById("stop-l-balance").value
+  );
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  try {
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/stoploss",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, stoplbalance: stop_loss_balance }),
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    if (err) {
+      console.log(err);
+    }
+  }
+});

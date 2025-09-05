@@ -568,7 +568,7 @@ body {
   display: none;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: justify;
   flex-wrap: wrap;
   gap: 5vh;
   height: auto;
@@ -607,7 +607,7 @@ body {
 }
 
 #take-p-div {
-  width: 40%;
+  width: 60%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -626,7 +626,7 @@ body {
 }
 
 #stop-l-div {
-  width: 40%;
+  width: 60%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -1147,6 +1147,7 @@ h6 {
   }
 
   .balanace-control {
+    justify-content: center;
     width: 100%;
     margin-top: auto;
     gap: 1.5vh;
