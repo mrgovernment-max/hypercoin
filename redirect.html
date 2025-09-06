@@ -239,6 +239,9 @@
           </div>
         </div>
 
+        <div id="status">Checking payment...</div>
+        <div id="info"></div>
+
         <button type="submit">Pay Now</button>
 
         <div class="security-note">
@@ -316,6 +319,37 @@
             alert("Server error");
           }
         });
+
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+
+      if (!sessionId) {
+        document.getElementById("status").innerText = "No payment info found.";
+      } else {
+        fetch(
+          `https://backendroutes-lcpt.onrender.com/verify-payment?sessionId=${sessionId}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.paid) {
+              document.getElementById("status").innerText =
+                "Payment successful! ✅";
+              document.getElementById("info").innerHTML = `
+          <p>Username: ${data.username}</p>
+          <p>Email: ${data.email}</p>
+          <p>Amount: £${data.amount}</p>
+        `;
+            } else {
+              document.getElementById("status").innerText =
+                "Payment failed or pending ❌";
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            document.getElementById("status").innerText =
+              "Error verifying payment.";
+          });
+      }
     </script>
   </body>
 </html>
