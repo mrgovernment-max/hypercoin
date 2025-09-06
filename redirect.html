@@ -323,9 +323,12 @@
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get("session_id");
 
-      if (!sessionId) {
-        document.getElementById("status").innerText = "No payment info found.";
-      } else {
+      const form = document.getElementById("payment-form");
+
+      if (sessionId) {
+        form.style.display = "none"; // hide the form
+        document.getElementById("status").innerText = "Checking payment...";
+
         fetch(
           `https://backendroutes-lcpt.onrender.com/verify-payment?sessionId=${sessionId}`
         )
