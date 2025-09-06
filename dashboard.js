@@ -695,7 +695,6 @@ confirmBtn.addEventListener("click", async (e) => {
     });
 
     const data = await res.json();
-    console.log(data);
 
     if (res.ok) {
       alert("Password updated successfully!");
@@ -734,7 +733,6 @@ take_p.addEventListener("click", async () => {
       }
     );
     const data = await res.json();
-    console.log(data);
   } catch (err) {
     if (err) {
       console.log(err);
@@ -884,6 +882,7 @@ async function checkUsermsg(id) {
   );
 
   if (res.ok) {
+    getNotSeenMessages();
     btn.style.display = "none";
   }
 }
@@ -899,9 +898,29 @@ async function deleteUsermsg(id, btn) {
   );
 
   if (res.ok) {
+    getNotSeenMessages();
     // Remove the whole message <p> element from DOM
     btn.closest("p").remove();
   } else {
     console.error("Failed to delete message");
   }
 }
+
+async function getNotSeenMessages() {
+  const btn = document.getElementById("notification-badge");
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/getNotSeenMessages",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    }
+  );
+
+  const data = await res.json();
+  const unseenmsg = data.number;
+  btn.innerHTML = unseenmsg;
+}
+
+getNotSeenMessages();
