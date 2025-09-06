@@ -270,50 +270,55 @@ body {
 .notification-overlay {
   opacity: 0;
   visibility: hidden;
-  position: absolute;
+  position: fixed;
   top: 0;
-  right: 0;
   left: 0;
-  bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.361);
+  background-color: rgba(0, 0, 0, 0.36);
   backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
   z-index: 920;
   transition: opacity 0.6s ease-in-out;
-  visibility: 0.6s ease-in-out;
 }
 
 .notification-overlay.active {
   opacity: 1;
-  visibility: visible;
+  visibility: visible; /* toggled immediately */
 }
 
 .notification-msg {
   z-index: 921;
   position: fixed;
-  line-height: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 2vh;
   top: 0;
+  right: 0;
   width: 500px;
+  height: 100vh;
   background-color: var(--bg-sidebar);
   color: white;
   padding: 20px;
   border-top-left-radius: 10px;
-  height: 100vh;
+  line-height: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
   opacity: 0;
   visibility: hidden;
   overflow-y: auto;
-  right: 0;
-  transition: opacity 1s ease-in-out;
-  visibility: 1s ease-in-out;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.notification-msg.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .del-msg:hover {
   transform: translateY(-6px);
+}
+
+#user-msg-p {
+  width: 90%;
+  text-align: justify;
 }
 
 .check-btn {
@@ -321,11 +326,6 @@ body {
 }
 .check-btn:hover {
   transform: translateY(-6px);
-}
-
-.notification-msg.active {
-  opacity: 1;
-  visibility: visible;
 }
 
 .notification-msg p {

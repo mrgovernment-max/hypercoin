@@ -722,7 +722,7 @@ take_p.addEventListener("click", async () => {
     document.getElementById("take-p-balance").value
   );
   let balanceset = document.getElementById("take-p-balance");
-  const take_p_msg = document.getElementById("take-l-msg");
+  const take_p_msg = document.getElementById("take-p-msg");
   take_p_msg.style.display = "block";
 
   const token = cryptoServiveqwertypoiu.getItem("accessToken");
@@ -743,8 +743,8 @@ take_p.addEventListener("click", async () => {
         take_p_msg.style.display = "none";
         balanceset.value = "";
       }, 2000);
-
-      console.log(data);
+      getUsermsg();
+      getNotSeenMessages();
     }
   } catch (err) {
     if (err) {
@@ -760,6 +760,9 @@ stop_l.addEventListener("click", async () => {
     document.getElementById("stop-l-balance").value
   );
   const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  let balanceset = document.getElementById("stop-l-balance");
+  const stop_l_msg = document.getElementById("stop-l-msg");
+  stop_l_msg.style.display = "block";
   try {
     const res = await fetch(
       "https://backendroutes-lcpt.onrender.com/stoploss",
@@ -769,8 +772,17 @@ stop_l.addEventListener("click", async () => {
         body: JSON.stringify({ token, stoplbalance: stop_loss_balance }),
       }
     );
-    const data = await res.json();
-    console.log(data);
+    if (res.ok) {
+      const data = await res.json();
+      stop_l_msg.innerHTML = ` <i class="fa-solid fa-check"></i>  ${data.message}`;
+      setTimeout(() => {
+        stop_l_msg.innerHTML = "";
+        stop_l_msg.style.display = "none";
+        balanceset.value = "";
+      }, 2000);
+      getUsermsg();
+      getNotSeenMessages();
+    }
   } catch (err) {
     if (err) {
       console.log(err);
@@ -788,8 +800,19 @@ notificationb.addEventListener("click", () => {
 });
 
 notification_overlay.addEventListener("click", () => {
-  notification_msg.classList.remove("active");
-  notification_overlay.classList.remove("active");
+  // Start fade-out
+  notification_overlay.style.opacity = "0";
+  notification_msg.style.opacity = "0";
+
+  // Wait for transition to finish before hiding
+  setTimeout(() => {
+    notification_overlay.classList.remove("active");
+    notification_msg.classList.remove("active");
+
+    // Reset opacity for next time
+    notification_overlay.style.opacity = "";
+    notification_msg.style.opacity = "";
+  }, 600); // match the CSS transition duration
 });
 
 async function getUsermsg() {
@@ -824,6 +847,7 @@ async function getUsermsg() {
 
       // Create and insert element
       const p = document.createElement("p");
+      p.id = "user-msg-p";
       p.style.color = color;
       p.style.fontSize = "14px";
       p.style.marginBottom = "10px";
