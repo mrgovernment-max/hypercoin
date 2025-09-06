@@ -766,3 +766,17 @@ stop_l.addEventListener("click", async () => {
     }
   }
 });
+
+const notificationb = document.getElementById("notification-btn");
+const notification_msg = document.getElementById("notification-msg");
+const notification_overlay = document.getElementById("notification-overlay");
+
+notificationb.addEventListener("click", () => {
+  notification_overlay.classList.add("active");
+  notification_msg.classList.add("active");
+});
+
+notification_overlay.addEventListener("click", () => {
+  notification_msg.classList.remove("active");
+  notification_overlay.classList.remove("active");
+});

@@ -76,7 +76,7 @@ body {
   transition: var(--transition);
   position: fixed;
   height: 100vh;
-  z-index: 1000;
+  z-index: 901;
   overflow-y: auto;
 }
 
@@ -266,6 +266,60 @@ body {
 
 .notifications {
   position: relative;
+}
+.notification-overlay {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.361);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 920;
+  transition: opacity 0.6s ease-in-out;
+  visibility: 0.6s ease-in-out;
+}
+
+.notification-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.notification-msg {
+  z-index: 921;
+  position: fixed;
+  line-height: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  top: 0;
+  width: 500px;
+  background-color: var(--bg-sidebar);
+  color: white;
+  padding: 20px;
+  border-top-left-radius: 10px;
+  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  overflow-y: scroll;
+  right: 0;
+  transition: opacity 1s ease-in-out;
+  visibility: 1s ease-in-out;
+}
+
+.notification-msg.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.notification-msg p {
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(248, 248, 248, 0.089);
 }
 
 .notification-btn {
@@ -776,7 +830,7 @@ th {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 900;
 }
 
 .overlay.active {
@@ -1193,6 +1247,10 @@ h6 {
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .notification-msg {
+    width: 300px;
   }
 
   .dashboard-content {
