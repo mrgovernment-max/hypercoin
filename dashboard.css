@@ -316,10 +316,10 @@ body {
   transform: translateY(-6px);
 }
 
-#check-btn {
+.check-btn {
   transition: 0.5s ease-in-out;
 }
-#check-btn:hover {
+.check-btn:hover {
   transform: translateY(-6px);
 }
 

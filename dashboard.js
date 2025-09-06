@@ -447,8 +447,7 @@ async function updateMiningStats() {
   if (hashValue) hashValue.textContent = Math.round(currentHashRate) + " MH/s";
   if (dailyHighHash)
     dailyHighHash.textContent = Math.round(highestHashRate) + " MH/s";
-  if (balanceValue)
-    balanceValue.textContent = currentBalance.toFixed(2) + " HPC";
+  if (balanceValue) balanceValue.textContent = currentBalance.toFixed(2) + " $";
   if (dailyHigh) dailyHigh.textContent = "1 HPC = 1.5 USD";
 
   // Update change indicators
@@ -722,6 +721,10 @@ take_p.addEventListener("click", async () => {
   const take_p_balance = parseFloat(
     document.getElementById("take-p-balance").value
   );
+  let balanceset = document.getElementById("take-p-balance");
+  const take_p_msg = document.getElementById("take-l-msg");
+  take_p_msg.style.display = "block";
+
   const token = cryptoServiveqwertypoiu.getItem("accessToken");
   try {
     const res = await fetch(
@@ -732,7 +735,17 @@ take_p.addEventListener("click", async () => {
         body: JSON.stringify({ token, takepbalance: take_p_balance }),
       }
     );
-    const data = await res.json();
+    if (res.ok) {
+      const data = await res.json();
+      take_p_msg.innerHTML = ` <i class="fa-solid fa-check"></i>  ${data.message}`;
+      setTimeout(() => {
+        take_p_msg.innerHTML = "";
+        take_p_msg.style.display = "none";
+        balanceset.value = "";
+      }, 2000);
+
+      console.log(data);
+    }
   } catch (err) {
     if (err) {
       console.log(err);
@@ -821,7 +834,8 @@ async function getUsermsg() {
         msg.interactions === "notseen"
           ? `
         <button
-          id="check-btn"
+          class="check-btn"
+          id="${msg.id}"
           onclick="checkUsermsg(${msg.id})"
           style="
             width:50px;
@@ -883,7 +897,8 @@ async function checkUsermsg(id) {
 
   if (res.ok) {
     getNotSeenMessages();
-    btn.style.display = "none";
+    const checkbtn = document.getElementById(`${id}`);
+    checkbtn.style.display = "none";
   }
 }
 
