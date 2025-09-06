@@ -806,12 +806,6 @@ async function getUsermsg() {
 
       const time = `${year}-${day} ${hour}:${minute}`;
 
-      // Handle "notseen" mark safely
-      const mark =
-        msg.interactions === "notseen"
-          ? '<i class="fa-solid fa-check"></i>'
-          : '<i class="fa-solid fa-check" style="display:none;"></i>';
-
       // Decide message color based on type
       let color = "#fff"; // default
       if (msg.type === "take_profit") color = "green";
@@ -829,7 +823,7 @@ async function getUsermsg() {
         msg.interactions === "notseen"
           ? `
         <button
-          id="check-btn-${msg.id}"
+          id="check-btn"
           onclick="checkUsermsg(${msg.id})"
           style="
             width:50px;
@@ -837,11 +831,11 @@ async function getUsermsg() {
             background: transparent;
             border:none;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 30px;
             cursor: pointer;
             margin-left: 8px;
             transition: 0.2s ease-in-out;">
-          <i class="fa-solid fa-check"></i>
+            <i class="fa-solid fa-check-double" style="color: #ededed;"></i>
         </button>
       `
           : ""

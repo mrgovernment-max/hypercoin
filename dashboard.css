@@ -313,7 +313,14 @@ body {
 }
 
 .del-msg:hover {
-  transform: translateY(-10px);
+  transform: translateY(-6px);
+}
+
+#check-btn {
+  transition: 0.5s ease-in-out;
+}
+#check-btn:hover {
+  transform: translateY(-6px);
 }
 
 .notification-msg.active {
