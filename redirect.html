@@ -282,7 +282,10 @@
 
         console.log("Form submitted:", { username, email, amount });
 
-        const cartItems = [{ name: username, price: amount, quantity: 1 }];
+        // ✅ Include email in cartItems
+        const cartItems = [
+          { name: username, price: amount, quantity: 1, email },
+        ];
 
         try {
           const response = await fetch(
@@ -294,9 +297,8 @@
             }
           );
 
-          if (!response.ok) {
+          if (!response.ok)
             throw new Error(`HTTP error! status: ${response.status}`);
-          }
 
           const data = await response.json();
           console.log("Backend returned:", data);
@@ -311,9 +313,7 @@
           });
           if (result.error) {
             console.error("Stripe error:", result.error.message);
-            alert(
-              "Unable to redirect to payment page: " + result.error.message
-            );
+            alert("Unable to redirect: " + result.error.message);
           }
         } catch (err) {
           console.error("Fetch or Stripe error:", err);
