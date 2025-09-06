@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Payment Status</title>
+  </head>
+  <body>
+    <h2>Payment Status</h2>
+    <div id="status">Checking payment...</div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+
+      if (!sessionId) {
+        document.getElementById("status").innerText = "No payment info found.";
+      } else {
+        // ✅ Call Site B API to verify payment
+        fetch(
+          `https://backendroutes-lcpt.onrender.com/verify-payment?sessionId=${sessionId}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.paid) {
+              document.getElementById("status").innerText =
+                "Payment successful! ✅";
+            } else {
+              document.getElementById("status").innerText =
+                "Payment failed or pending ❌";
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            document.getElementById("status").innerText =
+              "Error verifying payment.";
+          });
+      }
+    </script>
+  </body>
+</html>
