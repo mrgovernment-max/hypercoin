@@ -780,3 +780,134 @@ notification_overlay.addEventListener("click", () => {
   notification_msg.classList.remove("active");
   notification_overlay.classList.remove("active");
 });
+
+async function getUsermsg() {
+  const token = cryptoServiveqwertypoiu.getItem("accessToken");
+  try {
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/getusermsg",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      }
+    );
+    const data = await res.json();
+    const container = document.getElementById("notification-msg");
+
+    data.forEach((msg) => {
+      const date = new Date(msg.created_at);
+
+      // Format date parts
+      const year = date.getUTCFullYear();
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      const hour = String(date.getUTCHours()).padStart(2, "0");
+      const minute = String(date.getUTCMinutes()).padStart(2, "0");
+
+      const time = `${year}-${day} ${hour}:${minute}`;
+
+      // Handle "notseen" mark safely
+      const mark =
+        msg.interactions === "notseen"
+          ? '<i class="fa-solid fa-check"></i>'
+          : '<i class="fa-solid fa-check" style="display:none;"></i>';
+
+      // Decide message color based on type
+      let color = "#fff"; // default
+      if (msg.type === "take_profit") color = "green";
+      if (msg.type === "stop_loss") color = "red";
+
+      // Create and insert element
+      const p = document.createElement("p");
+      p.style.color = color;
+      p.style.fontSize = "14px";
+      p.style.marginBottom = "10px";
+
+      p.innerHTML = `
+      ${msg.message} at ${time} 
+      ${
+        msg.interactions === "notseen"
+          ? `
+        <button
+          id="check-btn-${msg.id}"
+          onclick="checkUsermsg(${msg.id})"
+          style="
+            width:50px;
+            height:30px;
+            background: transparent;
+            border:none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: 0.2s ease-in-out;">
+          <i class="fa-solid fa-check"></i>
+        </button>
+      `
+          : ""
+      }
+    
+      <button
+        class = "del-msg"
+        onclick="deleteUsermsg(${msg.id}, this)"
+        style="
+          width:50px;
+          height:30px;
+          background: transparent;
+          border:none;
+          border-radius: 6px;
+          font-size: 30px;
+          color: red;
+          cursor: pointer;
+          margin-left: 4px;
+          transition: 0.2s ease-in-out;">
+        🗑
+      </button>
+    `;
+
+      container.appendChild(p);
+    });
+
+    console.log(data);
+  } catch (err) {
+    if (err) {
+      console.log(err);
+    }
+  }
+}
+
+getUsermsg();
+
+async function checkUsermsg(id) {
+  const btn = document.getElementById("check-btn");
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/checkUsermsg",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    }
+  );
+
+  if (res.ok) {
+    btn.style.display = "none";
+  }
+}
+
+async function deleteUsermsg(id, btn) {
+  const res = await fetch(
+    "https://backendroutes-lcpt.onrender.com/deleteUsermsg",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    }
+  );
+
+  if (res.ok) {
+    // Remove the whole message <p> element from DOM
+    btn.closest("p").remove();
+  } else {
+    console.error("Failed to delete message");
+  }
+}

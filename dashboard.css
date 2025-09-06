@@ -306,10 +306,14 @@ body {
   height: 100vh;
   opacity: 0;
   visibility: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   right: 0;
   transition: opacity 1s ease-in-out;
   visibility: 1s ease-in-out;
+}
+
+.del-msg:hover {
+  transform: translateY(-10px);
 }
 
 .notification-msg.active {
