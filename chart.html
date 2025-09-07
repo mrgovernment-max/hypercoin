@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Mining Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        line-height: 1.6;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+        padding: 1rem 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border-bottom: 1px solid #334155;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #3b82f6;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo span {
+        color: #e2e8f0;
+      }
+
+      .stats-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+      }
+
+      .stats-title {
+        font-size: 1.8rem;
+        color: #3b82f6;
+      }
+
+      .refresh-btn {
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.3s;
+      }
+
+      .refresh-btn:hover {
+        background: #2563eb;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: #1e293b;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .stat-title {
+        font-size: 1.2rem;
+        color: #94a3b8;
+      }
+
+      .stat-icon {
+        font-size: 1.5rem;
+        color: #3b82f6;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: #e2e8f0;
+      }
+
+      .stat-change {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+      }
+
+      .change-positive {
+        color: #4ade80;
+      }
+
+      .change-negative {
+        color: #f87171;
+      }
+
+      .change-neutral {
+        color: #94a3b8;
+      }
+
+      .charts-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .chart-card {
+        background: #1e293b;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .chart-title {
+        font-size: 1.2rem;
+        color: #e2e8f0;
+      }
+
+      .chart-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .chart-btn {
+        background: #334155;
+        color: #e2e8f0;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .chart-btn.active {
+        background: #3b82f6;
+      }
+
+      .chart-wrapper {
+        position: relative;
+        height: 300px;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: #94a3b8;
+        border-top: 1px solid #334155;
+      }
+
+      @media (min-width: 992px) {
+        .charts-container {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">Crypto<span>Miner</span></div>
+          <div class="header-stats">
+            <span id="current-time"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="stats-header">
+        <h1 class="stats-title">Mining Dashboard</h1>
+        <button class="refresh-btn" onclick="updateMiningStats()">
+          <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <h2 class="stat-title">Hash Rate</h2>
+            <i class="fas fa-microchip stat-icon"></i>
+          </div>
+          <div class="stat-value" id="hash-value">0 MH/s</div>
+          <div class="stat-change">
+            <span id="hashsig"><i class="fas fa-minus"></i></span>
+            <span id="hash-change">0 MH/s</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h2 class="stat-title">Balance</h2>
+            <i class="fas fa-coins stat-icon"></i>
+          </div>
+          <div class="stat-value" id="balance-value">0.00 $</div>
+          <div class="stat-change">
+            <span id="balancesig"><i class="fas fa-minus"></i></span>
+            <span id="balance-change">0.00%</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h2 class="stat-title">Highest Hash Rate</h2>
+            <i class="fas fa-chart-line stat-icon"></i>
+          </div>
+          <div class="stat-value" id="dailyhighhash">0 MH/s</div>
+          <div class="stat-change">24-hour maximum</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h2 class="stat-title">Exchange Rate</h2>
+            <i class="fas fa-exchange-alt stat-icon"></i>
+          </div>
+          <div class="stat-value" id="dailyhigh">1 HPC = 1.5 USD</div>
+          <div class="stat-change">Current rate</div>
+        </div>
+      </div>
+
+      <div class="charts-container">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Hash Rate History</h2>
+            <div class="chart-actions">
+              <button
+                class="chart-btn active"
+                onclick="changeTimeframe('hash', 7)"
+              >
+                7D
+              </button>
+              <button class="chart-btn" onclick="changeTimeframe('hash', 30)">
+                30D
+              </button>
+              <button class="chart-btn" onclick="changeTimeframe('hash', 90)">
+                90D
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="hashChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h2 class="chart-title">Balance History</h2>
+            <div class="chart-actions">
+              <button
+                class="chart-btn active"
+                onclick="changeTimeframe('balance', 7)"
+              >
+                7D
+              </button>
+              <button
+                class="chart-btn"
+                onclick="changeTimeframe('balance', 30)"
+              >
+                30D
+              </button>
+              <button
+                class="chart-btn"
+                onclick="changeTimeframe('balance', 90)"
+              >
+                90D
+              </button>
+            </div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="balanceChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2023 CryptoMiner. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize variables
+      let currentHashRate = 0;
+      let currentBalance = 0;
+      let prevHashRate = 0;
+      let prevBalance = 0;
+      let highestHashRate = 0;
+      let highestBalance = 0;
+
+      // Initialize chart data arrays
+      let hashRateData = [];
+      let balanceData = [];
+      let timestampData = [];
+
+      // Chart objects
+      let hashChart;
+      let balanceChart;
+
+      // Initialize the dashboard
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load saved data if available
+        const savedHashRate = localStorage.getItem("highestHashRate");
+        const savedBalance = localStorage.getItem("highestBalance");
+
+        if (savedHashRate) highestHashRate = parseFloat(savedHashRate);
+        if (savedBalance) highestBalance = parseFloat(savedBalance);
+
+        // Initialize charts
+        initializeCharts();
+
+        // Update time
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Do initial data update
+        updateMiningStats();
+
+        // Set up periodic updates (every 30 seconds)
+        setInterval(updateMiningStats, 30000);
+      });
+
+      // Function to update the current time display
+      function updateTime() {
+        const now = new Date();
+        document.getElementById("current-time").textContent =
+          now.toLocaleTimeString();
+      }
+
+      // Function to initialize charts
+      function initializeCharts() {
+        const hashCtx = document.getElementById("hashChart").getContext("2d");
+        const balanceCtx = document
+          .getElementById("balanceChart")
+          .getContext("2d");
+
+        // Hash rate chart
+        hashChart = new Chart(hashCtx, {
+          type: "line",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: "Hash Rate (MH/s)",
+                data: [],
+                borderColor: "#3b82f6",
+                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#e2e8f0",
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                ticks: {
+                  color: "#e2e8f0",
+                },
+              },
+              x: {
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                ticks: {
+                  color: "#e2e8f0",
+                },
+              },
+            },
+          },
+        });
+
+        // Balance chart
+        balanceChart = new Chart(balanceCtx, {
+          type: "line",
+          data: {
+            labels: [],
+            datasets: [
+              {
+                label: "Balance ($)",
+                data: [],
+                borderColor: "#10b981",
+                backgroundColor: "rgba(16, 185, 129, 0.1)",
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#e2e8f0",
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: false,
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                ticks: {
+                  color: "#e2e8f0",
+                },
+              },
+              x: {
+                grid: {
+                  color: "rgba(255, 255, 255, 0.1)",
+                },
+                ticks: {
+                  color: "#e2e8f0",
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Function to update mining stats with API balance
+      async function updateMiningStats() {
+        // Get DOM elements
+        const hashValue = document.getElementById("hash-value");
+        const hashChange = document.getElementById("hash-change");
+        const dailyHighHash = document.getElementById("dailyhighhash");
+        const hashSig = document.getElementById("hashsig");
+        const hashArrowIcon = hashSig ? hashSig.querySelector("i") : null;
+
+        const balanceValue = document.getElementById("balance-value");
+        const balanceChange = document.getElementById("balance-change");
+        const dailyHigh = document.getElementById("dailyhigh");
+        const balanceSig = document.getElementById("balancesig");
+        const balanceArrowIcon = balanceSig
+          ? balanceSig.querySelector("i")
+          : null;
+
+        // Store previous values
+        prevHashRate = currentHashRate;
+        prevBalance = currentBalance;
+
+        currentHashRate = 50 + (Math.random() * 40 - 20); // Default hash rate
+
+        // Update highest hash rate
+        if (currentHashRate > highestHashRate) {
+          highestHashRate = currentHashRate;
+          localStorage.setItem("highestHashRate", highestHashRate);
+        }
+
+        // Fetch balance from API instead of calculating it
+        try {
+          const newBalance = await fetchBalanceFromAPI();
+
+          // Update current balance with API response
+          currentBalance = newBalance;
+
+          // Update highest balance if current balance is higher
+          if (currentBalance > highestBalance) {
+            highestBalance = currentBalance;
+            localStorage.setItem("highestBalance", highestBalance);
+          }
+        } catch (error) {
+          console.error("Failed to update balance from API:", error);
+          // Keep using the current balance if API call fails
+        }
+
+        // Calculate balance change for indicators
+        const balanceChangeValue = currentBalance - prevBalance;
+        const changePercent =
+          prevBalance > 0 ? (balanceChangeValue / prevBalance) * 100 : 0;
+
+        // Update UI elements
+        if (hashValue)
+          hashValue.textContent = Math.round(currentHashRate) + " MH/s";
+        if (dailyHighHash)
+          dailyHighHash.textContent = Math.round(highestHashRate) + " MH/s";
+        if (balanceValue)
+          balanceValue.textContent = currentBalance.toFixed(2) + " $";
+        if (dailyHigh) dailyHigh.textContent = "1 HPC = 1.5 USD";
+
+        // Update change indicators
+        const hashChangeValue = currentHashRate - prevHashRate;
+
+        if (hashChange) {
+          hashChange.textContent =
+            (hashChangeValue >= 0 ? "+" : "") +
+            Math.round(hashChangeValue) +
+            " MH/s";
+          hashChange.className =
+            "stat-change " +
+            (hashChangeValue > 0
+              ? "change-positive"
+              : hashChangeValue < 0
+              ? "change-negative"
+              : "change-neutral");
+        }
+
+        if (balanceChange) {
+          balanceChange.textContent =
+            (balanceChangeValue >= 0 ? "+" : "") +
+            changePercent.toFixed(2) +
+            "%";
+          balanceChange.className =
+            "stat-change " +
+            (balanceChangeValue > 0
+              ? "change-positive"
+              : balanceChangeValue < 0
+              ? "change-negative"
+              : "change-neutral");
+        }
+
+        // Update arrows
+        if (hashSig && hashArrowIcon) {
+          hashArrowIcon.className =
+            hashChangeValue > 0
+              ? "fas fa-arrow-up"
+              : hashChangeValue < 0
+              ? "fas fa-arrow-down"
+              : "fas fa-minus";
+          hashSig.className =
+            hashChangeValue > 0
+              ? "change-positive"
+              : hashChangeValue < 0
+              ? "change-negative"
+              : "change-neutral";
+        }
+
+        if (balanceSig && balanceArrowIcon) {
+          balanceArrowIcon.className =
+            balanceChangeValue > 0
+              ? "fas fa-arrow-up"
+              : balanceChangeValue < 0
+              ? "fas fa-arrow-down"
+              : "fas fa-minus";
+          balanceSig.className =
+            balanceChangeValue > 0
+              ? "change-positive"
+              : balanceChangeValue < 0
+              ? "change-negative"
+              : "change-neutral";
+        }
+
+        // Update charts with new data
+        updateCharts();
+      }
+
+      // Simulated API call for balance
+      async function fetchBalanceFromAPI() {
+        // Simulate API delay
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // Return a random balance for demonstration
+        // In a real application, you would fetch from your actual API
+        return Math.random() * 100 + 50; // Random value between 50 and 150
+      }
+
+      // Function to update charts with new data
+      function updateCharts() {
+        const now = new Date();
+        const timestamp = now.toLocaleTimeString();
+
+        // Add new data points
+        hashRateData.push(currentHashRate);
+        balanceData.push(currentBalance);
+        timestampData.push(timestamp);
+
+        // Keep only the last 20 data points for display
+        if (hashRateData.length > 20) {
+          hashRateData.shift();
+          balanceData.shift();
+          timestampData.shift();
+        }
+
+        // Update hash rate chart
+        hashChart.data.labels = timestampData;
+        hashChart.data.datasets[0].data = hashRateData;
+        hashChart.update();
+
+        // Update balance chart
+        balanceChart.data.labels = timestampData;
+        balanceChart.data.datasets[0].data = balanceData;
+        balanceChart.update();
+      }
+
+      // Function to change chart timeframe (demo only - would need real data)
+      function changeTimeframe(chartType, days) {
+        // In a real application, you would fetch historical data for the selected timeframe
+        console.log(`Changing ${chartType} chart to show ${days} days`);
+
+        // For demo purposes, we'll just update the button states
+        const buttons = document.querySelectorAll(
+          `.chart-card:has(#${chartType}Chart) .chart-btn`
+        );
+        buttons.forEach((btn) => {
+          if (btn.textContent === `${days}D`) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        });
+      }
+
+      // Simulate authentication check
+      function dashboardAuth() {
+        // This would contain your authentication logic
+        console.log("Authentication check completed");
+      }
+    </script>
+  </body>
+</html>

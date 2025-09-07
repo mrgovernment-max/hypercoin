@@ -528,7 +528,7 @@ activeUsers();
 initMiningStats();
 
 // Start regular updates
-setInterval(updateMiningStats, 3000); // Update every 5 seconds
+setInterval(updateMiningStats, 5000); // Update every 5 seconds
 updateMiningStats(); // Initial update
 
 // Avatar controls
@@ -976,3 +976,144 @@ async function getNotSeenMessages() {
 }
 
 getNotSeenMessages();
+
+let hashChart;
+let balanceChart;
+
+let hashRateData = [];
+let balanceData = [];
+let timestampData = [];
+function initializeCharts() {
+  const hashCtx = document.getElementById("hashChart").getContext("2d");
+  const balanceCtx = document.getElementById("balanceChart").getContext("2d");
+
+  const commonOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: "nearest",
+      intersect: false,
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: "#CBD5E1", // soft gray
+          font: { size: 14, weight: "500" },
+        },
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: "#1E293B",
+        titleColor: "#3B82F6",
+        bodyColor: "#E2E8F0",
+        borderColor: "#3B82F6",
+        borderWidth: 1,
+        cornerRadius: 6,
+        padding: 10,
+        callbacks: {
+          title: function (context) {
+            return `Time: ${context[0].label}`;
+          },
+          label: function (context) {
+            return `${context.dataset.label}: ${context.parsed.y.toFixed(2)}`;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: false,
+        grid: { color: "rgba(255,255,255,0.05)", borderDash: [5, 5] },
+        ticks: { color: "#94A3B8", font: { size: 12 } },
+      },
+      x: {
+        grid: { color: "rgba(255,255,255,0.05)", borderDash: [5, 5] },
+        ticks: { color: "#94A3B8", font: { size: 12 } },
+      },
+    },
+    animation: {
+      duration: 500,
+      easing: "easeOutQuart",
+    },
+  };
+
+  hashChart = new Chart(hashCtx, {
+    type: "line",
+    data: {
+      labels: timestampData,
+      datasets: [
+        {
+          label: "Hash Rate (MH/s)",
+          data: hashRateData,
+          borderColor: "#3B82F6",
+          backgroundColor: "rgba(59,130,246,0.15)",
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: "#3B82F6",
+          pointHoverBackgroundColor: "#60A5FA",
+        },
+      ],
+    },
+    options: commonOptions,
+  });
+
+  balanceChart = new Chart(balanceCtx, {
+    type: "line",
+    data: {
+      labels: timestampData,
+      datasets: [
+        {
+          label: "Balance ($)",
+          data: balanceData,
+          borderColor: "#10B981",
+          backgroundColor: "rgba(16,185,129,0.15)",
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: "#10B981",
+          pointHoverBackgroundColor: "#34D399",
+        },
+      ],
+    },
+    options: commonOptions,
+  });
+}
+
+function updateCharts(currentHashRate, currentBalance) {
+  const now = new Date();
+  const timestamp = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  hashRateData.push(currentHashRate);
+  balanceData.push(currentBalance);
+  timestampData.push(timestamp);
+
+  if (hashRateData.length > 50) {
+    hashRateData.shift();
+    balanceData.shift();
+    timestampData.shift();
+  }
+
+  hashChart.data.labels = timestampData;
+  hashChart.data.datasets[0].data = hashRateData;
+  hashChart.update("active");
+
+  balanceChart.data.labels = timestampData;
+  balanceChart.data.datasets[0].data = balanceData;
+  balanceChart.update("active");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initializeCharts(); // set up chart objects
+
+  setInterval(() => {
+    updateCharts(currentHashRate, currentBalance);
+  }, 5000); // or 1000ms if you want faster
+});

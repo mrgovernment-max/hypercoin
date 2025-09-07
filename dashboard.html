@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>HyperCoin - Mining Dashboard</title>
     <link
       rel="stylesheet"
@@ -166,6 +169,27 @@
               </div>
             </div>
           </div>
+
+          <!-- ✅ Charts Section -->
+<!-- Hash Rate Chart Container -->
+<div class="chart-container" id="hashChartContainer">
+  <canvas id="hashChart"></canvas>
+  <div class="chart-no-data" id="hashNoData" style="display: none;">
+    <i class="fa-solid fa-chart-line"></i>
+    <p>No Hash Rate Data Available</p>
+  </div>
+</div>
+
+<!-- Balance Chart Container -->
+<div class="chart-container" id="balanceChartContainer">
+  <canvas id="balanceChart"></canvas>
+  <div class="chart-no-data" id="balanceNoData" style="display: none;">
+    <i class="fa-solid fa-wallet"></i>
+    <p>No Balance Data Available</p>
+  </div>
+</div>
+
+
 
           <!-- Mining Control -->
           <div id="mining-control" class="mining-control">
