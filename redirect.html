@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Secure Payment</title>
+    <title>Secure Payment Gateway</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -17,7 +18,7 @@
       }
 
       body {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         display: flex;
         justify-content: center;
@@ -27,112 +28,115 @@
 
       .container {
         width: 100%;
-        max-width: 500px;
+        max-width: 480px;
         background: white;
         border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         overflow: hidden;
       }
 
       .header {
-        background: #2563eb;
+        background: #4f46e5;
         color: white;
-        padding: 25px;
+        padding: 28px;
         text-align: center;
+        position: relative;
       }
 
       .header h1 {
-        font-size: 24px;
+        font-size: 26px;
         font-weight: 600;
         margin-bottom: 8px;
       }
 
       .header p {
-        font-size: 14px;
+        font-size: 15px;
         opacity: 0.9;
       }
 
+      .header-icon {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        font-size: 120px;
+        opacity: 0.05;
+        transform: rotate(15deg);
+      }
+
       .payment-form {
-        padding: 30px;
+        padding: 32px;
       }
 
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 24px;
         position: relative;
       }
 
       .form-group label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         font-weight: 500;
         color: #374151;
-        font-size: 14px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+      }
+
+      .form-group label i {
+        margin-right: 10px;
+        color: #4f46e5;
       }
 
       .input-with-icon {
         position: relative;
       }
 
-      .input-with-icon i {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6b7280;
-      }
-
       .input-with-icon input {
         width: 100%;
-        padding: 14px 15px 14px 45px;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
+        padding: 16px 18px 16px 48px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
         font-size: 16px;
         transition: all 0.3s ease;
       }
 
       .input-with-icon input:focus {
         outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
       }
 
-      .amount-input {
-        position: relative;
-      }
-
-      .amount-input::before {
-        content: "£";
+      .input-icon {
         position: absolute;
-        left: 15px;
+        left: 16px;
         top: 50%;
         transform: translateY(-50%);
         color: #6b7280;
-        font-weight: 500;
-        font-size: 16px;
-      }
-
-      .amount-input input {
-        padding-left: 30px;
+        font-size: 18px;
       }
 
       button {
         width: 100%;
-        padding: 16px;
-        background: #2563eb;
+        padding: 18px;
+        background: #4f46e5;
         color: white;
         border: none;
-        border-radius: 10px;
-        font-size: 16px;
+        border-radius: 12px;
+        font-size: 17px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
       }
 
       button:hover {
-        background: #1d4ed8;
+        background: #4338ca;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        box-shadow: 0 6px 15px rgba(79, 70, 229, 0.25);
       }
 
       button:active {
@@ -143,35 +147,62 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 24px;
         color: #6b7280;
         font-size: 14px;
+        padding: 12px;
+        background: #f9fafb;
+        border-radius: 8px;
       }
 
       .security-note i {
         margin-right: 8px;
         color: #10b981;
+        font-size: 16px;
       }
 
       .payment-methods {
         display: flex;
         justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
+        gap: 18px;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid #e5e7eb;
       }
 
       .payment-methods i {
-        font-size: 32px;
+        font-size: 36px;
         color: #6b7280;
+        transition: color 0.3s ease;
+      }
+
+      .payment-methods i:hover {
+        color: #4f46e5;
       }
 
       .footer {
         text-align: center;
         padding: 20px;
         color: #6b7280;
-        font-size: 12px;
+        font-size: 13px;
         border-top: 1px solid #e5e7eb;
         background: #f9fafb;
+      }
+
+      .loader {
+        display: none;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       @media (max-width: 480px) {
@@ -180,11 +211,15 @@
         }
 
         .header {
-          padding: 20px;
+          padding: 22px;
         }
 
         .payment-form {
-          padding: 20px;
+          padding: 24px;
+        }
+
+        .input-with-icon input {
+          padding: 14px 16px 14px 44px;
         }
       }
     </style>
@@ -192,46 +227,43 @@
   <body>
     <div class="container">
       <div class="header">
+        <i class="fas fa-lock header-icon"></i>
         <h1>Secure Payment</h1>
-        <p>Enter your details to complete the transaction</p>
+        <p>
+          Enter your payment details to complete the transaction <br />
+          <b style="color: yellow"
+            >MAKE SURE USERNAME IS THE EXACT USERNAME REGISTERED FOR YOUR
+            ACCOUNT
+          </b>
+          <br />
+          <a style="color: yellow" href="login.html">Login </a>
+          Your Account if not sure of username
+        </p>
       </div>
 
       <form id="payment-form" class="payment-form">
         <div class="form-group">
-          <label for="username"> Username</label>
+          <label for="item-name"
+            ><i class="fa-solid fa-user"></i> Username</label
+          >
           <div class="input-with-icon">
-            <i class="fas fa-user"></i>
+            <i class="fa-solid fa-user input-icon"></i>
             <input
               type="text"
-              id="username"
-              name="username"
-              placeholder="Your hypercoin username"
+              id="item-name"
+              placeholder="Enter  username"
               required
             />
           </div>
         </div>
 
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="amount"><i class="fas fa-dollar-sign"></i> Amount</label>
           <div class="input-with-icon">
-            <i class="fas fa-envelope"></i>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Your hypercoin email"
-              required
-            />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="amount">Payment Amount</label>
-          <div class="input-with-icon amount-input">
+            <i class="fas fa-money-bill-wave input-icon"></i>
             <input
               type="number"
               id="amount"
-              name="amount"
               placeholder="0.00"
               step="0.01"
               required
@@ -239,14 +271,16 @@
           </div>
         </div>
 
-        <div id="status">Checking payment...</div>
-        <div id="info"></div>
-
-        <button type="submit">Pay Now</button>
+        <button type="submit" id="submit-button">
+          <span>Pay Now</span>
+          <div class="loader" id="loader"></div>
+        </button>
 
         <div class="security-note">
           <i class="fas fa-shield-alt"></i>
-          <span>Your payment is secured with Stripe</span>
+          <span
+            >Your payment is secured with Stripe's encrypted technology</span
+          >
         </div>
 
         <div class="payment-methods">
@@ -258,35 +292,45 @@
       </form>
 
       <div class="footer">
-        <p>© 2023 SecurePay. All rights reserved.</p>
+        <p>
+          © 2023 SecurePay. All rights reserved.
+          <a href="#" style="color: #4f46e5; text-decoration: none"
+            >Privacy Policy</a
+          >
+        </p>
       </div>
     </div>
 
-    <!-- Load Stripe.js -->
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-      const stripe = Stripe(
-        "pk_live_51Rpsq2LRwcoOq8wgsLstZO5LcuIqjk7M54Kisklu5AbUHZfeC1r1RDaEA6bz7iq6eDxFiR7yqLGrx80PsGYmdqGt007D5oIJL3"
-      );
-
+      const stripe = Stripe("YOUR_PUBLISHABLE_KEY");
       const form = document.getElementById("payment-form");
-      const statusDiv = document.getElementById("status");
-      const infoDiv = document.getElementById("info");
+      const submitButton = document.getElementById("submit-button");
+      const loader = document.getElementById("loader");
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const username = form.username.value;
-        const email = form.email.value;
-        const amount = parseFloat(form.amount.value);
+        // Show loading state
+        submitButton.disabled = true;
+        loader.style.display = "block";
+        submitButton.querySelector("span").textContent = "Processing...";
 
-        console.log("Form submitted:", { username, email, amount });
+        const name = document.getElementById("item-name").value;
+        const amount = parseFloat(document.getElementById("amount").value);
 
-        // ✅ Include email in cartItems
-        const cartItems = [{ name: username, price: amount, quantity: 1 }];
+        // ✅ Image property can be added programmatically if needed
+        const cartItems = [
+          {
+            name,
+            price: amount,
+            quantity: 1,
+            image: "https://example.com/default-image.png",
+          },
+        ];
 
         try {
-          const response = await fetch(
+          const res = await fetch(
             "https://backendroutes-lcpt.onrender.com/create-checkout-session",
             {
               method: "POST",
@@ -295,59 +339,23 @@
             }
           );
 
-          if (!response.ok)
-            throw new Error(`HTTP error! status: ${response.status}`);
+          const data = await res.json();
 
-          const data = await response.json();
-          console.log("Backend returned:", data);
-
-          if (!data.id) {
-            alert("Failed to create payment session. Check console.");
-            return;
-          }
-
-          const result = await stripe.redirectToCheckout({
-            sessionId: data.id,
-          });
-          if (result.error) {
-            console.error("Stripe error:", result.error.message);
-            alert("Unable to redirect: " + result.error.message);
+          if (data.id) {
+            stripe.redirectToCheckout({ sessionId: data.id });
+          } else {
+            alert("Failed to create checkout session");
           }
         } catch (err) {
-          console.error("Fetch or Stripe error:", err);
+          console.error(err);
           alert("Server error. Check console for details.");
+        } finally {
+          // Reset button state
+          submitButton.disabled = false;
+          loader.style.display = "none";
+          submitButton.querySelector("span").textContent = "Pay Now";
         }
       });
-
-      // ✅ Verify payment if session_id exists in URL
-      const params = new URLSearchParams(window.location.search);
-      const sessionId = params.get("session_id");
-
-      if (sessionId) {
-        form.style.display = "none";
-        statusDiv.innerText = "Checking payment...";
-
-        fetch(
-          `https://backendroutes-lcpt.onrender.com/verify-payment?sessionId=${sessionId}`
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("Payment verification returned:", data);
-            if (data.paid) {
-              statusDiv.innerText = "Payment successful! ✅";
-              infoDiv.innerHTML = `
-          <p>Username: ${data.username}</p>
-          <p>Amount: £${data.amount}</p>
-        `;
-            } else {
-              statusDiv.innerText = "Payment failed or pending ❌";
-            }
-          })
-          .catch((err) => {
-            console.error("Verification error:", err);
-            statusDiv.innerText = "Error verifying payment.";
-          });
-      }
     </script>
   </body>
 </html>
