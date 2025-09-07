@@ -836,11 +836,12 @@ async function getUsermsg() {
 
       // Format date parts
       const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth()).padStart(2, "0");
       const day = String(date.getUTCDate()).padStart(2, "0");
       const hour = String(date.getUTCHours()).padStart(2, "0");
       const minute = String(date.getUTCMinutes()).padStart(2, "0");
 
-      const time = `${year}-${day} ${hour}:${minute}`;
+      const time = ` ${month}-${day}-${year} ${hour}:${minute}`;
 
       // Decide message color based on type
       let color = "#fff"; // default
