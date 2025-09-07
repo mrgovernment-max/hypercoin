@@ -1042,7 +1042,7 @@ async function loadTransactions() {
         (tx.type === "withdrawal" ? "-" : "+") + tx.amount + " HPC";
       amountTd.className =
         tx.type === "withdrawal"
-          ? "transaction-negative"
+          ? "transaction-positive"
           : "transaction-positive";
       tr.appendChild(amountTd);
 
