@@ -136,6 +136,7 @@ nav a:hover {
 
 .desktop-nav a {
   color: var(--text);
+  position: relative;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s;
@@ -144,6 +145,21 @@ nav a:hover {
 .desktop-nav a:hover,
 .desktop-nav a.active {
   color: var(--primary);
+}
+
+.desktop-nav a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #3b82f6;
+  transition: width 0.3s;
+}
+
+.desktop-nav a:hover::after {
+  width: 100%;
 }
 
 /* Auth Buttons */
