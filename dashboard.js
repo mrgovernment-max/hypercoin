@@ -277,7 +277,7 @@ function updatePremiumStatusUI(data) {
       if (rec)
         rec.innerHTML = `<span style='color:#ff9800'>
           <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>
-          <a style='color: #FFD43B' target='_blank' href='features.html#calculator'>Deposite</a>  funds into account<br>
+          <a style='color: #FFD43B' target='_blank' href='redirect.html'>Deposite</a>  funds into account<br>
           to start investing and earning
         </span>`;
     }

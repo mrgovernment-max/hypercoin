@@ -9,224 +9,32 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      }
-
-      body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-      }
-
-      .container {
-        width: 100%;
-        max-width: 480px;
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-      }
-
-      .header {
-        background: #4f46e5;
-        color: white;
-        padding: 28px;
-        text-align: center;
-        position: relative;
-      }
-
-      .header h1 {
-        font-size: 26px;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      .header p {
-        font-size: 15px;
-        opacity: 0.9;
-      }
-
-      .header-icon {
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        font-size: 120px;
-        opacity: 0.05;
-        transform: rotate(15deg);
-      }
-
-      .payment-form {
-        padding: 32px;
-      }
-
-      .form-group {
-        margin-bottom: 24px;
-        position: relative;
-      }
-
-      .form-group label {
-        display: block;
-        margin-bottom: 10px;
-        font-weight: 500;
-        color: #374151;
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-      }
-
-      .form-group label i {
-        margin-right: 10px;
-        color: #4f46e5;
-      }
-
-      .input-with-icon {
-        position: relative;
-      }
-
-      .input-with-icon input {
-        width: 100%;
-        padding: 16px 18px 16px 48px;
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        font-size: 16px;
-        transition: all 0.3s ease;
-      }
-
-      .input-with-icon input:focus {
-        outline: none;
-        border-color: #4f46e5;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
-      }
-
-      .input-icon {
-        position: absolute;
-        left: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6b7280;
-        font-size: 18px;
-      }
-
-      button {
-        width: 100%;
-        padding: 18px;
-        background: #4f46e5;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 17px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-      }
-
-      button:hover {
-        background: #4338ca;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(79, 70, 229, 0.25);
-      }
-
-      button:active {
-        transform: translateY(0);
-      }
-
-      .security-note {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 24px;
-        color: #6b7280;
-        font-size: 14px;
-        padding: 12px;
-        background: #f9fafb;
-        border-radius: 8px;
-      }
-
-      .security-note i {
-        margin-right: 8px;
-        color: #10b981;
-        font-size: 16px;
-      }
-
-      .payment-methods {
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        margin-top: 24px;
-        padding-top: 20px;
-        border-top: 1px solid #e5e7eb;
-      }
-
-      .payment-methods i {
-        font-size: 36px;
-        color: #6b7280;
-        transition: color 0.3s ease;
-      }
-
-      .payment-methods i:hover {
-        color: #4f46e5;
-      }
-
-      .footer {
-        text-align: center;
-        padding: 20px;
-        color: #6b7280;
-        font-size: 13px;
-        border-top: 1px solid #e5e7eb;
-        background: #f9fafb;
-      }
-
-      .loader {
-        display: none;
-        width: 20px;
-        height: 20px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: white;
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      @media (max-width: 480px) {
-        .container {
-          border-radius: 12px;
-        }
-
-        .header {
-          padding: 22px;
-        }
-
-        .payment-form {
-          padding: 24px;
-        }
-
-        .input-with-icon input {
-          padding: 14px 16px 14px 44px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="redirect.css" />
   </head>
   <body>
+
+    <header>
+      <div class="header-container">
+        <div class="logo">
+          <div class="logo-icon"><i class="fas fa-coins"></i></div>
+          <div class="logo-text"><a href="index.html">HyperCoin</a></div>
+        </div>
+
+        <nav class="desktop-nav">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="features.html">Pricing</a>
+          <a href="login.html">Login</a>
+        </nav>
+
+        <div class="auth-buttons">
+          <a href="login.html" class="btn btn-outline">Login</a>
+          <a href="signup.html" class="btn btn-primary">Sign Up</a>
+        </div>
+    </header>
+
     <div class="container">
-      <div class="header">
+      <div class="headerr">
         <i class="fas fa-lock header-icon"></i>
         <h1>Secure Payment</h1>
         <p>
