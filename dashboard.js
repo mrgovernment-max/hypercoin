@@ -722,7 +722,7 @@ take_p.addEventListener("click", async () => {
   const take_p_balance = parseFloat(
     document.getElementById("take-p-balance").value
   ).toFixed(2);
-  if ((take_p_balance = "")) {
+  if (isNaN(take_p_balance)) {
     return;
   }
   let balanceset = document.getElementById("take-p-balance");
@@ -764,8 +764,8 @@ stop_l.addEventListener("click", async () => {
     document.getElementById("stop-l-balance").value
   ).toFixed(2);
 
-  if ((stop_loss_balance = "")) {
-    return;
+  if (isNaN(stop_loss_balance)) {
+    return; // stop if it's not a number
   }
   const token = cryptoServiveqwertypoiu.getItem("accessToken");
   let balanceset = document.getElementById("stop-l-balance");
