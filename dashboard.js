@@ -722,6 +722,9 @@ take_p.addEventListener("click", async () => {
   const take_p_balance = parseFloat(
     document.getElementById("take-p-balance").value
   ).toFixed(2);
+  if ((take_p_balance = "")) {
+    return;
+  }
   let balanceset = document.getElementById("take-p-balance");
   const take_p_msg = document.getElementById("take-p-msg");
   take_p_msg.style.display = "block";
@@ -760,6 +763,10 @@ stop_l.addEventListener("click", async () => {
   const stop_loss_balance = parseFloat(
     document.getElementById("stop-l-balance").value
   ).toFixed(2);
+
+  if ((stop_loss_balance = "")) {
+    return;
+  }
   const token = cryptoServiveqwertypoiu.getItem("accessToken");
   let balanceset = document.getElementById("stop-l-balance");
   const stop_l_msg = document.getElementById("stop-l-msg");
