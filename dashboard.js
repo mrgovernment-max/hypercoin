@@ -269,9 +269,9 @@ function updatePremiumStatusUI(data) {
       // Free users
       if (miningInfo)
         miningInfo.innerHTML = `Investment is inactive Deposite Funds into Your Account to Start Investing <br> Current HPC efficiency :`;
-      if (configure) configure.style.display = " none";
+      if (configure) stoptInv.style.display = " none";
       if (startInv) startInv.style.display = "none";
-      if (stoptInv) stoptInv.innerHTML = "Deposite Funds";
+      if (stoptInv) configure.innerHTML = "Deposite Funds";
       if (profile_usertype) profile_usertype.textContent = data.usertype;
       if (miningState) miningState.innerHTML = `Investment Disabled`;
       if (rec)
