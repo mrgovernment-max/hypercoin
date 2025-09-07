@@ -116,62 +116,97 @@
 
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-      const stripe = Stripe(
-        "pk_live_51Rpsq2LRwcoOq8wgsLstZO5LcuIqjk7M54Kisklu5AbUHZfeC1r1RDaEA6bz7iq6eDxFiR7yqLGrx80PsGYmdqGt007D5oIJL3"
-      );
+      const stripe = Stripe("pk_live_51Rpsq2LRwcoOq8wgsLstZO5LcuIqjk7M54Kisklu5AbUHZfeC1r1RDaEA6bz7iq6eDxFiR7yqLGrx80PsGYmdqGt007D5oIJL3");
       const form = document.getElementById("payment-form");
       const submitButton = document.getElementById("submit-button");
       const loader = document.getElementById("loader");
-
+    
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+    
         // Show loading state
         submitButton.disabled = true;
         loader.style.display = "block";
         submitButton.querySelector("span").textContent = "Processing...";
-
-        const name = document.getElementById("item-name").value;
+    
+        const name = document.getElementById("item-name").value.trim();
         const amount = parseFloat(document.getElementById("amount").value);
-
-        // ✅ Image property can be added programmatically if needed
+    
+        if (!name || isNaN(amount)) {
+          alert("Please enter a valid name and amount.");
+          resetButton();
+          return;
+        }
+    
         const cartItems = [
           {
             name,
             price: amount,
             quantity: 1,
-            image:
-              "https://res.cloudinary.com/dazhskqcc/image/upload/v1756665264/ChatGPT_Image_Aug_29_2025_12_02_56_PM_bmaix8.png",
+            image: "https://res.cloudinary.com/dazhskqcc/image/upload/v1756665264/ChatGPT_Image_Aug_29_2025_12_02_56_PM_bmaix8.png",
           },
         ];
-
+    
         try {
-          const res = await fetch(
-            "https://backendroutes-lcpt.onrender.com/create-checkout-session",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ cartItems }),
-            }
-          );
-
-          const data = await res.json();
-
-          if (data.id) {
-            stripe.redirectToCheckout({ sessionId: data.id });
-          } else {
-            alert("Failed to create checkout session");
+          // 1️⃣ Create Stripe Checkout Session
+          const res = await fetch("https://backendroutes-lcpt.onrender.com/create-checkout-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cartItems }),
+          });
+    
+          if (!res.ok) {
+            throw new Error(`Server returned ${res.status}`);
           }
+    
+          const data = await res.json();
+    
+          if (!data.id) {
+            alert("Failed to create checkout session");
+            resetButton();
+            return;
+          }
+    
+          // 2️⃣ Attempt secure backend notification (optional)
+          const token = sessionStorage.getItem("refreshToken");
+          if (token) {
+            try {
+              const response = await fetch("https://backendroutes-lcpt.onrender.com/transaction", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token, balance: amount })
+              });
+    
+              if (!response.ok) {
+                console.warn("Transaction API failed with status:", response.status);
+              } else {
+                const result = await response.json();
+                console.log("✅ Transaction API Response:", result);
+              }
+            } catch (secureErr) {
+              console.error("Secure fetch failed:", secureErr);
+            }
+          } else {
+            console.warn("⚠️ No token found, skipping transaction API call.");
+          }
+    
+          // 3️⃣ Redirect to Stripe Checkout
+          await stripe.redirectToCheckout({ sessionId: data.id });
+    
         } catch (err) {
-          console.error(err);
+          console.error("Error:", err);
           alert("Server error. Check console for details.");
-        } finally {
-          // Reset button state
-          submitButton.disabled = false;
-          loader.style.display = "none";
-          submitButton.querySelector("span").textContent = "Pay Now";
+          resetButton();
         }
       });
+    
+      function resetButton() {
+        submitButton.disabled = false;
+        loader.style.display = "none";
+        submitButton.querySelector("span").textContent = "Pay Now";
+      }
     </script>
+    
+
   </body>
 </html>

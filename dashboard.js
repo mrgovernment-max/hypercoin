@@ -984,3 +984,84 @@ async function getNotSeenMessages() {
 }
 
 getNotSeenMessages();
+
+///Load Transactions
+async function loadTransactions() {
+  try {
+    // 1️⃣ Get token from sessionStorage
+    const token = sessionStorage.getItem("accessToken");
+    if (!token) {
+      console.warn("⚠️ No access token found. Cannot fetch transactions.");
+      return;
+    }
+
+    // 2️⃣ Fetch transactions from backend
+    const res = await fetch(
+      "https://backendroutes-lcpt.onrender.com/transactions",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // send token in header
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`Server returned ${res.status}`);
+    }
+
+    const transactions = await res.json();
+    console.log("✅ Transactions fetched:", transactions);
+
+    // 3️⃣ Render transactions in the table
+    const tbody = document.querySelector("#transactions tbody");
+    tbody.innerHTML = ""; // clear existing rows
+
+    transactions.forEach((tx) => {
+      const tr = document.createElement("tr");
+
+      // Date
+      const dateTd = document.createElement("td");
+      const txDate = new Date(tx.created_at);
+      dateTd.textContent = txDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+      tr.appendChild(dateTd);
+
+      // Type
+      const typeTd = document.createElement("td");
+      typeTd.textContent = tx.type;
+      tr.appendChild(typeTd);
+
+      // Amount
+      const amountTd = document.createElement("td");
+      amountTd.textContent =
+        (tx.type === "withdrawal" ? "-" : "+") + tx.amount + " HPC";
+      amountTd.className =
+        tx.type === "withdrawal"
+          ? "transaction-negative"
+          : "transaction-positive";
+      tr.appendChild(amountTd);
+
+      // Status
+      const statusTd = document.createElement("td");
+      const span = document.createElement("span");
+      span.className =
+        "status-badge " +
+        (tx.status === "pending" ? "status-pending" : "status-completed");
+      span.textContent = tx.status.charAt(0).toUpperCase() + tx.status.slice(1);
+      statusTd.appendChild(span);
+      tr.appendChild(statusTd);
+
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error("❌ Error fetching transactions:", err);
+  }
+}
+
+// Load transactions on page load
+window.addEventListener("DOMContentLoaded", loadTransactions);
