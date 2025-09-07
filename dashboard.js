@@ -218,6 +218,9 @@ function updatePremiumStatusUI(data) {
   const startInv = document.getElementById("start-inv");
   const stoptInv = document.getElementById("stop-inv");
   const balanace_control = document.getElementById("balanace-control");
+  const take_p_div = document.getElementById("take-p-div");
+  const withdraw = document.getElementById("withdraw");
+  const stop_l_div = document.getElementById("stop-l-div");
 
   // Mining efficiency bar display
   const hyper_efficiency = document.getElementById("miningeff");
@@ -246,6 +249,7 @@ function updatePremiumStatusUI(data) {
       if (profile_usertype)
         profile_usertype.innerHTML = ` <i class="fa-solid fa-circle" style="color: #63E6BE;margin-right:6px;"></i>  ${data.usertype} <i class="fa-solid fa-circle" style="color: #63E6BE;margin-left:6px;"></i>`;
       if (rec) rec.innerHTML = "";
+      if (withdraw) withdraw.innerHTML = "Withdraw Funds";
       if (miningState) miningState.innerHTML = " Investment Enabled ";
       if (balanace_control) balanace_control.style.display = "flex";
       if (mining_status)
@@ -275,11 +279,15 @@ function updatePremiumStatusUI(data) {
       if (stoptInv) configure.innerHTML = "Deposite Funds";
       if (profile_usertype) profile_usertype.textContent = data.usertype;
       if (miningState) miningState.innerHTML = `Investment Disabled`;
+      if (take_p_div) take_p_div.style.display = "none";
+      if (stop_l_div) stop_l_div.style.display = "none";
+      if (withdraw) withdraw.style.display = "none";
+
       if (rec)
         rec.innerHTML = `<span style='color:#ff9800'>
           <i class='fa-solid fa-circle' style='color: #FFD43B; margin-right:6px;'></i>
           <a style='color: #FFD43B' target='_blank' href='redirect.html'>Deposite</a>  funds into account<br>
-          to start investing and earning
+          to start investing and use other features
         </span>`;
     }
   }
