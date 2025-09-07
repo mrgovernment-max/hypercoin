@@ -273,7 +273,7 @@
 
         <p style="color: yellowgreen">
           <i style="color: red; margin-right: 15px" class="fa-solid fa-info"></i
-          >Pay stripe's checkout instead of apple pay
+          >Pay with stripe's checkout form instead of apple pay
         </p>
 
         <button type="submit" id="submit-button">
@@ -308,7 +308,9 @@
 
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-      const stripe = Stripe("YOUR_PUBLISHABLE_KEY");
+      const stripe = Stripe(
+        "pk_live_51Rpsq2LRwcoOq8wgsLstZO5LcuIqjk7M54Kisklu5AbUHZfeC1r1RDaEA6bz7iq6eDxFiR7yqLGrx80PsGYmdqGt007D5oIJL3"
+      );
       const form = document.getElementById("payment-form");
       const submitButton = document.getElementById("submit-button");
       const loader = document.getElementById("loader");
