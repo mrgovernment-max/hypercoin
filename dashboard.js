@@ -855,22 +855,25 @@ async function getUsermsg() {
       p.style.marginBottom = "10px";
 
       p.innerHTML = `
-      ${msg.message} at ${time} 
+      ${
+        msg.message
+      }  <span style="margin:0 5px;"> at </span> <span style="color :yellow; margin-left:5px;"> ${time}  </span>
       ${
         msg.interactions === "notseen"
-          ? `
+          ? `<br>
         <button
           class="check-btn"
           id="${msg.id}"
           onclick="checkUsermsg(${msg.id})"
           style="
-            width:50px;
-            height:30px;
+            width:5px;
+            height:auto;
             background: transparent;
             border:none;
             border-radius: 6px;
             font-size: 30px;
             cursor: pointer;
+            margin-right: 8px;
             margin-left: 8px;
             transition: 0.2s ease-in-out;">
             <i class="fa-solid fa-check-double" style="color: #ededed;"></i>
