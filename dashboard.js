@@ -17,6 +17,7 @@ async function dashboardAuth() {
   }
 
   if (!res.ok) return redirectToLogin();
+  getNotSeenMessages();
 
   const data = await res.json();
   const page_title = document.getElementById("page-title");
@@ -184,7 +185,7 @@ async function fetchServerData() {
     }
 
     serverData = await res.json();
-
+    getNotSeenMessages();
     // Update UI to show premium status
     updatePremiumStatusUI(serverData);
     return serverData;
@@ -720,7 +721,7 @@ const take_p = document.getElementById("take-p");
 take_p.addEventListener("click", async () => {
   const take_p_balance = parseFloat(
     document.getElementById("take-p-balance").value
-  );
+  ).toFixed(2);
   let balanceset = document.getElementById("take-p-balance");
   const take_p_msg = document.getElementById("take-p-msg");
   take_p_msg.style.display = "block";
@@ -758,7 +759,7 @@ const stop_l = document.getElementById("stop-l");
 stop_l.addEventListener("click", async () => {
   const stop_loss_balance = parseFloat(
     document.getElementById("stop-l-balance").value
-  );
+  ).toFixed(2);
   const token = cryptoServiveqwertypoiu.getItem("accessToken");
   let balanceset = document.getElementById("stop-l-balance");
   const stop_l_msg = document.getElementById("stop-l-msg");
@@ -828,6 +829,7 @@ async function getUsermsg() {
     );
     const data = await res.json();
     const container = document.getElementById("notification-msg");
+    container.innerHTML = "";
 
     data.forEach((msg) => {
       const date = new Date(msg.created_at);
@@ -959,7 +961,7 @@ async function getNotSeenMessages() {
 
   const data = await res.json();
   const unseenmsg = data.number;
-  btn.innerHTML = unseenmsg;
+  unseenmsg ? (btn.innerHTML = unseenmsg) : (btn.innerHTML = 0);
 }
 
 getNotSeenMessages();
