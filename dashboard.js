@@ -927,7 +927,9 @@ async function getUsermsg() {
   }
 }
 
-getUsermsg();
+document.addEventListener("DOMContentLoaded", () => {
+  getUsermsg();
+});
 
 async function checkUsermsg(id) {
   const btn = document.getElementById("check-btn");
