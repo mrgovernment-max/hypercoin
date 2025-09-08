@@ -1039,7 +1039,7 @@ async function loadTransactions() {
       // Amount
       const amountTd = document.createElement("td");
       amountTd.textContent =
-        (tx.type === "withdrawal" ? "-" : "+") + tx.amount + " HPC";
+        (tx.type === "withdrawal" ? "-" : "+") + tx.amount + " USD";
       amountTd.className =
         tx.type === "withdrawal"
           ? "transaction-positive"
