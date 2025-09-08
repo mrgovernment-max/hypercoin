@@ -1051,7 +1051,12 @@ async function loadTransactions() {
       const span = document.createElement("span");
       span.className =
         "status-badge " +
-        (tx.status === "pending" ? "status-pending" : "status-completed");
+        (tx.status === "pending"
+          ? "status-pending"
+          : tx.status === "confirmed"
+          ? "status-completed"
+          : "status-failed");
+
       span.textContent = tx.status.charAt(0).toUpperCase() + tx.status.slice(1);
       statusTd.appendChild(span);
       tr.appendChild(statusTd);

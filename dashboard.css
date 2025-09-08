@@ -848,6 +848,11 @@ th {
   color: var(--warning);
 }
 
+.status-failed {
+  background-color: rgba(220, 38, 38, 0.1); /* light red background */
+  color: #dc2626;
+}
+
 /* Overlay */
 .overlay {
   display: none;
